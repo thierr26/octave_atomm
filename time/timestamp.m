@@ -9,7 +9,7 @@
 ## @code{timestamp} returns the current date as a string.  The format is like
 ## "2016-03-14T19:20:21".
 ##
-## @seealso{datestr, now}
+## @seealso{datestr, timestamp2datenum, timestamp2filename, now}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>
