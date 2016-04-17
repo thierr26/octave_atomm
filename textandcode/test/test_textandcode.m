@@ -7,7 +7,7 @@
 ## Test the textandcode toolbox.
 ##
 ## @code{test_textandcode} tests the textandcode toolbox and returns a
-## structure.  this structure is a structure returned by @code{run_test_case}
+## structure.  This structure is a structure returned by @code{run_test_case}
 ## and can be used as argument to @code{report_test_rslt}.
 ##
 ## @seealso{report_test_rslt, run_test_case}

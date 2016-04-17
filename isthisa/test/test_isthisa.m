@@ -6,7 +6,7 @@
 ##
 ## Test the isthisa toolbox.
 ##
-## @code{test_isthisa} tests the isthisa toolbox and returns a structure.  this
+## @code{test_isthisa} tests the isthisa toolbox and returns a structure.  This
 ## structure is a structure returned by @code{run_test_case} and can be used as
 ## argument to @code{report_test_rslt}.
 ##
