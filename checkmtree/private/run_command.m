@@ -7,6 +7,7 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~)
     clear_req = false;
     varargout{1} = [];
     s = build_outman_config_stru(s1, cf, o);
+    s = set_encoding_check_func(s, cf);
 
     if any(strcmp(c, {'code', 'dependencies', 'encoding', 'all'}))
         if numel(cargs) == 0
@@ -84,6 +85,35 @@ endfunction
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+# Set the encoding checking function.
+
+function s = set_encoding_check_func(s1, cf)
+
+    s = s1;
+    if ~isfield(s1, 'encoding_check_func')
+
+        switch cf.m_file_char_set
+
+            case 'ascii'
+                s.encoding_check_func = @is_ascii_bytes_vect;
+
+            case 'iso8859'
+                s.encoding_check_func = @is_iso_8859_bytes_vect;
+
+            case 'utf8'
+                s.encoding_check_func = @is_utf8_bytes_vect;
+
+            case 'win1252'
+                s.encoding_check_func = @is_win_1252_bytes_vect;
+
+        endswitch
+
+    endif
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 # Check M-files tree.
 
 function s_c = check_tree(s, cf, cargs, s_m, c)
@@ -121,11 +151,16 @@ function s_c = check_tree(s, cf, cargs, s_m, c)
         else
             file = s_m.mfiles{tBIdx};
             bytes = s_m.mfilebytes{tBIdx};
-        end
+        endif
 
         for fileIdx = 1 : numel(file)
             [~, ~, ext] = fileparts(file{fileIdx});
             absPath = fullfile(s_m.toolboxpath{tBIdx}, file{fileIdx});
+
+            if any(strcmp(c, {'dependencies', 'encoding', 'all'})) ...
+                    && strcmp(ext, '.m')
+                check_encoding(absPath, oId, s, cf);
+            endif
 
             if checkCodeAvail && any(strcmp(c, {'code', 'all'})) ...
                     && strcmp(ext, '.m')
@@ -176,5 +211,23 @@ function try_checkcode(filename, o_id)
     if ~isempty(msg)
         outman('printf', o_id, '%s:\n%s\n', filename, msg);
     endif
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Check file encoding.
+
+function check_encoding(filename, o_id, s, cf)
+
+    try
+        if ~is_ascii_file(filename, s.encoding_check_func, cf.max_read_bytes);
+        outman('errorf', o_id, '%s is no %s encoded file', ...
+            filename, cf.m_file_char_set);
+        endif
+    catch
+        outman('errorf', o_id, 'Could not check the encoding of %s', ...
+            filename);
+    end_try_catch
 
 endfunction
