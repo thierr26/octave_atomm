@@ -42,7 +42,12 @@ function s = test_time
         @duration_str_1d_1h_1m_2s, ...
         @duration_str_negative, ...
         @duration_str_s, ...
-        @timestamp_no_error, ...
+        @timestamp_fail_wrong_type, ...
+        @timestamp_fail_column, ...
+        @timestamp_fail_numel, ...
+        @timestamp_no_arg_no_error, ...
+        @timestamp_scalar, ...
+        @timestamp_vector, ...
         @timestamp2filename_fail_wrong_type, ...
         @timestamp2filename_empty_string, ...
         @timestamp2filename_fail_empty_cell_array, ...
@@ -303,10 +308,52 @@ endfunction
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function ret = timestamp_no_error
+function timestamp_fail_wrong_type
+
+    timestamp(true);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function timestamp_fail_column
+
+    timestamp([2016 4 18 19 50 26.9863]');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function timestamp_fail_numel
+
+    timestamp([2016 4 18 50 26.9863]);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = timestamp_no_arg_no_error
 
     timestamp;
     ret = true;
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = timestamp_scalar
+
+    ret = strcmp(...
+        timestamp(736438 + 1 / 24 + 2 / 24 / 60 + 3 / 24 / 60 / 60), ...
+        '2016-04-18T01:02:03');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = timestamp_vector
+
+    ret = strcmp(timestamp([2016 04 18 1 2 3]), '2016-04-18T01:02:03');
 
 endfunction
 

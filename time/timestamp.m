@@ -3,19 +3,37 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} timestamp ()
+## @deftypefnx {Function File} timestamp (@var{date})
 ##
 ## Timestamp string.
 ##
 ## @code{timestamp} returns the current date as a string.  The format is like
 ## "2016-03-14T19:20:21".
 ##
-## @seealso{datestr, timestamp2datenum, timestamp2filename, now}
+## A different date can be provided as an argument.  It can be a scalar serial
+## date number (see @code{datenum}) or a date vector (a row vector of length 6,
+## see @code{datevec}).
+##
+## @seealso{datenum, datestr, datevec, timestamp2datenum, timestamp2filename,
+## now}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>
 
-function str = timestamp
+function str = timestamp(varargin)
 
-    str = datestr(now, 'yyyy-mm-ddTHH:MM:SS');
+    date = validated_opt_args({@is_valid_arg, now}, varargin{:});
+    str = datestr(date, 'yyyy-mm-ddTHH:MM:SS');
+
+endfunction
+
+# -----------------------------------------------------------------------------
+
+# True for a valid argument.
+
+function ret = is_valid_arg(date)
+
+    ret = isnumeric(date) ...
+        && (isscalar(date) || (isrow(date) && numel(date) == 6));
 
 endfunction
