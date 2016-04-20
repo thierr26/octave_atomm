@@ -28,7 +28,19 @@ function s = test_structure
         @struct2namevaluepairs_empty_s_1, ...
         @struct2namevaluepairs_empty_s_2, ...
         @struct2namevaluepairs_non_empty_s_1, ...
-        @struct2namevaluepairs_non_empty_s_2};
+        @struct2namevaluepairs_non_empty_s_2, ...
+        @merge_struct_fail_wrong_type_1, ...
+        @merge_struct_fail_wrong_type_2, ...
+        @merge_struct_fail_same_name_in_both, ...
+        @merge_struct_empty_1, ...
+        @merge_struct_empty_2, ...
+        @merge_struct_empty_3, ...
+        @merge_struct_empty_4, ...
+        @merge_struct_empty_5, ...
+        @merge_struct_empty_6, ...
+        @merge_struct_scalar, ...
+        @merge_struct_array, ...
+        };
 
     # Run the test case.
     s = run_test_case(mfilename, testRoutine);
@@ -140,5 +152,108 @@ function ret = struct2namevaluepairs_non_empty_s_2
     expected = {'f1', 'abc', 'f2', 1};
     c = struct2namevaluepairs(s);
     ret = isequal(c, expected);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function merge_struct_fail_wrong_type_1
+
+    merge_struct(true, struct('abc', 0, 'de', 'wxyz'));
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function merge_struct_fail_wrong_type_2
+
+    merge_struct(struct('abc', 0, 'de', 'wxyz'), true);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function merge_struct_fail_same_name_in_both
+
+    merge_struct(struct('abc', 0, 'de', 'wxyz'), struct('ghi', 0, 'de', 1));
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = merge_struct_empty_1
+
+    ret = isequal(merge_struct(struct(), struct('ghi', 0, 'de', 1)), ...
+        struct('ghi', 0, 'de', 1));
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = merge_struct_empty_2
+
+    ret = isequal(merge_struct(struct('ghi', 0, 'de', 1), struct()), ...
+        struct('ghi', 0, 'de', 1));
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = merge_struct_empty_3
+
+    ret = isequal(merge_struct(struct([]), struct('ghi', 0, 'de', 1)), ...
+        struct('ghi', 0, 'de', 1));
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = merge_struct_empty_4
+
+    ret = isequal(merge_struct(struct('ghi', 0, 'de', 1), struct([])), ...
+        struct('ghi', 0, 'de', 1));
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = merge_struct_empty_5
+
+    ret = isequal(merge_struct(struct([]), struct([])), struct([]));
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = merge_struct_empty_6
+
+    ret = isequal(merge_struct(struct(), struct()), struct());
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = merge_struct_scalar
+
+    ret = isequal(...
+        merge_struct(struct('abc', 0, 'de', 'wxyz'), ...
+        struct('ghi', 0, 'fgh', 1)), ...
+        struct('abc', 0, 'de', 'wxyz', 'ghi', 0, 'fgh', 1));
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function merge_struct_array
+
+    s1 = struct('ghi', 0, 'de', 1);
+    s1(2) = s1(1);
+    s1(2).ghi = s1(1).ghi + 1;
+    s2 = struct('abc', 10, 'fgh', 'wxyz');
+    s2(2) = s2(1);
+    s2(2).abc = s2(1).abc + 1;
+    s2(2).fgh = true;
+
+    merge_struct(s1, s2);
 
 endfunction
