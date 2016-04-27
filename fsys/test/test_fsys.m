@@ -33,7 +33,11 @@ function s = test_fsys
         @find_files_no_error_1, ...
         @find_files_no_error_2, ...
         @find_files_depth, ...
-        @file_byte_size_no_error};
+        @file_byte_size_no_error, ...
+        @is_mat_file_name_fail_wrong_type, ...
+        @is_mat_file_name_empty, ...
+        @is_mat_file_name_false, ...
+        @is_mat_file_name_true};
 
     # Run the test case.
     s = run_test_case(mfilename, testRoutine);
@@ -204,3 +208,35 @@ function ret = file_byte_size_no_error
     ret = true;
 
 endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function is_mat_file_name_fail_wrong_type
+
+    is_mat_file_name(true);
+
+end
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_mat_file_name_empty
+
+    ret = ~is_mat_file_name('');
+
+end
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_mat_file_name_false
+
+    ret = ~is_mat_file_name('abc.def');
+
+end
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_mat_file_name_true
+
+    ret = is_mat_file_name('abc.mat');
+
+end
