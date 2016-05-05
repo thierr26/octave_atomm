@@ -8,15 +8,15 @@
 ##
 ## Remove end of line comment from code line.
 ##
-## @code{strip_comment_from_line} returns @var{str} with end of line comment
-## (if any) removed.
+## @code{strip_comment_from_line(@var{str})} returns @var{str} with end of line
+## comment (if any) removed.
 ##
 ## If @var{comment_leaders} (second argument) is not provided, then the end of
 ## line comment leaders are considered to be those of the Octave M-files, as
 ## returned by @code{m_comment_leaders}.  A string containing the characters to
 ## be used as end of line comment leaders can be provided instead.
 ##
-## @seealso{m_comment_leaders, strip_comments_from_m}
+## @seealso{m_comment_leaders, strip_comments_from_m, uncomment_line}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>

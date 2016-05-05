@@ -137,7 +137,15 @@ function s = test_textandcode
         @is_utf8_bytes_vect_wrong_code_1, ...
         @is_utf8_bytes_vect_wrong_code_2, ...
         @is_utf8_bytes_vect_wrong_code_3, ...
-        @is_utf8_bytes_vect_double_code};
+        @is_utf8_bytes_vect_double_code, ...
+        @uncomment_line_fail_wrong_arg_1, ...
+        @uncomment_line_fail_wrong_arg_2, ...
+        @uncomment_line_empty, ...
+        @uncomment_line_no_comment, ...
+        @uncomment_line_comment_1, ...
+        @uncomment_line_comment_2, ...
+        @uncomment_line_comment_3, ...
+        @uncomment_line_comment_4};
 
     # Run the test case.
     s = run_test_case(mfilename, testRoutine);
@@ -1200,5 +1208,71 @@ function ret = is_utf8_bytes_vect_double_code
 
     ret = is_utf8_bytes_vect(...
         uint8([9 32 126 10 224 128 128 224 128 128 10]'), 11);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function uncomment_line_fail_wrong_arg_1
+
+    uncomment_line(true, 'ab');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function uncomment_line_fail_wrong_arg_2
+
+    uncomment_line('ab', true);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = uncomment_line_empty
+
+    str = '';
+    ret = strcmp(uncomment_line(str), str);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = uncomment_line_no_comment
+
+    str = '  abc';
+    ret = strcmp(uncomment_line(str), str);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = uncomment_line_comment_1
+
+    ret = strcmp(uncomment_line('%# abc'), 'abc');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = uncomment_line_comment_2
+
+    ret = strcmp(uncomment_line('    // abc', '/'), 'abc');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = uncomment_line_comment_3
+
+    ret = strcmp(uncomment_line('%#abc'), 'abc');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = uncomment_line_comment_4
+
+    ret = strcmp(uncomment_line('    //abc', '/'), 'abc');
 
 endfunction
