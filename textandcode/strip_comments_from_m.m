@@ -2,32 +2,119 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} strip_comments_from_m (@var{filename})
+## @deftypefn {Function File} {@
+## [@var{c}, @var{n}, @var{sloc}] =} strip_comments_from_m (@var{filename})
+## @deftypefnx {Function File} {@
+## [@var{c}, @var{n}, @var{sloc}] =} strip_comments_from_m (@var{@
+## filename}, @var{outman_caller_id}, @var{progress_id}, @var{progress})
+## @deftypefnx {Function File} {@
+## [@var{c}, @var{n}, @var{sloc}] =} strip_comments_from_m (@var{@
+## filename}, @var{outman_caller_id}, @var{progress_id}, @var{progress}, @var{@
+## progress_fac})
 ##
-## Lines of M-file @var{filename} with comments removed.
+## Lines of an M-file with comments removed.
 ##
-## @code{strip_comments_from_m} returns a cell array of strings.  Each string
-## is a line of the @var{filename} M-file with the comments removed.  For
-## @code{strip_comments_from_m} the comments are "end of line comments" opened
-## with a "%" or a "#" character or blocks of lines opened with a line
+## @code{[@var{c}, @var{n}, @var{sloc}]
+## = strip_comments_from_m (@var{filename})} returns in @var{c} a cell array of
+## strings.  Each string is a line of the @var{filename} M-file with the
+## comments removed.  In this context the comments are "end of line comments"
+## opened with a "%" or a "#" character or blocks of lines opened with a line
 ## containing "%@{" or "#@{" and closed with a line containing "%@}" or "#@}".
 ##
-## @seealso{m_comment_leaders}
+## The number of lines in the file is returned in @var{n}.
+##
+## The number of lines in the file that are not empty and don't contain only a
+## comment is returned in @var{sloc}.
+##
+## Provide the optional arguments @var{outman_caller_id}, @var{progress_id} and
+## @var{progress} if you want @code{strip_comments_from_m} to update an Outman
+## progress indicator while processing the input file.  Provide none or all of
+## them.
+##
+## @table @asis
+## @item @var{outman_caller_id}
+## Outman caller ID, as returned by a call to
+## @code{outman_connect_and_config_if_master}
+## statement.
+##
+## @item @var{progress_id}
+## Outman progress indicator ID, as returned by a
+## @code{outman('init_progress', @var{caller_id}, @var{start_position},
+## @var{finish_position}, @var{task_description_string})} statement.
+## @var{start_position} and @var{finish_position} are supposed to be amounts of
+## bytes to be processed (@var{start_position} is typically 0 and
+## @var{finish_position} the cumulated byte size of files to be processed using
+## @code{strip_comments_from_m}).
+##
+## @item @var{progress}
+## Number of bytes already processed.  It is the caller's responsability to
+## make sure @var{progress} is up to date before calling
+## @code{strip_comments_from_m} to process a particular file.
+## @end table
+##
+## An additional optional argument (@var{progress_fac}) can be provided to
+## express that the processing done on the input file by
+## @code{strip_comments_from_m} is not the only one and that other processings
+## are done elsewhere.  For example, if the cost in time of processing done by
+## @code{strip_comments_from_m} is one third of the cost in time of the global
+## processing, set @var{progress_fac} to 1/3.  Use of argument
+## @var{progress_fac} may imply the need for a more complex computation of
+## argument @var{progress} by the caller to avoid a "stucked progress
+## indicator" effect.
+##
+## @seealso{m_comment_leaders, outman, outman_connect_and_config_if_master}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>
 
-function c = strip_comments_from_m(filename)
+function [c, n, sloc] = strip_comments_from_m(filename, varargin)
 
     validated_mandatory_args({@is_non_empty_string}, filename);
+    mustUpdateProgress = nargin > 1;
+    if mustUpdateProgress
+        outman_caller_id = varargin{1};
+        progress_id = varargin{2};
+        progress = varargin{3};
+        if nargin > 4
+            progress_fac = varargin{4};
+        else
+            progress_fac = 1;
+        endif
+    endif
 
+    # Open the file.
     f = fopen(filename, 'r');
-    c = textscan(f, '%s', 'Delimiter', '\n');
-    c = c{1};
+
+    # Move to the end of the file.
+    fseek(f, 0, 'eof');
+
+    if ftell(f) == 0
+        # The file has zero bytes.
+
+        c = {};
+    else
+        # The file has at least one byte.
+
+        # Come back to the beginning of the file.
+        fseek(f, 0, 'bof');
+
+        # Read the lines of the file.
+        c = textscan(f, '%s', 'Delimiter', '\n', 'whitespace', '');
+        c = c{1};
+    endif
+
+    # Close the file.
     fclose(f);
 
+    n = numel(c);
+
     isInBlockComment = false;
-    for k = 1 : numel(c)
+    for k = 1 : n
+
+        if mustUpdateProgress
+            progress = progress + progress_fac * (length(c{k}) + 1);
+                                                  # +1 is for the EOL sequence.
+        endif
 
         if ~isempty(c{k})
             if ~isInBlockComment
@@ -53,6 +140,12 @@ function c = strip_comments_from_m(filename)
             endif
         endif
 
+        if mustUpdateProgress && mod(k, 15) == 0
+            outman('update_progress', outman_caller_id, progress_id, progress);
+        endif
+
     endfor
+
+    sloc = sum(cellfun(@(x) ~isempty(x) && ~is_matched_by(x, '^\s*$'), c));
 
 endfunction
