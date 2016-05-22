@@ -27,8 +27,7 @@
 ## is a logical scalar.  True means that pcode files (files with extension ".p"
 ## are ignored).  It defaults to false.
 ##
-## @code{find_m_toolboxes} may issue some warning or error messages using
-## Outman commands "warningf" or "errorf".
+## @code{find_m_toolboxes} uses Outman for progress indication and messaging.
 ##
 ## @code{find_m_toolboxes} returns a structure containing the following fields:
 ##
@@ -39,6 +38,8 @@
 ## @item depfile
 ## Cell array (same shape as toolboxpath field) of dependency file names (an
 ## empty cell means that the associated toolbox has no dependency file).
+## Please see the documentation for @code{checkmtree} for more information
+## about dependency files.
 ##
 ## @item privateidx
 ## Numerical array (same shape as toolboxpath field).  A zero value means that
@@ -97,9 +98,7 @@ function s = find_m_toolboxes(varargin)
     endfor
 
     mFilePresent = sFF.last_file_idx ~= 0;
-    privateSubDir = 'private';
-    privateDir = cellfun(@(x) ~isempty(x), regexp(sFF.dir, ...
-        ['\' filesep privateSubDir '$'], 'once'));
+    [privateDir, privateSubDir] = is_private(sFF.dir);
     isToolbox = mFilePresent & ~privateDir;
     isPrivate = mFilePresent & privateDir;
     toolboxPath = sFF.dir(isToolbox);
@@ -203,5 +202,31 @@ function [f, b] = remove_p_file_if_m_present(s, k)
     endfor
     f = s.file(keep);
     b = s.bytes(keep);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Return a logical array with the same shape as the argument (supposed to be a
+# cell array of strings (absolute paths to directories)). A true value means
+# that the directory is a private directory. The second output argument is the
+# name of the private directories.
+
+function [ret, private_name] = is_private(c)
+
+    private_name = 'private';
+    ret = cellfun(@(x) strcmp_name(x, private_name), c);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# True if the last component of path dir_path has no extension and is equal to
+# name.
+
+function ret = strcmp_name(dir_path, name)
+
+    [~, nam, ext] = fileparts(dir_path);
+    ret = strcmp(nam, name);
 
 endfunction

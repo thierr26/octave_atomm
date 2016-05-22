@@ -39,7 +39,8 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~)
     if any(strcmp(c, {'code', 'encoding'}))
         sM = find_m_toolboxes(top, true);
     elseif any(strcmp(c, {'dependencies', 'all'}))
-        sM = find_m_toolboxes(top);
+        sM = read_declared_dependencies(...
+            compute_dependencies(find_m_toolboxes(top)));
     endif
     if any(strcmp(c, {'code', 'dependencies', 'encoding', 'all'}))
         outman('disconnect', oId);
@@ -118,10 +119,16 @@ endfunction
 
 function s_c = check_tree(s, cf, cargs, s_m, c)
 
-    s_c = struct('m_file_count', 0, 'max_m_file_byte_size', 0);
+    s_c = struct('m_file_count', ...
+        cell_cum_numel(s_m.mfiles) + cell_cum_numel(s_m.privatemfiles), ...
+        'max_m_file_byte_size', 0);
     if any(strcmp(c, {'all', 'dependencies'}))
-        s_c.cum_line_count = 0;
-        s_c.cum_sloc_count = 0;
+        s_c.cum_line_count ...
+            = sum(cellfun(@sum, s_m.mfilelinecount)) ...
+            + sum(cellfun(@sum, s_m.privatemfilelinecount));
+        s_c.cum_sloc_count ...
+            = sum(cellfun(@sum, s_m.mfilesloc)) ...
+            + sum(cellfun(@sum, s_m.privatemfilesloc));
     endif
 
     oId = outman_connect_and_config_if_master(s.outman_config_stru);
@@ -133,7 +140,6 @@ function s_c = check_tree(s, cf, cargs, s_m, c)
             'Function checkcode does not seem to be available');
     endif
 
-    nFile = cell_cum_numel(s_m.mfiles) + cell_cum_numel(s_m.privatemfiles);
     cumBytes = sum(cellfun(@(x) sum(x), s_m.mfilebytes)) ...
         + sum(cellfun(@(x) sum(x), s_m.privatemfilebytes));
 
@@ -155,15 +161,14 @@ function s_c = check_tree(s, cf, cargs, s_m, c)
 
         for fileIdx = 1 : numel(file)
             [~, ~, ext] = fileparts(file{fileIdx});
+            isMFile = strcmp(ext, '.m');
             absPath = fullfile(s_m.toolboxpath{tBIdx}, file{fileIdx});
 
-            if any(strcmp(c, {'dependencies', 'encoding', 'all'})) ...
-                    && strcmp(ext, '.m')
+            if any(strcmp(c, {'dependencies', 'encoding', 'all'})) && isMFile
                 check_encoding(absPath, oId, s, cf);
             endif
 
-            if checkCodeAvail && any(strcmp(c, {'code', 'all'})) ...
-                    && strcmp(ext, '.m')
+            if checkCodeAvail && any(strcmp(c, {'code', 'all'})) && isMFile
                 try_checkcode(absPath, oId);
             endif
 
@@ -174,8 +179,30 @@ function s_c = check_tree(s, cf, cargs, s_m, c)
             outman('update_progress', oId, pId, p);
         endfor
 
+        if any(strcmp(c, {'dependencies', 'all'}))
+            declDep = s_m.decl_dep{tBIdx};
+            compDep = s_m.comp_dep{tBIdx};
+            for k = 1 : numel(declDep)
+                if ~any(compDep == declDep(k))
+                    outman('warningf', oId, ...
+                        ['%s is a declared dependency for %s but code ' ...
+                        'analysis did not confirm this dependency'], ...
+                        s_m.toolboxpath{declDep(k)}, s_m.toolboxpath{tBIdx});
+                endif
+            endfor
+            for k = 1 : numel(compDep)
+                if ~any(declDep == compDep(k))
+                    outman('errorf', oId, ...
+                        ['Code analysis found that %s is a dependency for ' ...
+                        '%s and this dependency is not declared'], ...
+                        s_m.toolboxpath{compDep(k)}, s_m.toolboxpath{tBIdx});
+                endif
+            endfor
+        endif
+
     endfor
     outman('terminate_progress', oId, pId);
+    outman('logf', oId, '');
     outman('logtimef', oId, 'checkmtree done\n');
     outman('disconnect', oId);
 endfunction

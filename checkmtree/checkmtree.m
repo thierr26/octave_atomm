@@ -68,7 +68,7 @@
 ##
 ## @item cum_line_count: Cumulative number of lines in the analysed M-files.
 ##
-## @item cum_sloc_count :Cumulative number of lines of code (lines that are
+## @item cum_sloc_count: Cumulative number of lines of code (lines that are
 ## not empty and don't contain only a comment) in the analysed M-files.
 ## @end enumerate
 ##
