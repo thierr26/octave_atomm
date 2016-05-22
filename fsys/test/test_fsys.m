@@ -215,7 +215,7 @@ function is_mat_file_name_fail_wrong_type
 
     is_mat_file_name(true);
 
-end
+endfunction
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -223,7 +223,7 @@ function ret = is_mat_file_name_empty
 
     ret = ~is_mat_file_name('');
 
-end
+endfunction
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -231,7 +231,7 @@ function ret = is_mat_file_name_false
 
     ret = ~is_mat_file_name('abc.def');
 
-end
+endfunction
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -239,4 +239,4 @@ function ret = is_mat_file_name_true
 
     ret = is_mat_file_name('abc.mat');
 
-end
+endfunction
