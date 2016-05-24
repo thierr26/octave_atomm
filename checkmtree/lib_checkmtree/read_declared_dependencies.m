@@ -85,30 +85,43 @@ function s = read_declared_dependencies(s1)
                         f = is_matched_by(s.toolboxpath, ...
                             ['\' filesep dep '$']);
                     endif
-
-                    if sum(f) > 1
-                        outman('errorf', oId, ...
-                            'In %s, "%s" is ambiguous. It can be one of:', ...
-                            depFileName, dep);
-                        for kk = find(f)
-                            outman('printf', oId, '\t%s', s.toolboxpath{kk});
-                        endfor
-                    elseif sum(f) == 0
-                        outman('warningf', oId, ...
-                            ['In %s, toolbox "%s" is mentioned but is not ' ...
-                            'in the analysed tree'], depFileName, dep);
+                    matchCount = sum(f);
+                    if matchCount > 0
+                        matchIdx = find(f);
+                    endif
+                    if matchCount == 1 && matchIdx == kTB
+                        outman('errorf', oId, ['%s must not be a ' ...
+                            'declared dependency of itself'], ...
+                            s.toolboxpath{kTB});
                     else
-                        idx = find(f, 1);
-                        if any(s.decl_dep{kTB}(1 : declDepIdx) == idx)
-                            if ~dup(k)
-                                outman('warningf', oId, ['In %s, toolbox ' ...
-                                    '"%s" is mentioned multiple times'], ...
-                                    depFileName, dep);
-                                dup(k) = true;
-                            endif
+                        if matchCount > 1
+                            outman('errorf', oId, ['In %s, "%s" is ' ...
+                                'ambiguous. It can be one of:'], ...
+                                depFileName, dep);
+                            for kk = matchIdx
+                                if kk ~= kTB
+                                    outman('printf', oId, '\t%s', ...
+                                        s.toolboxpath{kk});
+                                endif
+                            endfor
+                        elseif matchCount == 0
+                            outman('warningf', oId, ...
+                                ['In %s, toolbox "%s" is mentioned but ' ...
+                                'is not in the analysed tree'], ...
+                                depFileName, dep);
                         else
-                            declDepIdx = declDepIdx + 1;
-                            s.decl_dep{kTB}(declDepIdx) = idx;
+                            if any(s.decl_dep{kTB}(1 : declDepIdx) ...
+                                    == matchIdx)
+                                if ~dup(k)
+                                    outman('warningf', oId, ['In %s, ' ...
+                                        'toolbox "%s" is mentioned ' ...
+                                        'multiple times'], depFileName, dep);
+                                    dup(k) = true;
+                                endif
+                            else
+                                declDepIdx = declDepIdx + 1;
+                                s.decl_dep{kTB}(declDepIdx) = matchIdx;
+                            endif
                         endif
                     endif
 
