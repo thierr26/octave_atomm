@@ -2,11 +2,11 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} test_time ()
+## @deftypefn {Function File} test_datetime ()
 ##
 ## Test the time toolbox.
 ##
-## @code{test_time} tests the time toolbox and returns a structure.  This
+## @code{test_datetime} tests the time toolbox and returns a structure.  This
 ## structure is a structure returned by @code{run_test_case} and can be used as
 ## argument to @code{report_test_rslt}.
 ##
@@ -15,7 +15,7 @@
 
 ## Author: Thierry Rascle <thierr26@free.fr>
 
-function s = test_time
+function s = test_datetime
 
     # Declare the test routines.
     testRoutine = {...
