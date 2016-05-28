@@ -46,11 +46,11 @@ function s = read_declared_dependencies(s1)
     pId = outman('init_progress', oId, 0, nTB, ...
         'Reading declared dependencies...');
 
-    % Loop over toolboxes.
+    # Loop over toolboxes.
     for kTB = 1 : nTB
         if ~isempty(s.depfile{kTB})
 
-            % Read dependency file for current toolbox and remove comments.
+            # Read dependency file for current toolbox and remove comments.
             depFileName = fullfile(s.toolboxpath{kTB}, s.depfile{kTB});
             try
                 c = strip_comments_from_m(depFileName);
@@ -62,11 +62,11 @@ function s = read_declared_dependencies(s1)
             s.decl_dep{kTB} = zeros(1, numel(c));
             dup = false(1, nTB);
 
-            % Loop over the lines of the dependency file.
+            # Loop over the lines of the dependency file.
             declDepIdx = 0;
             for k = 1 : numel(c)
                 if length(c{k}) > 0 && ~is_matched_by(c{k}, '^\s*$')
-                    % The current line seems to contain a toolbox designation.
+                    # The current line seems to contain a toolbox designation.
 
                     if ispc
                         wrongFileSep = '\';
@@ -76,11 +76,11 @@ function s = read_declared_dependencies(s1)
                     dep = strrep(c{k}, wrongFileSep, filesep);
 
                     if strcmp(dep, absolute_path(dep))
-                        % Toolbox designation is an absolute path.
+                        # Toolbox designation is an absolute path.
 
                         f = strcmp(dep, s.toolboxpath);
                     else
-                        % Toolbox designation is a relative path.
+                        # Toolbox designation is a relative path.
 
                         f = is_matched_by(s.toolboxpath, ...
                             ['\' filesep dep '$']);

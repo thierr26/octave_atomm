@@ -81,7 +81,7 @@ function s = compute_dependencies(s1)
     homony = cell(1, numel(publicFunc));
     homonyCount = 0;
 
-    % Loop over the toolboxes.
+    # Loop over the toolboxes.
     for kTB = 1 : nTB
         h = false(1, nTB);
 
@@ -89,7 +89,7 @@ function s = compute_dependencies(s1)
         s.mfilelinecount{kTB} = zeros(1, numel(s.mfiles{kTB}));
         s.mfilesloc{kTB} = zeros(1, numel(s.mfiles{kTB}));
 
-        % Loop over the toolbox public functions.
+        # Loop over the toolbox public functions.
         for k = 1 : numel(s.mfiles{kTB})
             [~, ~, ext] = fileparts(s.mfiles{kTB}{k});
             if strcmp(ext, '.m')
@@ -118,7 +118,7 @@ function s = compute_dependencies(s1)
                 = zeros(1, numel(s.privatemfiles{kP}));
             s.privatemfilesloc{kTB} = zeros(1, numel(s.privatemfiles{kP}));
 
-            % Loop over the toolbox private functions.
+            # Loop over the toolbox private functions.
             for k = 1 : numel(s.privatemfilebytes{kP})
                 [~, ~, ext] = fileparts(s.privatemfiles{kP}{k});
                 if strcmp(ext, '.m')
