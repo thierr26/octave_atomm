@@ -60,7 +60,7 @@ function s = read_declared_dependencies(s1)
             end_try_catch
 
             s.decl_dep{kTB} = zeros(1, numel(c));
-            dup = false(1, numel(c));
+            dup = false(1, nTB);
 
             % Loop over the lines of the dependency file.
             declDepIdx = 0;
@@ -112,11 +112,11 @@ function s = read_declared_dependencies(s1)
                         else
                             if any(s.decl_dep{kTB}(1 : declDepIdx) ...
                                     == matchIdx)
-                                if ~dup(k)
+                                if ~dup(matchIdx)
                                     outman('warningf', oId, ['In %s, ' ...
                                         'toolbox "%s" is mentioned ' ...
                                         'multiple times'], depFileName, dep);
-                                    dup(k) = true;
+                                    dup(matchIdx) = true;
                                 endif
                             else
                                 declDepIdx = declDepIdx + 1;
