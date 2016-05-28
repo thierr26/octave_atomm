@@ -203,7 +203,7 @@ function s_c = check_tree(s, cf, cargs, s_m, c)
     endfor
     outman('terminate_progress', oId, pId);
     outman('logf', oId, '');
-    outman('logtimef', oId, 'checkmtree done\n');
+    outman('logtimef', oId, 'checkmtree(''%s'') done\n', c);
     outman('disconnect', oId);
 endfunction
 
