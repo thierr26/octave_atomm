@@ -94,7 +94,7 @@ function s = compute_dependencies(s1)
             [~, ~, ext] = fileparts(s.mfiles{kTB}{k});
             if strcmp(ext, '.m')
                 filename = fullfile(s.toolboxpath{kTB}, s.mfiles{kTB}{k});
-                [symb, n, sloc] = m_symb_l(filename, oId, pId, p);
+                [symb, n, sloc] = m_symb_l(filename, pId, p);
                 s.mfilelinecount{kTB}(k) = n;
                 s.mfilesloc{kTB}(k) = sloc;
             endif
@@ -124,7 +124,7 @@ function s = compute_dependencies(s1)
                 if strcmp(ext, '.m')
                     filename = fullfile(fullfile(s.toolboxpath{kTB}, ...
                         s.privatesubdir), s.privatemfiles{kP}{k});
-                    [symb, n, sloc] = m_symb_l(filename, oId, pId, p);
+                    [symb, n, sloc] = m_symb_l(filename, pId, p);
                     s.privatemfilelinecount{kP}(k) = n;
                     s.privatemfilesloc{kP}(k) = sloc;
                 endif
@@ -259,9 +259,9 @@ endfunction
 # Call function m_symbol_list and issue an error message if the file has zero
 # lines or zero symbols.
 
-function [c, n, sloc] = m_symb_l(filename, o_id, p_id, p)
+function [c, n, sloc] = m_symb_l(filename, p_id, p)
 
-    [c, n, sloc] = m_symbol_list(filename, o_id, p_id, p);
+    [c, n, sloc] = m_symbol_list(filename, p_id, p);
     if sloc == 0
         outman('errorf', o_id, ...
             '%s does not contain any software lines of code', filename);

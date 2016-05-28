@@ -6,7 +6,7 @@
 ## [@var{c}, @var{n}, @var{sloc}] =} m_symbol_list (@var{filename})
 ## @deftypefnx {Function File} {@
 ## [@var{c}, @var{n}, @var{sloc}] =} m_symbol_list (@var{filename}, @var{@
-## outman_caller_id}, @var{progress_id}, @var{progress})
+## progress_id}, @var{progress})
 ##
 ## List of symbols (identifiers) appearing in an M-file.
 ##
@@ -20,15 +20,9 @@
 ## The number of lines in the file that are not empty and don't contain only a
 ## comment is returned in @var{sloc}.
 ##
-## Provide the optional arguments @var{outman_caller_id}, @var{progress_id} and
-## @var{progress} if you want @code{m_symbol_list} to update an Outman progress
-## indicator while processing the input file.  Provide none or all of them.
-##
-## @table @asis
-## @item @var{outman_caller_id}
-## Outman caller ID, as returned by a call to
-## @code{outman_connect_and_config_if_master}
-## statement.
+## Provide the optional arguments @var{progress_id} and @var{progress} if you
+## want @code{m_symbol_list} to update an Outman progress indicator while
+## processing the input file.  Provide both or none.
 ##
 ## @item @var{progress_id}
 ## Outman progress indicator ID, as returned by a
@@ -58,9 +52,9 @@ function [c, n, sloc] = m_symbol_list(filename, varargin)
 
     mustUpdateProgress = nargin > 1;
     if mustUpdateProgress
-        outman_caller_id = varargin{1};
-        progress_id = varargin{2};
-        progress = varargin{3};
+        progress_id = varargin{1};
+        progress = varargin{2};
+        oId = outman_connect_and_config_if_master;
     endif
 
     if mustUpdateProgress
@@ -68,15 +62,19 @@ function [c, n, sloc] = m_symbol_list(filename, varargin)
         MeanCharCountInComments = 15; # Mean character count in comment or
                                       # empty lines (arbitrary estimation).
         stripStrLiteralTimeFraction = 0.43;
-        [l, n, sloc] = strip_comments_from_m(filename, ...
-            outman_caller_id, progress_id, progress, stripCommentTimeFraction);
+        stripCommentsFromMOptArgs ...
+            = {progress_id, progress, stripCommentTimeFraction};
+    else
+        stripCommentsFromMOptArgs = {};
+    endif
+    [l, n, sloc] = strip_comments_from_m(filename, ...
+        stripCommentsFromMOptArgs{:});
+    if mustUpdateProgress
         remainingBytes = cell_cum_numel(l) + n;
         progress = progress + stripCommentTimeFraction * (remainingBytes ...
             + MeanCharCountInComments * (n - sloc)); # Compensation for lost
                                                      # bytes in the strip
                                                      # comments process.
-    else
-        [l, n, sloc] = strip_comments_from_m(filename);
     endif
 
     for k = 1 : n
@@ -95,7 +93,7 @@ function [c, n, sloc] = m_symbol_list(filename, varargin)
         l{k} = strip_str_literals_from_line(l{k});
 
         if mustUpdateProgress && mod(k, 15) == 0
-            outman('update_progress', outman_caller_id, progress_id, progress);
+            outman('update_progress', oId, progress_id, progress);
         endif
 
     endfor
@@ -131,11 +129,15 @@ function [c, n, sloc] = m_symbol_list(filename, varargin)
         endfor
 
         if mustUpdateProgress && mod(k, 15) == 0
-            outman('update_progress', outman_caller_id, progress_id, progress);
+            outman('update_progress', oId, progress_id, progress);
         endif
 
     endfor
 
     c = sort(c(1 : level));
+
+    if mustUpdateProgress
+        outman('disconnect', oId);
+    endif
 
 endfunction

@@ -6,11 +6,10 @@
 ## [@var{c}, @var{n}, @var{sloc}] =} strip_comments_from_m (@var{filename})
 ## @deftypefnx {Function File} {@
 ## [@var{c}, @var{n}, @var{sloc}] =} strip_comments_from_m (@var{@
-## filename}, @var{outman_caller_id}, @var{progress_id}, @var{progress})
+## filename}, @var{progress_id}, @var{progress})
 ## @deftypefnx {Function File} {@
 ## [@var{c}, @var{n}, @var{sloc}] =} strip_comments_from_m (@var{@
-## filename}, @var{outman_caller_id}, @var{progress_id}, @var{progress}, @var{@
-## progress_fac})
+## filename}, @var{progress_id}, @var{progress}, @var{progress_fac})
 ##
 ## Lines of an M-file with comments removed.
 ##
@@ -26,16 +25,9 @@
 ## The number of lines in the file that are not empty and don't contain only a
 ## comment is returned in @var{sloc}.
 ##
-## Provide the optional arguments @var{outman_caller_id}, @var{progress_id} and
-## @var{progress} if you want @code{strip_comments_from_m} to update an Outman
-## progress indicator while processing the input file.  Provide none or all of
-## them.
-##
-## @table @asis
-## @item @var{outman_caller_id}
-## Outman caller ID, as returned by a call to
-## @code{outman_connect_and_config_if_master}
-## statement.
+## Provide the optional arguments @var{progress_id} and @var{progress} if you
+## want @code{strip_comments_from_m} to update an Outman progress indicator
+## while processing the input file.  Provide both or none.
 ##
 ## @item @var{progress_id}
 ## Outman progress indicator ID, as returned by a
@@ -72,14 +64,14 @@ function [c, n, sloc] = strip_comments_from_m(filename, varargin)
     validated_mandatory_args({@is_non_empty_string}, filename);
     mustUpdateProgress = nargin > 1;
     if mustUpdateProgress
-        outman_caller_id = varargin{1};
-        progress_id = varargin{2};
-        progress = varargin{3};
-        if nargin > 4
-            progress_fac = varargin{4};
+        progress_id = varargin{1};
+        progress = varargin{2};
+        if nargin > 3
+            progress_fac = varargin{3};
         else
             progress_fac = 1;
         endif
+        oId = outman_connect_and_config_if_master;
     endif
 
     # Open the file.
@@ -141,11 +133,15 @@ function [c, n, sloc] = strip_comments_from_m(filename, varargin)
         endif
 
         if mustUpdateProgress && mod(k, 15) == 0
-            outman('update_progress', outman_caller_id, progress_id, progress);
+            outman('update_progress', oId, progress_id, progress);
         endif
 
     endfor
 
     sloc = sum(cellfun(@(x) ~isempty(x) && ~is_matched_by(x, '^\s*$'), c));
+
+    if mustUpdateProgress
+        outman('disconnect', oId);
+    endif
 
 endfunction
