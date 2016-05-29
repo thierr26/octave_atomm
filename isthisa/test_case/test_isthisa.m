@@ -116,7 +116,13 @@ function s = test_isthisa
         @is_2_dim_cell_empty, ...
         @is_2_dim_cell_row, ...
         @is_2_dim_cell_col, ...
-        @is_2_dim_cell_2_dim};
+        @is_2_dim_cell_2_dim, ...
+        @is_cell_array_of_strings_empty_c, ...
+        @is_cell_array_of_strings_non_cellstr_c, ...
+        @is_cell_array_of_strings_non_row_char, ...
+        @is_cell_array_of_strings_numel_1, ...
+        @is_cell_array_of_strings_numel_6_3x2_true, ...
+        @is_cell_array_of_strings_numel_6_3x2_false};
 
     # Run the test case.
     s = run_test_case(mfilename, testRoutine);
@@ -924,5 +930,55 @@ endfunction
 function ret = is_2_dim_cell_2_dim
 
     ret = is_2_dim_cell({'abc', 1; 2, 'def'});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_cell_array_of_strings_empty_c
+
+    ret = is_cell_array_of_strings({});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_cell_array_of_strings_non_cellstr_c
+
+    ret = ~is_cell_array_of_strings({true});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_cell_array_of_strings_non_row_char
+
+    str = 'abc';
+    str = str';
+    ret = ~is_cell_array_of_strings({str});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_cell_array_of_strings_numel_1
+
+    ret = is_cell_array_of_strings({'abc'});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_cell_array_of_strings_numel_6_3x2_true
+
+    ret = is_cell_array_of_strings({'abc', 'd', 'ef'; 'ghij', '', 'lm'});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_cell_array_of_strings_numel_6_3x2_false
+
+    ret = ~is_cell_array_of_strings({'abc', true, 'ef'; 'ghij', '', 'lm'});
 
 endfunction
