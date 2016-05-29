@@ -288,8 +288,7 @@ function ret = list_public_funcs(s);
     n = 0;
     for k = 1 : numel(s.toolboxpath)
         nn = numel(s.mfiles{k});
-        ret(n + 1 : n + nn) = cellfun(@(x) x(1 : strfind(x, '.') - 1), ...
-            s.mfiles{k}, 'UniformOutput', false);
+        ret(n + 1 : n + nn) = strip_dot_suffix(s.mfiles{k});
         n = n + nn;
     endfor
 

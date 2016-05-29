@@ -146,7 +146,15 @@ function s = test_textandcode
         @uncomment_line_comment_1, ...
         @uncomment_line_comment_2, ...
         @uncomment_line_comment_3, ...
-        @uncomment_line_comment_4};
+        @uncomment_line_comment_4, ...
+        @strip_dot_suffix_fail_wrong_type, ...
+        @strip_dot_suffix_fail_non_str, ...
+        @strip_dot_suffix_empty, ...
+        @strip_dot_suffix_1_string, ...
+        @strip_dot_suffix_1_cell, ...
+        @strip_dot_suffix_3_cells_row, ...
+        @strip_dot_suffix_3_cells_col, ...
+        @strip_dot_suffix_mat};
 
     # Run the test case.
     s = run_test_case(mfilename, testRoutine);
@@ -1285,5 +1293,77 @@ endfunction
 function ret = uncomment_line_comment_4
 
     ret = strcmp(uncomment_line('    //abc', '/'), 'abc');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function strip_dot_suffix_fail_wrong_type
+
+    strip_dot_suffix(true);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function strip_dot_suffix_fail_non_str
+
+    strip_dot_suffix({1, 2});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = strip_dot_suffix_empty
+
+    ret = isequal(strip_dot_suffix({}), {});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = strip_dot_suffix_1_string
+
+    ret = isequal(strip_dot_suffix('www.gnu.org'), 'www.gnu');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = strip_dot_suffix_1_cell
+
+    ret = isequal(strip_dot_suffix({'www.gnu.org'}), {'www.gnu'});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = strip_dot_suffix_3_cells_row
+
+    ret = isequal(strip_dot_suffix(...
+        {'www.gnu.org', 'www.linux.com', 'www.debian.org'}), ...
+        {'www.gnu', 'www.linux', 'www.debian'});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = strip_dot_suffix_3_cells_col
+
+    ret = isequal(strip_dot_suffix(...
+        {'www.gnu.org'; 'www.linux.com'; 'www.debian.org'}), ...
+        {'www.gnu'; 'www.linux'; 'www.debian'});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = strip_dot_suffix_mat
+
+    ret = isequal(strip_dot_suffix(...
+        {'www.gnu.org', 'foo', 'www.debian.org'; ...
+        '', 'www.linux.com', 'bar'}), ...
+        {'www.gnu', 'foo', 'www.debian'; ...
+        '', 'www.linux', 'bar'});
 
 endfunction
