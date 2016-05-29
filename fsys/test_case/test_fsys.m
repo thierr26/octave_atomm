@@ -32,7 +32,6 @@ function s = test_fsys
         @rotate_file_dir, ...
         @find_files_no_error_1, ...
         @find_files_no_error_2, ...
-        @find_files_depth, ...
         @file_byte_size_no_error, ...
         @is_mat_file_name_fail_wrong_type, ...
         @is_mat_file_name_empty, ...
@@ -185,18 +184,6 @@ function ret = find_files_no_error_2
     s = find_files(s, atomm_dir, '*.m');
     find_files(s, atomm_dir, 'dependencies');
     ret = true;
-
-endfunction
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-function ret = find_files_depth
-
-    s1 = find_files(atomm_dir, '*.m');
-    s2 = find_files(s1, fullfile(atomm_dir, 'env'), 'dependencies', 1);
-    ret = isequal(s1, s2);
-    s3 = find_files(s2, fullfile(atomm_dir, 'env'), 'dependencies', 2);
-    ret = ret && ~isequal(s2, s3);
 
 endfunction
 

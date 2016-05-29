@@ -49,7 +49,7 @@ endfunction
 function ret = fullmfilename_ok
 
     ret = isequal(fullmfilename, ...
-        [atomm_dir filesep 'env' filesep 'test' filesep 'test_env.m']);
+        [atomm_dir filesep 'env' filesep 'test_case' filesep 'test_env.m']);
 
 endfunction
 
