@@ -3,11 +3,12 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} compute_dependencies (@var{s})
+test_case
 ##
 ## Grow the output of @code{find_m_toolboxes} with declared dependencies.
 ##
 ## @code{compute_dependencies} takes as argument a structure output by
-## @code{find_m_toolboxes} or @code{read_declared_dependencies} and add the
+## @code{find_m_toolboxes} or @code{read_declared_dependencies} and adds the
 ## following fields:
 ##
 ## @table @asis
@@ -92,6 +93,7 @@ function s = compute_dependencies(s1)
         # Loop over the toolbox public functions.
         for k = 1 : numel(s.mfiles{kTB})
             [~, ~, ext] = fileparts(s.mfiles{kTB}{k});
+            symb = {};
             if strcmp(ext, '.m')
                 filename = fullfile(s.toolboxpath{kTB}, s.mfiles{kTB}{k});
                 [symb, n, sloc] = m_symb_l(filename, pId, p);
@@ -121,6 +123,7 @@ function s = compute_dependencies(s1)
             # Loop over the toolbox private functions.
             for k = 1 : numel(s.privatemfilebytes{kP})
                 [~, ~, ext] = fileparts(s.privatemfiles{kP}{k});
+                symb = {};
                 if strcmp(ext, '.m')
                     filename = fullfile(fullfile(s.toolboxpath{kTB}, ...
                         s.privatesubdir), s.privatemfiles{kP}{k});
