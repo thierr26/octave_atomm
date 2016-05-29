@@ -65,66 +65,17 @@ function s = read_declared_dependencies(s1)
             # Loop over the lines of the dependency file.
             declDepIdx = 0;
             for k = 1 : numel(c)
-                if length(c{k}) > 0 && ~is_matched_by(c{k}, '^\s*$')
-                    # The current line seems to contain a toolbox designation.
-
-                    if ispc
-                        wrongFileSep = '\';
-                    else
-                        wrongFileSep = '/';
+                matchIdx = toolbox_index(s, c{k}, kTB);
+                if isscalar(matchIdx) ...
+                        && any(s.decl_dep{kTB}(1 : declDepIdx) == matchIdx)
+                    if ~dup(matchIdx)
+                        outman('warningf', oId, ['In %s, toolbox "%s" is ' ...
+                            'mentioned multiple times'], depFileName, c{k});
+                        dup(matchIdx) = true;
                     endif
-                    dep = strrep(c{k}, wrongFileSep, filesep);
-
-                    if strcmp(dep, absolute_path(dep))
-                        # Toolbox designation is an absolute path.
-
-                        f = strcmp(dep, s.toolboxpath);
-                    else
-                        # Toolbox designation is a relative path.
-
-                        f = is_matched_by(s.toolboxpath, ...
-                            ['\' filesep dep '$']);
-                    endif
-                    matchCount = sum(f);
-                    if matchCount > 0
-                        matchIdx = find(f);
-                    endif
-                    if matchCount == 1 && matchIdx == kTB
-                        outman('errorf', oId, ['%s must not be a ' ...
-                            'declared dependency of itself'], ...
-                            s.toolboxpath{kTB});
-                    else
-                        if matchCount > 1
-                            outman('errorf', oId, ['In %s, "%s" is ' ...
-                                'ambiguous. It can be one of:'], ...
-                                depFileName, dep);
-                            for kk = matchIdx
-                                if kk ~= kTB
-                                    outman('printf', oId, '\t%s', ...
-                                        s.toolboxpath{kk});
-                                endif
-                            endfor
-                        elseif matchCount == 0
-                            outman('warningf', oId, ...
-                                ['In %s, toolbox "%s" is mentioned but ' ...
-                                'is not in the analysed tree'], ...
-                                depFileName, dep);
-                        else
-                            if any(s.decl_dep{kTB}(1 : declDepIdx) ...
-                                    == matchIdx)
-                                if ~dup(matchIdx)
-                                    outman('warningf', oId, ['In %s, ' ...
-                                        'toolbox "%s" is mentioned ' ...
-                                        'multiple times'], depFileName, dep);
-                                    dup(matchIdx) = true;
-                                endif
-                            else
-                                declDepIdx = declDepIdx + 1;
-                                s.decl_dep{kTB}(declDepIdx) = matchIdx;
-                            endif
-                        endif
-                    endif
-
+                elseif isscalar(matchIdx)
+                    declDepIdx = declDepIdx + 1;
+                    s.decl_dep{kTB}(declDepIdx) = matchIdx;
                 endif
             endfor
 

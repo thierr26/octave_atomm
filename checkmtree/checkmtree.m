@@ -31,18 +31,18 @@
 ## @item "dependencies"
 ## Checkmtree checks the declared dependencies for the toolboxes.  A toolbox
 ## in this context is a directory containing at least one M-file.  A toolbox
-## may also have a "private" subdirectory that contains more M-Files.
-## The declared dependencies for a toolbox are toolbox names read in a file
-## named "dependencies" or "dependencies.txt".  The list of the declared
-## dependencies for a given toolbox is supposed to be the list of directories
-## that must be in the path to be able to use all the functions of the toolbox.
-## Toolbox that have no dependencies do not need to have a "dependencies" or
+## may also have a "private" subdirectory that also contains some M-Files.
+## The declared dependencies for a toolbox are those read in a file named
+## "dependencies" or "dependencies.txt".  The list of the declared dependencies
+## for a given toolbox is supposed to be the list of directories that must be
+## in the path to be able to use all the functions of the toolbox.  Toolboxes
+## that have no dependencies do not need to have a "dependencies" or
 ## "dependencies.txt" file in their directory.  In "dependencies" or
-## "dependencies.txt" files, their must be one toolbox name per line.  Empty
-## lines and "end of lines comments" are allowed.  "#" and "%" can be used as
-## comment leaders.  A toolbox name is a toolbox directory base name.  One or
-## more parent directory names can be prepended (with a "/" or "\" separator)
-## if it is needed to disambigate the toolbox name.
+## "dependencies.txt" files, their must be one toolbox designation per line.
+## Empty lines and "end of lines comments" are allowed.  "#" and "%" can be
+## used as comment leaders.  A toolbox designation is a toolbox directory base
+## name.  One or more parent directory names can be prepended (with a "/" or
+## "\" separator) if it is needed to disambigate the toolbox designation.
 ##
 ## @item "encoding"
 ## Checkmtree checks the encoding of the M-files and of the "dependencies" or
