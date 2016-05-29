@@ -23,6 +23,12 @@
 ## code of the M-files (number of lines that are not blank and don't contain
 ## only a comment).
 ##
+## @item mfileexternalfuncs
+## Cell array (same shape as the toolboxpath field of the input structure) of
+## cell arrays (same shape as the corresponding element in the mfiles field of
+## the input structure) containing the names of the functions from other
+## toolboxes that are called by the M-file.
+##
 ## @item privatemfilelinecount
 ## Cell array (same shape as the privatemfiles field of the input structure) of
 ## numerical arrays (same shape as the corresponding element in the
@@ -35,6 +41,12 @@
 ## privatemfiles field of the input structure) containing the number of
 ## software lines of code of the M-files (number of lines that are not blank
 ## and don't contain only a comment).
+##
+## @item privatemfileexternalfuncs
+## Cell array (same shape as the privatemfiles field of the input structure) of
+## cell arrays (same shape as the corresponding element in the privatemfiles
+## field of the input structure) containing the names of the functions from
+## other toolboxes that are called by the private M-file.
 ##
 ## @item external_funcs
 ## Cell array (same shape as the toolboxpath field of the input structure) of
@@ -65,8 +77,10 @@ function s = compute_dependencies(s1)
     nP = numel(s.privatemfiles);
     s.mfilelinecount = cell(1, nTB);
     s.mfilesloc = cell(1, nTB);
+    s.mfileexternalfuncs = cell(1, nTB);
     s.privatemfilelinecount = cell(1, nP);
     s.privatemfilesloc = cell(1, nP);
+    s.privatemfileexternalfuncs = cell(1, nP);
     s.external_funcs = cell(1, nTB);
     s.comp_dep = cell(1, nTB);
 
@@ -91,6 +105,7 @@ function s = compute_dependencies(s1)
         symbL = {};
         s.mfilelinecount{kTB} = zeros(1, nM);
         s.mfilesloc{kTB} = zeros(1, nM);
+        s.mfileexternalfuncs{kTB} = cell(1, nM);
 
         # Loop over the toolbox public functions.
         for k = 1 : nM
@@ -101,6 +116,7 @@ function s = compute_dependencies(s1)
                 [symb, n, sloc] = m_symb_l(filename, pId, p);
                 s.mfilelinecount{kTB}(k) = n;
                 s.mfilesloc{kTB}(k) = sloc;
+                s.mfileexternalfuncs{kTB}{k} = symb;
             endif
             symbL = unique([symbL symb]);
             p = p + s.mfilebytes{kTB}(k);
@@ -114,6 +130,7 @@ function s = compute_dependencies(s1)
             endif
         endfor
 
+        nPM = 0;
         kP = s.privateidx(kTB);
         if kP ~= 0
             nPM = numel(s.privatemfiles{kP});
@@ -121,6 +138,7 @@ function s = compute_dependencies(s1)
             symbL = {};
             s.privatemfilelinecount{kP} = zeros(1, nPM);
             s.privatemfilesloc{kP} = zeros(1, nPM);
+            s.privatemfileexternalfuncs{kP} = cell(1, nPM);
 
             # Loop over the toolbox private functions.
             for k = 1 : nPM
@@ -132,6 +150,7 @@ function s = compute_dependencies(s1)
                     [symb, n, sloc] = m_symb_l(filename, pId, p);
                     s.privatemfilelinecount{kP}(k) = n;
                     s.privatemfilesloc{kP}(k) = sloc;
+                    s.privatemfileexternalfuncs{kP}{k} = symb;
                 endif
                 symbL = unique([symbL symb]);
                 p = p + s.privatemfilebytes{kP}(k);
@@ -145,6 +164,23 @@ function s = compute_dependencies(s1)
         endif
         s.comp_dep{kTB} = find(h);
         s.external_funcs{kTB} = publicFunc(hF);
+
+        # Loop over the toolbox public functions.
+        for k = 1 : nM
+            [~, idx] = ismember(s.external_funcs{kTB}, ...
+                s.mfileexternalfuncs{kTB}{k});
+            s.mfileexternalfuncs{kTB}{k} ...
+                = s.mfileexternalfuncs{kTB}{k}(idx(idx ~= 0));
+        endfor
+
+        # Loop over the toolbox private functions if any.
+        for k = 1 : nPM
+            [~, idx] = ismember(s.external_funcs{kTB}, ...
+                s.privatemfileexternalfuncs{kP}{k});
+            s.privatemfileexternalfuncs{kP}{k} ...
+                = s.privatemfileexternalfuncs{kP}{k}(idx(idx ~= 0));
+        endfor
+
     endfor
 
     outman('terminate_progress', oId, pId);
