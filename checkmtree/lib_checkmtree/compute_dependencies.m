@@ -62,10 +62,11 @@ function s = compute_dependencies(s1)
     s = validated_mandatory_args({@valid_arg}, s1);
 
     nTB = numel(s.toolboxpath);
+    nP = numel(s.privatemfiles);
     s.mfilelinecount = cell(1, nTB);
     s.mfilesloc = cell(1, nTB);
-    s.privatemfilelinecount = cell(1, numel(s.privatemfiles));
-    s.privatemfilesloc = cell(1, numel(s.privatemfiles));
+    s.privatemfilelinecount = cell(1, nP);
+    s.privatemfilesloc = cell(1, nP);
     s.external_funcs = cell(1, nTB);
     s.comp_dep = cell(1, nTB);
 
@@ -78,19 +79,21 @@ function s = compute_dependencies(s1)
     p = 0;
 
     publicFunc = list_public_funcs(s);
-    homony = cell(1, numel(publicFunc));
+    nPF = numel(publicFunc);
+    homony = cell(1, nPF);
     homonyCount = 0;
 
     # Loop over the toolboxes.
     for kTB = 1 : nTB
+        nM = numel(s.mfiles{kTB});
         h = false(1, nTB);
 
         symbL = {};
-        s.mfilelinecount{kTB} = zeros(1, numel(s.mfiles{kTB}));
-        s.mfilesloc{kTB} = zeros(1, numel(s.mfiles{kTB}));
+        s.mfilelinecount{kTB} = zeros(1, nM);
+        s.mfilesloc{kTB} = zeros(1, nM);
 
         # Loop over the toolbox public functions.
-        for k = 1 : numel(s.mfiles{kTB})
+        for k = 1 : nM
             [~, ~, ext] = fileparts(s.mfiles{kTB}{k});
             symb = {};
             if strcmp(ext, '.m')
@@ -104,20 +107,20 @@ function s = compute_dependencies(s1)
             outman('update_progress', oId, pId, p);
         endfor
 
-        hf = false(1, numel(publicFunc));
+        hF = false(1, nPF);
         for symb = symbL
             if ~is_private_func(s, kTB, symb{1})
-                process_non_private_symb
+                process_non_private_symb;
             endif
         endfor
 
         kP = s.privateidx(kTB);
         if kP ~= 0
+            nM = numel(s.privatemfiles{kP});
 
             symbL = {};
-            s.privatemfilelinecount{kTB} ...
-                = zeros(1, numel(s.privatemfiles{kP}));
-            s.privatemfilesloc{kTB} = zeros(1, numel(s.privatemfiles{kP}));
+            s.privatemfilelinecount{kP} = zeros(1, nM);
+            s.privatemfilesloc{kP} = zeros(1, nM);
 
             # Loop over the toolbox private functions.
             for k = 1 : numel(s.privatemfilebytes{kP})
@@ -136,12 +139,12 @@ function s = compute_dependencies(s1)
             endfor
 
             for symb = symbL
-                process_non_private_symb
+                process_non_private_symb;
             endfor
 
         endif
         s.comp_dep{kTB} = find(h);
-        s.external_funcs{kTB} = publicFunc(hf);
+        s.external_funcs{kTB} = publicFunc(hF);
     endfor
 
     outman('terminate_progress', oId, pId);
@@ -158,7 +161,7 @@ function s = compute_dependencies(s1)
         if isPub
             [~, tBIdx] = is_public_func(s, symb{1});
             if numel(tBIdx) == 1 && tBIdx ~= kTB
-                hf(idxPub) = true;
+                hF(idxPub) = true;
                 h(tBIdx) = true;
             elseif numel(tBIdx) > 1 ...
                     && ~ismember(symb{1}, homony(1 : homonyCount))
