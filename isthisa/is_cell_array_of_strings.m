@@ -16,6 +16,10 @@
 
 function ret = is_cell_array_of_strings(c)
 
-    ret = all(cellfun(@is_string, c(:)));
+    try
+        ret = all(cellfun(@is_string, c(:)));
+    catch
+        ret = false;
+    end_try_catch
 
 endfunction
