@@ -224,13 +224,14 @@ function ret = valid_arg(s)
     ret = isstruct(s);
 
     ret = ret && isfield(s, 'toolboxpath');
-    ret = ret && iscellstr(s.toolboxpath) ...
+    ret = ret && is_cell_array_of_strings(s.toolboxpath) ...
         && (isempty(s.toolboxpath) || isrow(s.toolboxpath));
 
     ret = ret && isfield(s, 'mfiles');
     ret = ret && iscell(s.mfiles) && isrow(s.mfiles) ...
         && (isempty(s.mfiles) ...
-            || cellfun(@(x) iscellstr(x) && isrow(x), s.mfiles));
+            || cellfun(@(x) is_cell_array_of_strings(x) && isrow(x), ...
+                s.mfiles));
     ret = ret && numel(s.toolboxpath) == numel(s.mfiles);
 
     ret = ret && isfield(s, 'mfilebytes');
@@ -256,7 +257,8 @@ function ret = valid_arg(s)
     ret = ret && isfield(s, 'privatemfiles');
     ret = ret && iscell(s.privatemfiles) && isrow(s.privatemfiles) ...
         && (isempty(s.privatemfiles) ...
-            || cellfun(@(x) iscellstr(x) && isrow(x), s.privatemfiles));
+            || cellfun(@(x) is_cell_array_of_strings(x) && isrow(x), ...
+                s.privatemfiles));
     ret = ret && numel(s.privatemfiles) == numel(privateIdxNZ);
 
     ret = ret && isfield(s, 'privatemfilebytes');

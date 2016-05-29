@@ -29,7 +29,7 @@
 function ret = strip_dot_suffix(c)
 
     validated_mandatory_args(...
-        {@(x) (iscell(x) && is_cell_array_of_strings(x)) || is_string(x)}, c);
+        {@(x) (is_string(x) || is_cell_array_of_strings(x))}, c);
 
     ce = c;
     if ~iscell(c)
