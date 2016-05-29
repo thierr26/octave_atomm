@@ -116,14 +116,14 @@ function s = compute_dependencies(s1)
 
         kP = s.privateidx(kTB);
         if kP ~= 0
-            nM = numel(s.privatemfiles{kP});
+            nPM = numel(s.privatemfiles{kP});
 
             symbL = {};
-            s.privatemfilelinecount{kP} = zeros(1, nM);
-            s.privatemfilesloc{kP} = zeros(1, nM);
+            s.privatemfilelinecount{kP} = zeros(1, nPM);
+            s.privatemfilesloc{kP} = zeros(1, nPM);
 
             # Loop over the toolbox private functions.
-            for k = 1 : numel(s.privatemfilebytes{kP})
+            for k = 1 : nPM
                 [~, ~, ext] = fileparts(s.privatemfiles{kP}{k});
                 symb = {};
                 if strcmp(ext, '.m')
