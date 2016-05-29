@@ -3,7 +3,6 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} compute_dependencies (@var{s})
-test_case
 ##
 ## Grow the output of @code{find_m_toolboxes} with declared dependencies.
 ##
