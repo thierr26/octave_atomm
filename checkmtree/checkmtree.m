@@ -11,6 +11,8 @@
 ## @deftypefnx {Function File} checkmtree ('encoding', @var{top})
 ## @deftypefnx {Function File} checkmtree ('all')
 ## @deftypefnx {Function File} checkmtree ('all', @var{top})
+## @deftypefnx {Function File} checkmtree ('toolbox_deps', @var{toolbox})
+## @deftypefnx {Function File} checkmtree ('deps_stru')
 ## @deftypefnx {Function File} checkmtree (..., '--', @var{@
 ## config_param_1_name}, @var{config_param_1_value}, @var{@
 ## config_param_2_name}, @var{config_param_2_value}, ...)
@@ -51,6 +53,38 @@
 ## @item "all"
 ## Checkmtree performs all the checks (encoding check, @code{checkcode}, and
 ## dependencies check).
+##
+## @item "toolbox_deps"
+## Checkmtree lists the dependencies for the toolbox @var{toolbox}.
+## @var{toolbox} is the kind of toolbox designations that can be found in the
+## dependency files.  The return value is a cell array of strings with two
+## rows.  The first raw contains the names of the functions from other
+## toolboxes that are called by @var{toolbox}.  The second row contains the
+## path to the toolboxes containing those functions.
+## IMPORTANT: Command "toolbox_deps" is available only if a "dependencies" or a
+## "all" command has been run since Checkmtree's startup.  In the other case,
+## Checkmtree raises an error.
+##
+## @item "deps_stru"
+## Checkmtree lists the dependencies for all the M-files in the analysed tree
+## that depend on at least one function in another toolbox.  The return value
+## is a cell array of strings with 5 columns.
+## @enumerate
+## 1st column: A function name.
+##
+## 2nd column: "public" if the function is public or "private" if it is
+## private.
+##
+## 3rd column: Path to the toolbox containing the function.
+##
+## 4th column: Name of a function from another toolbox that is called by the
+## function in 1st column.
+##
+## 5th column: Path to the other toolbox.
+## @end enumerate
+## IMPORTANT: Command "deps_stru" is available only if a "dependencies" or a
+## "all" command has been run since Checkmtree's startup.  In the other case,
+## Checkmtree raises an error.
 ## @end table
 ##
 ## Note that when the provided command name is "dependencies", the M-files

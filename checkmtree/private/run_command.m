@@ -41,9 +41,22 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~)
     elseif any(strcmp(c, {'dependencies', 'all'}))
         sM = read_declared_dependencies(...
             compute_dependencies(find_m_toolboxes(top)));
+        s.deps = sM;
+        s.top = top;
     endif
     if any(strcmp(c, {'code', 'dependencies', 'encoding', 'all'}))
         outman('disconnect', oId);
+    endif
+
+    if any(strcmp(c, {'toolbox_deps', 'deps_stru'}))
+        if ~isfield(s, 'deps')
+            error(['Command %s is unavailable. Please issue a ' ...
+                'checkmtree(''dependencies'', ...) or ' ...
+                'checkmtree(''all'', ...) command'], c);
+        else
+            oId = outman_connect_and_config_if_master(s.outman_config_stru);
+            outman('logtimef', oId, 'checkmtree(''%s'') output:', c);
+        endif
     endif
 
     switch c
@@ -57,10 +70,21 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~)
         case {'code', 'dependencies', 'encoding', 'all'}
             varargout{1} = check_tree(s, cf, cargs, sM, c);
 
+        case 'toolbox_deps'
+            varargout{1} = toolbox_deps(s.deps, cargs, s.outman_config_stru);
+
+        case 'deps_stru'
+            varargout{1} = deps_stru(s.deps, s.outman_config_stru);
+
         otherwise
             error('Internal error: Command %s not handled', c);
 
     endswitch
+
+    if any(strcmp(c, {'toolbox_deps', 'deps_stru'}))
+        outman('logtimef', oId, 'End of checkmtree(''%s'') output\n', c);
+        outman('disconnect', oId);
+    endif
 
 endfunction
 
@@ -256,5 +280,161 @@ function check_encoding(filename, o_id, s, cf)
         outman('errorf', o_id, 'Could not check the encoding of %s', ...
             filename);
     end_try_catch
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# List calls made to other toolboxes by a toolbox.
+
+function c = toolbox_deps(s, cargs, outman_config_stru);
+
+    oId = outman_connect_and_config_if_master(outman_config_stru);
+    c = {};
+    kTB = toolbox_index(s, cargs{1});
+    nTB = numel(s.toolboxpath);
+    if isscalar(kTB)
+        c = s.external_funcs{kTB};
+        n = numel(c);
+        c = [c; cell(1, n)];
+        for k = 1 : n
+            kk = 0;
+            while isempty(c{2, k}) && kk < nTB
+                kk = kk + 1;
+                if kk ~= kTB && any(strcmp(...
+                        strip_dot_suffix(s.mfiles{kk}), c{1, k}))
+                    c{2, k} = s.toolboxpath{kk};
+                endif
+            endwhile
+        endfor
+
+        flag = false(1, n);
+        for k = 1 : n
+            if ~flag(k)
+                if ~any(flag)
+                    outman('printf', oId, ...
+                        '%s depends on:', s.toolboxpath{kTB});
+                endif
+                depName = c{2, k};
+                outman('printf', oId, '\t%s', depName);
+                for kk = k : n
+                    if ~flag(kk) && strcmp(depName, c{2, kk})
+                        outman('printf', oId, '\t\tfunction %s', c{1, kk});
+                        flag(kk) = true;
+                    endif
+                endfor
+            endif
+        endfor
+    endif
+    outman('disconnect', oId);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Return the number of dependencies.
+
+function ret = deps_count(s)
+
+    ret = 0;
+    for kTB = 1 : numel(s.toolboxpath)
+        ret = ret + cell_cum_numel(s.mfileexternalfuncs{kTB});
+    endfor
+    for kP = 1 : numel(s.privatemfiles)
+        ret = ret + cell_cum_numel(s.privatemfileexternalfuncs{kP});
+    endfor
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# List the dependencies for each and every M-file.
+
+function c = deps_stru(s, outman_config_stru);
+
+    oId = outman_connect_and_config_if_master(outman_config_stru);
+    depsCount = deps_count(s);
+    c = cell(depsCount, 5);
+    pId = outman('init_progress', oId, 0, depsCount, ...
+        'Listing per M-file dependencies...');
+    p = 0;
+    for kTB = 1 : numel(s.toolboxpath)
+        tBHeaderDone = false;
+        [c, tBHeaderDone] = print_deps_list(oId, pId, 'public', kTB, c, ...
+            tBHeaderDone, s.toolboxpath, s.mfiles, s.mfiles{kTB}, ...
+            s.mfileexternalfuncs{kTB});
+
+        if s.privateidx(kTB) ~= 0
+            kP = s.privateidx(kTB);
+
+            [c, tBHeaderDone] = print_deps_list(oId, pId, 'private', kTB, ...
+                c, tBHeaderDone, s.toolboxpath, s.mfiles, ...
+                s.privatemfiles{kP}, s.privatemfileexternalfuncs{kP});
+        endif
+    endfor
+    outman('terminate_progress', oId, pId);
+    outman('disconnect', oId);
+    assert(isempty(find(cellfun(@isempty, c(:, 1)), 1)));
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Print per M-file dependencies list.
+
+function [c, h] ...
+    = print_deps_list(o, p_id, kw, k_t_b, c1, h1, t_b_p, pub_m_f, m_f, e_f)
+
+    c = c1;
+    h = h1;
+
+    level = find(cellfun(@isempty, c(:, 1)), 1);
+
+    nM = numel(m_f);
+    for kM = 1 : nM
+        cc = e_f{kM};
+        n = numel(cc);
+        cc = [cc; cell(1, n)];
+        for k = 1 : n
+            kk = 0;
+            while isempty(cc{2, k}) && kk < numel(t_b_p)
+                kk = kk + 1;
+                if kk ~= k_t_b && any(strcmp(...
+                        strip_dot_suffix(pub_m_f{kk}), cc{1, k}))
+                    cc{2, k} = t_b_p{kk};
+                endif
+            endwhile
+        endfor
+
+        flag = false(1, n);
+        for k = 1 : n
+            if ~h
+                outman('printf', o, 'In toolbox %s', t_b_p{k_t_b});
+                h = true;
+            endif
+            if ~flag(k)
+                if ~any(flag)
+                    f = strip_dot_suffix(m_f{kM});
+                    outman('printf', o, '\t%s function %s depends on:', kw, f);
+                endif
+                depName = cc{2, k};
+                outman('printf', o, '\t\t%s', depName);
+                for kk = k : n
+                    if ~flag(kk) && strcmp(depName, cc{2, kk})
+                        outman('printf', o, '\t\t\tfunction %s', ...
+                            cc{1, kk});
+                        flag(kk) = true;
+                        c{level, 1} = f;
+                        c{level, 2} = kw;
+                        c{level, 3} = t_b_p{k_t_b};
+                        c{level, 4} = cc{1, kk};
+                        c{level, 5} = depName;
+                        outman('update_progress', o, p_id, level);
+                        level = level + 1;
+                    endif
+                endfor
+            endif
+        endfor
+    endfor
 
 endfunction
