@@ -70,17 +70,16 @@
 ## that depend on at least one function in another toolbox.  The return value
 ## is a cell array of strings with 5 columns.
 ## @enumerate
-## 1st column: A function name.
+## @item A function name.
 ##
-## 2nd column: "public" if the function is public or "private" if it is
-## private.
+## @item "public" if the function is public or "private" if it is private.
 ##
-## 3rd column: Path to the toolbox containing the function.
+## @item Path to the toolbox containing the function.
 ##
-## 4th column: Name of a function from another toolbox that is called by the
-## function in 1st column.
+## @item Name of a function from another toolbox that is called by
+## the function in 1st column.
 ##
-## 5th column: Path to the other toolbox.
+## @item Path to the other toolbox.
 ## @end enumerate
 ## IMPORTANT: Command "deps_stru" is available only if a "dependencies" or a
 ## "all" command has been run since Checkmtree's startup.  In the other case,
@@ -95,7 +94,7 @@
 ## Only the first two are present in the returned structure when the command
 ## name is "encoding" or "code".
 ##
-## @enumerate
+## @itemize @bullet
 ## @item m_file_count: Number of analysed M-files.
 ##
 ## @item max_m_file_byte_size: Byte size of the largest analysed M-Files.
@@ -104,7 +103,7 @@
 ##
 ## @item cum_sloc_count: Cumulative number of lines of code (lines that are
 ## not empty and don't contain only a comment) in the analysed M-files.
-## @end enumerate
+## @end itemize
 ##
 ## Checkmtree uses Outman for its output.  Outman's configuration parameters
 ## can be provided via Checkmtree's command line after a "--" argument.  They

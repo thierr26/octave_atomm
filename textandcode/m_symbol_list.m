@@ -24,6 +24,7 @@
 ## want @code{m_symbol_list} to update an Outman progress indicator while
 ## processing the input file.  Provide both or none.
 ##
+## @table @asis
 ## @item @var{progress_id}
 ## Outman progress indicator ID, as returned by a
 ## @code{outman('init_progress', @var{caller_id}, @var{start_position},
