@@ -51,7 +51,7 @@ function index = toolbox_index(s, toolbox_designation, varargin)
             @is_non_empty_string}, s, toolbox_designation);
     k = validated_opt_args({@is_num_scalar, 0}, varargin{:});
 
-    if length(toolbox_designation) > 0 ...
+    if ~isempty(toolbox_designation) ...
             && ~is_matched_by(toolbox_designation, '^\s*$')
 
         if ispc

@@ -60,8 +60,8 @@ function [c, n, sloc] = m_symbol_list(filename, varargin)
 
     if mustUpdateProgress
         stripCommentTimeFraction = 0.53;
-        MeanCharCountInComments = 15; # Mean character count in comment or
-                                      # empty lines (arbitrary estimation).
+        MeanCharCountInComments = 15; % Mean character count in comment or
+                                      % empty lines (arbitrary estimation).
         stripStrLiteralTimeFraction = 0.43;
         stripCommentsFromMOptArgs ...
             = {progress_id, progress, stripCommentTimeFraction};
@@ -73,9 +73,9 @@ function [c, n, sloc] = m_symbol_list(filename, varargin)
     if mustUpdateProgress
         remainingBytes = cell_cum_numel(l) + n;
         progress = progress + stripCommentTimeFraction * (remainingBytes ...
-            + MeanCharCountInComments * (n - sloc)); # Compensation for lost
-                                                     # bytes in the strip
-                                                     # comments process.
+            + MeanCharCountInComments * (n - sloc)); % Compensation for lost
+                                                     % bytes in the strip
+                                                     % comments process.
     endif
 
     for k = 1 : n

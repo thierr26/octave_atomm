@@ -284,7 +284,7 @@ endfunction
 # Return the list of the public functions of all the toolboxes. Duplicates are
 # not removed.
 
-function ret = list_public_funcs(s);
+function ret = list_public_funcs(s)
 
     ret = cell(1, cell_cum_numel(s.mfiles));
     n = 0;
@@ -345,7 +345,7 @@ endfunction
 # one of the toolboxes in s. toolbox_idx is a numerical array containing the
 # indices of those toolboxes in s.toolboxpath.
 
-function [ret, toolbox_idx] = is_public_func(s, func_name);
+function [ret, toolbox_idx] = is_public_func(s, func_name)
 
     ret = false;
     f = false(1, numel(s.toolboxpath));

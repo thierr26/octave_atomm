@@ -68,7 +68,7 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~)
             1;
 
         case {'code', 'dependencies', 'encoding', 'all'}
-            varargout{1} = check_tree(s, cf, cargs, sM, c);
+            varargout{1} = check_tree(s, cf, sM, c);
 
         case 'toolbox_deps'
             varargout{1} = toolbox_deps(s.deps, cargs, s.outman_config_stru);
@@ -141,7 +141,7 @@ endfunction
 
 # Check M-files tree.
 
-function s_c = check_tree(s, cf, cargs, s_m, c)
+function s_c = check_tree(s, cf, s_m, c)
 
     s_c = struct('m_file_count', ...
         cell_cum_numel(s_m.mfiles) + cell_cum_numel(s_m.privatemfiles), ...
@@ -287,7 +287,7 @@ endfunction
 
 # List calls made to other toolboxes by a toolbox.
 
-function c = toolbox_deps(s, cargs, outman_config_stru);
+function c = toolbox_deps(s, cargs, outman_config_stru)
 
     oId = outman_connect_and_config_if_master(outman_config_stru);
     c = {};
@@ -350,14 +350,13 @@ endfunction
 
 # List the dependencies for each and every M-file.
 
-function c = deps_stru(s, outman_config_stru);
+function c = deps_stru(s, outman_config_stru)
 
     oId = outman_connect_and_config_if_master(outman_config_stru);
     depsCount = deps_count(s);
     c = cell(depsCount, 5);
     pId = outman('init_progress', oId, 0, depsCount, ...
         'Listing per M-file dependencies...');
-    p = 0;
     for kTB = 1 : numel(s.toolboxpath)
         tBHeaderDone = false;
         [c, tBHeaderDone] = print_deps_list(oId, pId, 'public', kTB, c, ...
@@ -367,9 +366,9 @@ function c = deps_stru(s, outman_config_stru);
         if s.privateidx(kTB) ~= 0
             kP = s.privateidx(kTB);
 
-            [c, tBHeaderDone] = print_deps_list(oId, pId, 'private', kTB, ...
-                c, tBHeaderDone, s.toolboxpath, s.mfiles, ...
-                s.privatemfiles{kP}, s.privatemfileexternalfuncs{kP});
+            c = print_deps_list(oId, pId, 'private', kTB, c, tBHeaderDone, ...
+                s.toolboxpath, s.mfiles, s.privatemfiles{kP}, ...
+                s.privatemfileexternalfuncs{kP});
         endif
     endfor
     outman('terminate_progress', oId, pId);
@@ -392,9 +391,8 @@ function [c, h] ...
 
     nM = numel(m_f);
     for kM = 1 : nM
-        cc = e_f{kM};
-        n = numel(cc);
-        cc = [cc; cell(1, n)];
+        n = numel(e_f{kM});
+        cc = [e_f{kM}; cell(1, n)];
         for k = 1 : n
             kk = 0;
             while isempty(cc{2, k}) && kk < numel(t_b_p)
