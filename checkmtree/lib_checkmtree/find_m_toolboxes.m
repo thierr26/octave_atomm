@@ -227,6 +227,6 @@ endfunction
 function ret = strcmp_name(dir_path, name)
 
     [~, nam, ext] = fileparts(dir_path);
-    ret = strcmp(nam, name);
+    ret = isempty(ext) && strcmp(nam, name);
 
 endfunction
