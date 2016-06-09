@@ -20,7 +20,7 @@ function subtask(n, cancel, slow_func, outman_name, p_id_main)
         iterCount = n;
     endif
     for k2 = 1 : iterCount
-        slow_func;
+        slow_func();
         if ~cancel && k2 == t21
             outman('dispf', oId, ['An arbitrary number of progress ' ...
                 'indicators can be "stacked". If the window is not '...

@@ -6,8 +6,8 @@
 ##
 ## True for scalar numerical literals and logical literals.
 ##
-## @code{is_scalar_num_or_log_literal} returns true if the @var{str} is a
-## string like:
+## @code{is_scalar_num_or_log_literal} returns true if the string @var{str} is
+## a string like:
 ##
 ## @itemize @bullet
 ## @item
@@ -58,6 +58,9 @@
 ## @item
 ## "false"
 ## @end itemize
+##
+## Note that @code{is_scalar_num_or_log_literal} raises an error if @var{str}
+## is not a string.
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>

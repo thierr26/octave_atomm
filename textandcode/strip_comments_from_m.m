@@ -84,7 +84,7 @@ function [c, n, sloc] = strip_comments_from_m(filename, varargin)
     if ftell(f) == 0
         # The file has zero bytes.
 
-        c = {};
+        cc = {};
     else
         # The file has at least one byte.
 
@@ -92,33 +92,34 @@ function [c, n, sloc] = strip_comments_from_m(filename, varargin)
         fseek(f, 0, 'bof');
 
         # Read the lines of the file.
-        c = textscan(f, '%s', 'Delimiter', '\n', 'whitespace', '');
-        c = c{1};
+        cc = textscan(f, '%s', 'Delimiter', '\n', 'whitespace', '');
+        cc = cc{1};
     endif
 
     # Close the file.
     fclose(f);
 
-    n = numel(c);
+    n = numel(cc);
+    c = cell(n, 1);
 
     isInBlockComment = false;
     for k = 1 : n
 
         if mustUpdateProgress
-            progress = progress + progress_fac * (length(c{k}) + 1);
+            progress = progress + progress_fac * (length(cc{k}) + 1);
                                                   # +1 is for the EOL sequence.
         endif
 
-        if ~isempty(c{k})
+        if ~isempty(cc{k})
             if ~isInBlockComment
-                if is_matched_by(c{k}, ['^\s*[' m_comment_leaders ']{\s*$'])
+                if is_matched_by(cc{k}, ['^\s*[' m_comment_leaders ']{\s*$'])
                     # Current line is the beginning of a block comment.
 
                     isInBlockComment = true;
                 else
                     # Current line is not in a block comment.
 
-                    c{k} = strip_comment_from_line(c{k}, m_comment_leaders);
+                    c{k} = strip_comment_from_line(cc{k}, m_comment_leaders);
                 endif
             endif
 
