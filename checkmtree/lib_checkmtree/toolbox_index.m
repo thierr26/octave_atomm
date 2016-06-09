@@ -55,9 +55,9 @@ function index = toolbox_index(s, toolbox_designation, varargin)
             && ~is_matched_by(toolbox_designation, '^\s*$')
 
         if ispc
-            wrongFileSep = '\';
-        else
             wrongFileSep = '/';
+        else
+            wrongFileSep = '\';
         endif
         tD = strrep(toolbox_designation, wrongFileSep, filesep);
 
@@ -68,7 +68,8 @@ function index = toolbox_index(s, toolbox_designation, varargin)
         else
             # Toolbox designation is a relative path.
 
-            f = is_matched_by(s.toolboxpath, ['\' filesep tD '$']);
+            f = is_matched_by(s.toolboxpath, ...
+                ['\' filesep strrep(tD, filesep, ['\' filesep]) '$']);
         endif
         matchCount = sum(f);
         index = find(f);
