@@ -166,7 +166,25 @@ function s = test_textandcode
         @strip_dot_suffix_1_cell, ...
         @strip_dot_suffix_3_cells_row, ...
         @strip_dot_suffix_3_cells_col, ...
-        @strip_dot_suffix_mat};
+        @strip_dot_suffix_mat, ...
+        @is_scalar_num_or_log_literal_wrong_arg, ...
+        @is_scalar_num_or_log_literal_1, ...
+        @is_scalar_num_or_log_literal_2, ...
+        @is_scalar_num_or_log_literal_3, ...
+        @is_scalar_num_or_log_literal_4, ...
+        @is_scalar_num_or_log_literal_5, ...
+        @is_scalar_num_or_log_literal_6, ...
+        @is_scalar_num_or_log_literal_7, ...
+        @is_scalar_num_or_log_literal_8, ...
+        @is_scalar_num_or_log_literal_9, ...
+        @is_scalar_num_or_log_literal_10, ...
+        @is_scalar_num_or_log_literal_11, ...
+        @is_scalar_num_or_log_literal_12, ...
+        @is_scalar_num_or_log_literal_13, ...
+        @is_scalar_num_or_log_literal_14, ...
+        @is_scalar_num_or_log_literal_15, ...
+        @is_scalar_num_or_log_literal_16, ...
+        @is_scalar_num_or_log_literal_not};
 
     # Run the test case.
     s = run_test_case(mfilename, testRoutine);
@@ -1475,5 +1493,149 @@ function ret = strip_dot_suffix_mat
         '', 'www.linux.com', 'bar'}), ...
         {'www.gnu', 'foo', 'www.debian'; ...
         '', 'www.linux', 'bar'});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function is_scalar_num_or_log_literal_wrong_arg
+
+    is_scalar_num_or_log_literal(true);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_scalar_num_or_log_literal_1
+
+    ret = is_scalar_num_or_log_literal('12');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_scalar_num_or_log_literal_2
+
+    ret = is_scalar_num_or_log_literal('+12');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_scalar_num_or_log_literal_3
+
+    ret = is_scalar_num_or_log_literal('-12');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_scalar_num_or_log_literal_4
+
+    ret = is_scalar_num_or_log_literal('-12.34');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_scalar_num_or_log_literal_5
+
+    ret = is_scalar_num_or_log_literal('-12.');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_scalar_num_or_log_literal_6
+
+    ret = is_scalar_num_or_log_literal('-.34');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_scalar_num_or_log_literal_7
+
+    ret = is_scalar_num_or_log_literal('.34');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_scalar_num_or_log_literal_8
+
+    ret = is_scalar_num_or_log_literal('1.234e4');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_scalar_num_or_log_literal_9
+
+    ret = is_scalar_num_or_log_literal('1.234e-4');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_scalar_num_or_log_literal_10
+
+    ret = is_scalar_num_or_log_literal('1.e-4');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_scalar_num_or_log_literal_11
+
+    ret = is_scalar_num_or_log_literal('-1.234e-4');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_scalar_num_or_log_literal_12
+
+    ret = is_scalar_num_or_log_literal('1.234E-4');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_scalar_num_or_log_literal_13
+
+    ret = is_scalar_num_or_log_literal('1.234E+4');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_scalar_num_or_log_literal_14
+
+    ret = is_scalar_num_or_log_literal('1234E+4');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_scalar_num_or_log_literal_15
+
+    ret = is_scalar_num_or_log_literal('true');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_scalar_num_or_log_literal_16
+
+    ret = is_scalar_num_or_log_literal('false');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_scalar_num_or_log_literal_not
+
+    ret = ~is_scalar_num_or_log_literal('1e.-4');
 
 endfunction
