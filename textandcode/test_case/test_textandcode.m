@@ -26,6 +26,18 @@ function s = test_textandcode
         @is_matched_by_false, ...
         @is_matched_by_true, ...
         @is_matched_by_cellstr, ...
+        @is_prefixed_with_fail_invalid_str, ...
+        @is_prefixed_with_fail_invalid_prefix, ...
+        @is_prefixed_with_fail_empty_prefix, ...
+        @is_prefixed_with_empty, ...
+        @is_prefixed_with_false, ...
+        @is_prefixed_with_true, ...
+        @is_prefixed_with_cellstr, ...
+        @is_lower_str_than_fail_invalid_str1, ...
+        @is_lower_str_than_fail_invalid_str2, ...
+        @is_lower_str_than_identical, ...
+        @is_lower_str_than_true, ...
+        @is_lower_str_than_false, ...
         @wordwrap_fail_wrong_str, ...
         @wordwrap_fail_wrong_n, ...
         @wordwrap_empty, ...
@@ -216,6 +228,104 @@ function ret = is_matched_by_cellstr
     ret = isequal(is_matched_by(...
         {'one', 'two', 'three'; 'four', 'five', 'six'}, '^[tf]'), ...
         [false true true; true true false]);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function is_prefixed_with_fail_invalid_str
+
+    is_prefixed_with(true, 'xyz');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function is_prefixed_with_fail_invalid_prefix
+
+    is_prefixed_with('xyz', true);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function is_prefixed_with_fail_empty_prefix
+
+    is_prefixed_with('xyz', '');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_prefixed_with_empty
+
+    ret = ~is_prefixed_with('', 'xyz');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_prefixed_with_false
+
+    ret = ~is_prefixed_with('abcd', 'xyz');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_prefixed_with_true
+
+    ret = is_prefixed_with('xyz', 'xyz');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_prefixed_with_cellstr
+
+    ret = isequal(is_prefixed_with(...
+        {'one', 'two', 'three'; 'four', 'five', 'six'}, 'f'), ...
+        [false false false; true true false]);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function is_lower_str_than_fail_invalid_str1
+
+    is_lower_str_than(true, 'abc');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function is_lower_str_than_fail_invalid_str2
+
+    is_lower_str_than('abc', true);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_lower_str_than_identical
+
+    ret = ~is_lower_str_than('abc', 'abc');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_lower_str_than_true
+
+    ret = is_lower_str_than('abc', 'def');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_lower_str_than_false
+
+    ret = ~is_lower_str_than('def', 'abc');
 
 endfunction
 

@@ -10,7 +10,7 @@
 ## @var{str} can be a cell array of strings. In this case, @code{is_matched_by}
 ## returns a logical array (same shape as @var{str}).
 ##
-## @seealso{is_string, is_cell_array_of_strings}
+## @seealso{is_string, is_cell_array_of_strings, is_prefixed_with}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>
