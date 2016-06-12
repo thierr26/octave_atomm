@@ -3,34 +3,34 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} checkmtree ()
-## @deftypefnx {Function File} checkmtree ('code')
-## @deftypefnx {Function File} checkmtree ('code', @var{top})
-## @deftypefnx {Function File} checkmtree ('dependencies')
-## @deftypefnx {Function File} checkmtree ('dependencies', @var{top})
-## @deftypefnx {Function File} checkmtree ('encoding')
-## @deftypefnx {Function File} checkmtree ('encoding', @var{top})
-## @deftypefnx {Function File} checkmtree ('all')
-## @deftypefnx {Function File} checkmtree ('all', @var{top})
-## @deftypefnx {Function File} checkmtree ('toolbox_deps', @var{toolbox})
-## @deftypefnx {Function File} checkmtree ('deps_stru')
+## @deftypefnx {Function File} checkmtree ('check_code')
+## @deftypefnx {Function File} checkmtree ('check_code', @var{top})
+## @deftypefnx {Function File} checkmtree ('check_dependencies')
+## @deftypefnx {Function File} checkmtree ('check_dependencies', @var{top})
+## @deftypefnx {Function File} checkmtree ('check_encoding')
+## @deftypefnx {Function File} checkmtree ('check_encoding', @var{top})
+## @deftypefnx {Function File} checkmtree ('check_all')
+## @deftypefnx {Function File} checkmtree ('check_all', @var{top})
+## @deftypefnx {Function File} checkmtree ('list_toolbox_deps', @var{toolbox})
+## @deftypefnx {Function File} checkmtree ('list_deps')
 ## @deftypefnx {Function File} checkmtree (..., '--', @var{@
 ## config_param_1_name}, @var{config_param_1_value}, @var{@
 ## config_param_2_name}, @var{config_param_2_value}, ...)
 ## @deftypefnx {Function File} checkmtree (..., '--', @var{s})
 ## @deftypefnx {Function File} checkmtree ('quit')
 ##
-## @code{checkmtree} is equivalent to @code{checkmtree('all')}.
+## @code{checkmtree} is equivalent to @code{checkmtree('check_all')}.
 ##
 ## The first argument to Checkmtree must be one of the follwing command names:
 ##
 ## @table @asis
-## @item "code"
+## @item "check_code"
 ## Checkmtree applies @code{checkcode} (if available) to the M-files
 ## recursively found in @var{top}, or in the working directory if @var{top} is
 ## not provided.  @var{top} can be a cell array of strings containing multiple
 ## directory names.  In this case M-files are searched in all the directories.
 ##
-## @item "dependencies"
+## @item "check_dependencies"
 ## Checkmtree checks the declared dependencies for the toolboxes.  A toolbox
 ## in this context is a directory containing at least one M-file.  A toolbox
 ## may also have a "private" subdirectory that also contains some M-Files.
@@ -46,26 +46,26 @@
 ## name.  One or more parent directory names can be prepended (with a "/" or
 ## "\" separator) if it is needed to disambigate the toolbox designation.
 ##
-## @item "encoding"
+## @item "check_encoding"
 ## Checkmtree checks the encoding of the M-files and of the "dependencies" or
-## "dependencies.txt".
+## "dependencies.txt" files.
 ##
-## @item "all"
+## @item "check_all"
 ## Checkmtree performs all the checks (encoding check, @code{checkcode}, and
 ## dependencies check).
 ##
-## @item "toolbox_deps"
+## @item "list_toolbox_deps"
 ## Checkmtree lists the dependencies for the toolbox @var{toolbox}.
 ## @var{toolbox} is the kind of toolbox designations that can be found in the
 ## dependency files.  The return value is a cell array of strings with two
 ## rows.  The first raw contains the names of the functions from other
 ## toolboxes that are called by @var{toolbox}.  The second row contains the
 ## path to the toolboxes containing those functions.
-## IMPORTANT: Command "toolbox_deps" is available only if a "dependencies" or a
-## "all" command has been run since Checkmtree's startup.  In the other case,
-## Checkmtree raises an error.
+## IMPORTANT: Command "list_toolbox_deps" is available only if a
+## "check_dependencies" or a "check_all" command has been run since
+## Checkmtree's startup.  In the other case, Checkmtree raises an error.
 ##
-## @item "deps_stru"
+## @item "list_deps"
 ## Checkmtree lists the dependencies for all the M-files in the analysed tree
 ## that depend on at least one function in another toolbox.  The return value
 ## is a cell array of strings with 5 columns.
@@ -81,18 +81,18 @@
 ##
 ## @item Path to the other toolbox.
 ## @end enumerate
-## IMPORTANT: Command "deps_stru" is available only if a "dependencies" or a
-## "all" command has been run since Checkmtree's startup.  In the other case,
-## Checkmtree raises an error.
+## IMPORTANT: Command "list_deps" is available only if a "check_dependencies"
+## or a "check_all" command has been run since Checkmtree's startup.  In the
+## other case, Checkmtree raises an error.
 ## @end table
 ##
-## Note that when the provided command name is "dependencies", the M-files
-## encoding is checked also.
+## Note that when the provided command name is "check_dependencies", the
+## M-files encoding is checked also.
 ##
-## Note also that when the provided command name is "dependencies" or "all",
-## Checkmtree returns a structure with the following four fields.
+## Note also that when the provided command name is "check_dependencies" or
+## "check_all", Checkmtree returns a structure with the following four fields.
 ## Only the first two are present in the returned structure when the command
-## name is "encoding" or "code".
+## name is "check_encoding" or "check_code".
 ##
 ## @itemize @bullet
 ## @item m_file_count: Number of analysed M-files.
