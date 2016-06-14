@@ -533,17 +533,18 @@ function s = echo(s1, cf, also_to_file, word_wrap, x)
 
         case 'command_window'
             if isfield(s, 'progress')
+                n = length(s.progress.displayed_str);
                 # Backspace character ("\b") is used to erase.
-                backspaceString = repmat('\b', ...
-                    [1, length(s.progress.displayed_str)]);
+                backspaceString = repmat('\b', [1, n]);
                 fprintf(backspaceString);
-                fprintf(blanks(length(s.progress.displayed_str)));
+                fprintf(blanks(n));
                 fprintf(backspaceString);
             endif
 
             w = command_window_width - 1;
             if word_wrap && w >= cf.min_width_for_word_wrap && is_string(x)
-                cellfun(@disp, wordwrap(x, w));
+                xx = wordwrap(x, w);
+                cellfun(@disp, xx);
             else
                 disp(x);
             endif

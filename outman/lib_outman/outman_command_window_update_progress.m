@@ -59,7 +59,7 @@ function s = outman_command_window_update_progress(s1, cf, nown)
         endif
 
         if ~isempty(s.progress.displayed_str)
-            # There was already a displayed string built.
+            # There was already a displayed string.
 
             strLen = length(str);
             n = length(s.progress.displayed_str);
