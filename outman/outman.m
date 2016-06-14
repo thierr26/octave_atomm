@@ -256,6 +256,7 @@ function varargout = outman(varargin)
 
     cfLocked = true;
 
+    debug_msg(config, '%s command ''%s'' invoked', name, cmdName);
     [clearAppRequested, state, varargout{1 : max([1 nargout])}] ...
         = run_command(cmdName, cmdArg, config, configOrigin, state, name);
 
