@@ -17,6 +17,8 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~)
                 s = cancel_all_progress(s, cf);
                 s = close_log_file(s);
             endif
+            [~, idx] = ismember(callerID, s.caller_id);
+            s.caller_id(idx) = [];
 
         case 'configure'
             varargout{1} = callerID;
