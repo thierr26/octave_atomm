@@ -305,11 +305,17 @@ endfunction
 function [c, n, sloc] = m_symb_l(filename, p_id, p)
 
     [c, n, sloc] = m_symbol_list(filename, p_id, p);
-    if sloc == 0
-        outman('errorf', o_id, ...
-            '%s does not contain any software lines of code', filename);
-    elseif n == 0
-        outman('errorf', o_id, '%s is empty', filename);
+
+    template = '';
+    if n == 0
+        template = '%s is empty';
+    elseif sloc == 0
+        template = '%s does not contain any software lines of code';
+    endif
+    if ~isempty(template)
+        oId = outman_connect_and_config_if_master;
+        outman('errorf', oId, template, filename);
+        outman('disconnect', oId);
     endif
 
 endfunction
