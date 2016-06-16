@@ -280,7 +280,7 @@ endfunction
 
 # List calls made to other toolboxes by a toolbox.
 
-function c = toolbox_deps(o_id, s, cargs, outman_config_stru)
+function c = toolbox_deps(o_id, s, cargs)
 
     c = {};
     kTB = toolbox_index(s, cargs{1});
@@ -341,7 +341,7 @@ endfunction
 
 # List the dependencies for each and every M-file.
 
-function c = deps_stru(o_id, s, outman_config_stru)
+function c = deps_stru(o_id, s)
 
     depsCount = deps_count(s);
     c = cell(depsCount, 5);
