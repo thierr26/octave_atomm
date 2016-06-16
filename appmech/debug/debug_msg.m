@@ -35,10 +35,11 @@ function debug_msg(varargin)
 
     field = 'debug_log';
     fileName = '';
-    if is_string(varargin{1})
-        fileName = varargin{1};
-    elseif isfield(varargin{1}, field)
-        v = getfield(varargin{1}, field);
+    f = varargin{1};
+    if is_string(f)
+        fileName = f;
+    elseif isfield(f, field)
+        v = f.(field);
         if is_string(v)
             fileName = v;
         endif

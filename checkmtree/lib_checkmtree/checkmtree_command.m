@@ -120,10 +120,10 @@ function varargout = checkmtree_command(varargin)
                 varargout{1} = is_prefixed_with(varargin{1}, 'list_');
 
             case 'toolbox_dependencies_listing'
-                varargout{1} = strcmp(varargin{1}, 'list_toolbox_deps')
+                varargout{1} = strcmp(varargin{1}, 'list_toolbox_deps');
 
             case 'full_dependencies_listing'
-                varargout{1} = strcmp(varargin{1}, 'list_deps')
+                varargout{1} = strcmp(varargin{1}, 'list_deps');
 
             otherwise
                 error('Undefined Checkmtree command type: %s', varargin{2});

@@ -4,7 +4,6 @@
 
 function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~)
 
-    clear_req = false;
     varargout{1} = [];
     s = build_outman_config_stru(s1, cf, o);
     s = set_encoding_check_func(s, cf);
@@ -151,7 +150,7 @@ function s_c = check_tree(o_id, s, cf, s_m, c)
     checkCodeAvail = true;
     if checkmtree_command(c, 'code_checking_command') ...
             && isempty(which('checkcode'))
-        checkCodeAvail = false
+        checkCodeAvail = false;
         outman('errorf', o_id, ['Function checkcode does not seem to be ' ...
             'available. Cannot perform code checking.']);
     endif
