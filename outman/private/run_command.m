@@ -6,32 +6,16 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~)
 
     clear_req = false;
     varargout{1} = [];
-    debug_diff(s1);
     s = setup_log_file_full_name(s1, cf);
-    debug_msg(cf, ['Application state modification caused by ' ...
-        '''setup_log_file_full_name'':']);  %% Comment out after debug.
-    debug_diff(cf, s);
-    debug_diff(s);
     [s, callerID] = get_caller_id(s, c, cargs);
-    debug_msg(cf, ['Application state modification caused by ' ...
-        '''get_caller_id'':']);
-    debug_diff(cf, s);
 
     switch c
 
         case 'quit'
             clear_req = is_master(s, callerID);
             if clear_req
-                debug_diff(s);
                 s = cancel_all_progress(s, cf);
-                debug_msg(cf, ['Application state modification caused by ' ...
-                    '''cancel_all_progress'':']);
-                debug_diff(cf, s);
-                debug_diff(s);
                 s = close_log_file(s);
-                debug_msg(cf, ['Application state modification caused by ' ...
-                    '''close_log_file'':']);
-                debug_diff(cf, s);
             endif
             [~, idx] = ismember(callerID, s.caller_id);
             s.caller_id(idx) = [];
@@ -557,9 +541,6 @@ function s = echo(s1, cf, also_to_file, word_wrap, x)
         case 'command_window'
             if isfield(s, 'progress') && ~isempty(s.progress.displayed_str)
                 n = length(s.progress.displayed_str);
-                debug_msg(cf, ...
-                    's.progress.displayed_str is currently (length %d):', n);
-                debug_msg(cf, '%s', s.progress.displayed_str);
                 # Backspace character ("\b") is used to erase.
                 backspaceString = repmat('\b', [1, n]);
                 if ~cf.progress_immediate_reshow
@@ -574,12 +555,8 @@ function s = echo(s1, cf, also_to_file, word_wrap, x)
             w = command_window_width - 1;
             if word_wrap && w >= cf.min_width_for_word_wrap && is_string(x)
                 xx = wordwrap(x, w);
-                debug_msg(cf, 'Displaying (on %d lines):', numel(xx));
-                cellfun(@(y) debug_disp(cf, y), xx);
                 cellfun(@disp, xx);
             else
-                debug_msg(cf, 'Displaying:');
-                debug_disp(cf, x);
                 disp(x);
             endif
 

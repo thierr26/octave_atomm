@@ -43,7 +43,6 @@ function s = outman_command_window_update_progress(s1, cf, nown)
         str = outman_progress_string(s.progress.message, ...
             s.progress.percent, s.progress_fmt.fmt, s.progress_fmt.order, ...
             dura_str);
-        debug_diff(str);
         s.progress.actually_shown(:) = true;
         if length(str) >= command_window_width
             str = outman_progress_string(s.progress.message(1), ...
@@ -89,7 +88,6 @@ function s = outman_command_window_update_progress(s1, cf, nown)
 
         endif
 
-        debug_diff(cf, str);
         s.progress.displayed_str = str;
     endif
 
