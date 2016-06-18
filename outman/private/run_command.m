@@ -238,6 +238,7 @@ function [s, id] = create_new_progress_if_max_count_not_reached(s1, cf, cargs)
         s.progress.start_datenum = [];
         s.progress.last_update_datenum = now;
         s.progress.actually_shown = false(1, 0);
+        s.progress.refresh_needed = false;
 
         switch cf.mmi_variant
 
@@ -307,8 +308,13 @@ function s = update_progress(s1, cf, cargs)
             s = outman_update_progress_percent(s, idx, cargs{posArg});
             nowN = now;
 
+            if s.progress.refresh_needed
+                update_rate = outman_max_progress_indicator_rate;
+            else
+                update_rate = cf.progress_update_rate;
+            endif
             if (nowN - s.progress.last_update_datenum) * 86400 ...
-                    * cf.progress_max_update_rate >= 1
+                    * update_rate >= 1
 
                 switch cf.mmi_variant
 
@@ -318,6 +324,7 @@ function s = update_progress(s1, cf, cargs)
                 endswitch
 
                 s.progress.last_update_datenum = nowN;
+                s.progress.refresh_needed = false;
             endif
         endif
     endif
@@ -548,13 +555,17 @@ function s = echo(s1, cf, also_to_file, word_wrap, x)
     switch cf.mmi_variant
 
         case 'command_window'
-            if isfield(s, 'progress')
+            if isfield(s, 'progress') && ~isempty(s.progress.displayed_str)
                 n = length(s.progress.displayed_str);
                 debug_msg(cf, ...
                     's.progress.displayed_str is currently (length %d):', n);
                 debug_msg(cf, '%s', s.progress.displayed_str);
                 # Backspace character ("\b") is used to erase.
                 backspaceString = repmat('\b', [1, n]);
+                if ~cf.progress_immediate_reshow
+                    s.progress.displayed_str = '';
+                    s.progress.refresh_needed = true;
+                endif
                 fprintf(backspaceString);
                 fprintf(blanks(n));
                 fprintf(backspaceString);
@@ -572,7 +583,7 @@ function s = echo(s1, cf, also_to_file, word_wrap, x)
                 disp(x);
             endif
 
-            if isfield(s, 'progress')
+            if isfield(s, 'progress') && ~isempty(s.progress.displayed_str)
                 fprintf('%s', s.progress.displayed_str);
             endif
 

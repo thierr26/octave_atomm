@@ -60,8 +60,13 @@
 ## @item "progress_max_count"
 ## Maximum number of "stacked" progress indicators (3 by default).
 ##
-## @item "progress_max_update_rate"
-## Refresh rate (Hz) of the progress indicators display (2 by default).
+## @item "progress_update_rate"
+## Refresh rate (Hz) of the progress indicators display (2Hz by default).
+##
+## @item "progress_immediate_reshow"
+## Flag (false by default if Matlab is running Outman, true by default
+## otherwise) to require an immediate reshow of the progress indicator after
+## the display of a message.
 ##
 ## @item "info_leader"
 ## Prefix used in errorf commands ("(I)" plus a space character by default).
