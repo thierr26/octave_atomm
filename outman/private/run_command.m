@@ -12,7 +12,7 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~)
         '''setup_log_file_full_name'':']);  %% Comment out after debug.
     debug_diff(cf, s);
     debug_diff(s);
-    [s, callerID] = get_caller_id(s, cf, c, cargs);
+    [s, callerID] = get_caller_id(s, c, cargs);
     debug_msg(cf, ['Application state modification caused by ' ...
         '''get_caller_id'':']);
     debug_diff(cf, s);
