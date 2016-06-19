@@ -99,7 +99,7 @@ function [c, n, sloc] = m_symbol_list(filename, varargin)
 
     endfor
 
-    # It seems impossible that the number of symbols in an M-File is greater
+    # It seems impossible that the number of symbols in an M-file is greater
     # than the numbers of characters (not counting end of lines, comments and
     # string literals) divided by two.
     c = cell(1, ceil(cell_cum_numel(l) / 2));
@@ -117,6 +117,24 @@ function [c, n, sloc] = m_symbol_list(filename, varargin)
                     + stripStrLiteralTimeFraction * MeanCharCountInComments;
             endif
         endif
+
+        # Remove the trailing triple dots.
+        if numel(l{k} >= 3) && strcmp(l{k}(end - 2 : end), '...')
+            l{k} = l{k}(1 : end - 3);
+        endif
+
+        # Remove the decimal marks with preceding digits.
+        precedingDigitsPos = regexp(l{k}, '\W[0-9]+\.');
+        for kk = numel(precedingDigitsPos) : -1 : 1
+            decimalMarkPos = strfind(l{k}(precedingDigitsPos(kk) : end), '.');
+            l{k} = [l{k}(1 : precedingDigitsPos(kk) - 1) ...
+                l{k}(precedingDigitsPos(kk) + decimalMarkPos(1) : end)];
+        endfor
+
+        # The remaining dots are very likely to be from "dot notations".
+
+        # Remove the field names.
+        l{k} = strjoin(regexp(l{k}, '\. *\w+', 'split'));
 
         lineSymbols = regexp(l{k}, '\W', 'split');
         lineSymbols = lineSymbols(~cellfun(@isempty, lineSymbols));
