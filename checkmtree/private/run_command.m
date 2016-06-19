@@ -69,7 +69,7 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~)
         if checkmtree_command(c, 'toolbox_dependencies_listing')
             varargout{1} = toolbox_deps(oId, s.deps, cargs);
         else
-            varargout{1} = deps_stru(oId, s.deps);
+            varargout{1} = list_deps(oId, s.deps);
         endif
 
         outman('logtimef', oId, 'End of checkmtree(''%s'') output\n', c);
@@ -341,7 +341,7 @@ endfunction
 
 # List the dependencies for each and every M-file.
 
-function c = deps_stru(o_id, s)
+function c = list_deps(o_id, s)
 
     depsCount = deps_count(s);
     c = cell(depsCount, 5);
@@ -401,7 +401,8 @@ function [c, h] ...
             if ~flag(k)
                 if ~any(flag)
                     f = strip_dot_suffix(m_f{kM});
-                    outman('printf', o_id, '\t%s function %s depends on:', kw, f);
+                    outman('printf', o_id, '\t%s function %s depends on:', ...
+                        kw, f);
                 endif
                 depName = cc{2, k};
                 outman('printf', o_id, '\t\t%s', depName);
