@@ -81,8 +81,12 @@ function str = duration_str(dura_in_days, varargin)
             = sprintf('%d%s', minutes, singular_or_plural(s.minutes, minutes));
     endif
     if seconds > shift
-        c{end + 1} = sprintf([s.seconds_fmt '%s'], ...
-                seconds, singular_or_plural(s.seconds, seconds));
+        formattedSecond = sprintf(s.seconds_fmt, seconds);
+        if strcmp(formattedSecond, '2')
+            seconds = 2;
+        endif
+        c{end + 1} = sprintf('%s%s', ...
+            formattedSecond, singular_or_plural(s.seconds, seconds));
     endif
 
     if ~isempty(c)
