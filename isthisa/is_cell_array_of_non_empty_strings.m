@@ -4,8 +4,11 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} is_cell_array_of_non_empty_strings (@var{c})
 ##
-## Return true if @var{c} is a cell array of non empty strings (row vectors of
-## characters).  If @var{c} does not contain any elements,
+## Return true if @var{c} is a cell array of non empty strings.
+##
+## In this context, a string a row vector of characters.
+##
+## If @var{c} is an empty cell array then
 ## @code{is_cell_array_of_non_empty_strings} returns false.
 ##
 ## @seealso{is_cell_array_of_unique_non_empty_strings, is_non_empty_string,

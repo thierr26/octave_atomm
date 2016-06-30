@@ -4,7 +4,8 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} is_cell_array_of_func_handle (@var{c})
 ##
-## Return true if @var{c} is a cell array of function handles.
+## Return true if @var{c} is a cell array of function handles or an empty cell
+## array.
 ##
 ## Examples:
 ##
@@ -33,6 +34,13 @@
 ## @group
 ## c = @{@@iscell, @@isstruct; @@isstruct, @@iscell@});
 ## is_cell_array_of_func_handle (c)
+##    @result{} true
+## @end group
+## @end example
+##
+## @example
+## @group
+## is_cell_array_of_func_handle (@{@})
 ##    @result{} true
 ## @end group
 ## @end example

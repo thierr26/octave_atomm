@@ -4,9 +4,9 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} is_cell_array_of_strings (@var{c})
 ##
-## Return true if @var{c} is a cell array of strings (row vectors of
-## characters).  If @var{c} is empty, @code{is_cell_array_of_strings} returns
-## true.
+## Return true if @var{c} is a cell array of strings or an empty cell array.
+##
+## In this context, a string a row vector of characters.
 ##
 ## @seealso{is_cell_array_of_non_empty_strings,
 ## is_cell_array_of_unique_non_empty_strings, is_string}

@@ -7,6 +7,8 @@
 ## Return true if @var{x} is a vector of integer values.  @var{x} may be of an
 ## integer type or of a floating point type.
 ##
+## If @var{x} is an empty matrix then @code{is_integer_vect} returns false.
+##
 ## @seealso{is_integer_scalar}
 ## @end deftypefn
 
