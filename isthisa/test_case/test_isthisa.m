@@ -93,6 +93,14 @@ function s = test_isthisa
         @is_integer_vect_non_int_col, ...
         @is_integer_vect_row, ...
         @is_integer_vect_col, ...
+        @is_integer_vect_fail_too_many_args, ...
+        @is_integer_vect_fail_wrong_2nd_arg, ...
+        @is_integer_vect_value_check_false_n, ...
+        @is_integer_vect_value_check_true_n, ...
+        @is_integer_vect_value_check_true_m_n, ...
+        @is_integer_vect_value_check_false_n_too_low, ...
+        @is_integer_vect_value_check_false_m_n_n_too_low, ...
+        @is_integer_vect_value_check_false_m_n_m_too_high, ...
         @is_2_dim_cell_non_cell, ...
         @is_2_dim_cell_non_2_dim, ...
         @is_2_dim_cell_empty, ...
@@ -721,6 +729,70 @@ endfunction
 function ret = is_integer_vect_col
 
     ret = is_integer_vect([-1 2 0 3]');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function is_integer_vect_fail_too_many_args
+
+    is_integer_vect(1, 2, 3);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function is_integer_vect_fail_wrong_2nd_arg
+
+    is_integer_vect(1, true);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_integer_vect_value_check_false_n
+
+    ret = ~is_integer_vect([4 0 1], 4);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_integer_vect_value_check_true_n
+
+    ret = is_integer_vect([4 3 1], 4);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_integer_vect_value_check_true_m_n
+
+    ret = is_integer_vect([4 3 2], [2 4]);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_integer_vect_value_check_false_n_too_low
+
+    ret = ~is_integer_vect([4 3 1], 3);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_integer_vect_value_check_false_m_n_n_too_low
+
+    ret = ~is_integer_vect([4 3 2], [2 3]);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_integer_vect_value_check_false_m_n_m_too_high
+
+    ret = ~is_integer_vect([4 3 1], [2 3]);
 
 endfunction
 
