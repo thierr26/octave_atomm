@@ -75,32 +75,12 @@ function [c, n, sloc] = strip_comments_from_m(filename, varargin)
         oId = outman_connect_and_config_if_master;
     endif
 
-    # Open the file.
-    f = fopen(filename, 'r');
-
-    # Move to the end of the file.
-    fseek(f, 0, 'eof');
-
-    if ftell(f) == 0
-        # The file has zero bytes.
-
-        cc = {};
-    else
-        # The file has at least one byte.
-
-        # Come back to the beginning of the file.
-        fseek(f, 0, 'bof');
-
-        # Read the lines of the file.
-        cc = textscan(f, '%s', 'Delimiter', '\n', 'whitespace', '');
-        cc = cc{1};
-    endif
-
-    # Close the file.
-    fclose(f);
+    # Read the file.
+    cc = text_file_lines(filename);
 
     n = numel(cc);
-    c = cell(n, 1);
+    c = cell(n, min([1 n]));
+    c(:) = {''};
 
     isInBlockComment = false;
     for k = 1 : n

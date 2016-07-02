@@ -154,6 +154,9 @@ function [c, n, sloc] = m_symbol_list(filename, varargin)
     endfor
 
     c = sort(c(1 : level));
+    if numel(c) == 0
+        c = {};
+    endif
 
     if mustUpdateProgress
         outman('disconnect', oId);
