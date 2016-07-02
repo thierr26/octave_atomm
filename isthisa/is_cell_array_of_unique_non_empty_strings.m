@@ -7,7 +7,7 @@
 ##
 ## Return true if @var{c} is a cell array of unique non empty strings.
 ##
-## In this context, a string a row vector of characters.
+## In this context, a string is a row vector of characters.
 ##
 ## If @var{c} is an empty cell array then
 ## @code{is_cell_array_of_unique_non_empty_strings} returns false.
