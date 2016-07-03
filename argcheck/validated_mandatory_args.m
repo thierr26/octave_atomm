@@ -62,7 +62,7 @@ function varargout = validated_mandatory_args(valid_f, varargin)
 
     if ~is_cell_array_of_func_handle(valid_f)
         error('First argument must be a cell array of function handles');
-    elseif ~isequal(size(valid_f), size(varargin))
+    elseif ~same_shape(valid_f, varargin)
         error('First argument must have %d line and %d column(s)', ...
             size(varargin, 1), size(varargin, 2));
     endif

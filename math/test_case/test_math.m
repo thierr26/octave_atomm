@@ -35,7 +35,9 @@ function s = test_math
         @wio_consec_duplicates_fail_x_logical, ...
         @cell_cum_numel_wrong_arg, ...
         @cell_cum_numel_empty, ...
-        @cell_cum_numel_not_empty};
+        @cell_cum_numel_not_empty, ...
+        @same_shape_true, ...
+        @same_shape_false};
 
     # Run the test case.
     s = run_test_case(mfilename, testRoutine);
@@ -190,5 +192,21 @@ endfunction
 function ret = cell_cum_numel_not_empty
 
     ret = cell_cum_numel({'abc', 'defg'}) == 7;
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = same_shape_true
+
+    ret = same_shape([1 2], [3 4]);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = same_shape_false
+
+    ret = ~same_shape([1 2], [3; 4]);
 
 endfunction
