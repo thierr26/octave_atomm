@@ -2,7 +2,7 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} @var{caller_id} = outman ('connect')
+## @deftypefn {Function File} {@var{caller_id} =} outman ('connect')
 ## @deftypefnx {Function File} outman ('disp', @var{caller_id}, @var{x})
 ## @deftypefnx {Function File} outman ('dispf', @var{caller_id}, @var{@
 ## template}, ...)
@@ -29,11 +29,12 @@
 ## @var{progress_indicator_id} =} outman ('update_progress', @var{@
 ## caller_id}, @var{progress_indicator_id}, @var{start_position}, @var{@
 ## finish_position}, @var{new_position})
-## @deftypefnx {Function File} {[...] =} outman ('terminate_progress', @var{@
+## @deftypefnx {Function File} {@var{@
+## duration} =} outman ('terminate_progress', @var{caller_id}, @var{@
+## progress_indicator_id})
+## @deftypefnx {Function File} outman ('cancel_progress', @var{@
 ## caller_id}, @var{progress_indicator_id})
-## @deftypefnx {Function File} {[...] =} outman ('cancel_progress', @var{@
-## caller_id}, @var{progress_indicator_id})
-## @deftypefnx {Function File} {[...] =} outman ('shift_progress', @var{@
+## @deftypefnx {Function File} outman ('shift_progress', @var{@
 ## caller_id}, @var{progress_indicator_id}, @var{fractional_shift})
 ## @deftypefnx {Function File} {@var{@
 ## config} =} outman ('get_config', @var{caller_id})
@@ -173,7 +174,8 @@
 ## the progress indicator of a parent task).
 ##
 ## @item "terminate_progress"
-## Declare a progress indicator as no more needed.
+## Declare a progress indicator as no more needed.  The elapsed time in days
+## since the "init_progress" command is returned.
 ##
 ## @item "cancel_progress"
 ## Declare a progress indicator as no more needed (case of the associated task

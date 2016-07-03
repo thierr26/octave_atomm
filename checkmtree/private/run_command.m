@@ -22,6 +22,7 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~)
 
         # Write the names of the analysed tree tops to the log file.
         outman('logtimef', oId, 'checkmtree(''%s'') launched', c);
+        startTime = now;
         if ischar(top)
             absPath = {absolute_path(top)};
             outman('logf', oId, '\nAnalysed tree:\n%s\n', absPath{1});
@@ -54,7 +55,7 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~)
             sM = find_m_toolboxes(top, true);
         endif
 
-        varargout{1} = check_tree(oId, s, cf, sM, c);
+        varargout{1} = check_tree(oId, s, cf, sM, c, startTime);
 
     elseif checkmtree_command(c, 'listing_command')
 
@@ -65,6 +66,7 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~)
         endif
 
         outman('logtimef', oId, 'checkmtree(''%s'') output:', c);
+        startTime = now;
 
         if checkmtree_command(c, 'toolbox_dependencies_listing')
             varargout{1} = toolbox_deps(oId, s.deps, cargs);
@@ -72,7 +74,9 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~)
             varargout{1} = list_deps(oId, s.deps);
         endif
 
-        outman('logtimef', oId, 'End of checkmtree(''%s'') output\n', c);
+        outman('logtimef', oId, ...
+            'End of checkmtree(''%s'') output (took %s)\n', ...
+            c, duration_str(now - startTime));
 
     endif
 
@@ -133,7 +137,7 @@ endfunction
 
 # Check M-files tree.
 
-function s_c = check_tree(o_id, s, cf, s_m, c)
+function s_c = check_tree(o_id, s, cf, s_m, c, start_time)
 
     s_c = struct('m_file_count', ...
         cell_cum_numel(s_m.mfiles) + cell_cum_numel(s_m.privatemfiles), ...
@@ -221,7 +225,8 @@ function s_c = check_tree(o_id, s, cf, s_m, c)
     endfor
     outman('terminate_progress', o_id, pId);
     outman('logf', o_id, '');
-    outman('logtimef', o_id, 'checkmtree(''%s'') done\n', c);
+    outman('logtimef', o_id, 'checkmtree(''%s'') done (took %s)\n', c, ...
+        duration_str(now - start_time));
 endfunction
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
