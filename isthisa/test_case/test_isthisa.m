@@ -113,7 +113,14 @@ function s = test_isthisa
         @is_cell_array_of_strings_non_row_char, ...
         @is_cell_array_of_strings_numel_1, ...
         @is_cell_array_of_strings_numel_6_3x2_true, ...
-        @is_cell_array_of_strings_numel_6_3x2_false};
+        @is_cell_array_of_strings_numel_6_3x2_false, ...
+        @is_empty_or_row_cell_array_of_strings_empty_c, ...
+        @is_empty_or_row_cell_array_of_strings_non_cell_c, ...
+        @is_empty_or_row_cell_array_of_strings_non_cellstr_c, ...
+        @is_empty_or_row_cell_array_of_strings_non_row_char, ...
+        @is_empty_or_row_cell_array_of_strings_numel_1, ...
+        @is_empty_or_row_cell_array_of_strings_numel_2, ...
+        @is_empty_or_row_cell_array_of_strings_non_row};
 
     # Run the test case.
     s = run_test_case(mfilename, testRoutine);
@@ -899,5 +906,63 @@ endfunction
 function ret = is_cell_array_of_strings_numel_6_3x2_false
 
     ret = ~is_cell_array_of_strings({'abc', true, 'ef'; 'ghij', '', 'lm'});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_empty_or_row_cell_array_of_strings_empty_c
+
+    ret = is_empty_or_row_cell_array_of_strings({});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_empty_or_row_cell_array_of_strings_non_cell_c
+
+    ret = ~is_empty_or_row_cell_array_of_strings(true);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_empty_or_row_cell_array_of_strings_non_cellstr_c
+
+    ret = ~is_empty_or_row_cell_array_of_strings({true});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_empty_or_row_cell_array_of_strings_non_row_char
+
+    str = 'abc';
+    str = str';
+    ret = ~is_empty_or_row_cell_array_of_strings({str});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_empty_or_row_cell_array_of_strings_numel_1
+
+    ret = is_empty_or_row_cell_array_of_strings({'abc'});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_empty_or_row_cell_array_of_strings_numel_2
+
+    ret = is_empty_or_row_cell_array_of_strings({'abc', 'def'});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_empty_or_row_cell_array_of_strings_non_row
+
+    ret = ~is_empty_or_row_cell_array_of_strings({'abc'; 'def'});
 
 endfunction
