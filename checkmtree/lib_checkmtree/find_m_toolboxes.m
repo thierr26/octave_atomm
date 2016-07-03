@@ -3,25 +3,25 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} find_m_toolboxes ()
-## @deftypefnx {Function File} find_m_toolboxes (@var{str})
-## @deftypefnx {Function File} find_m_toolboxes (@var{c})
-## @deftypefnx {Function File} find_m_toolboxes (@var{str}, @var{ignore_p})
-## @deftypefnx {Function File} find_m_toolboxes (@var{c}, @var{ignore_p})
+## @deftypefnx {Function File} find_m_toolboxes (@var{top_str})
+## @deftypefnx {Function File} find_m_toolboxes (@var{top_c})
+## @deftypefnx {Function File} find_m_toolboxes (@var{top_str}, @var{ignore_p})
+## @deftypefnx {Function File} find_m_toolboxes (@var{top_c}, @var{ignore_p})
 ##
 ## Find toolboxes (directories containing at least one M-file) recursively.
 ##
 ## If no argument is provided, then @code{find_m_toolboxes} searches the
 ## toolboxes in the working directory and its subdirectories.
 ##
-## If a non empty string argument is provided as first argument, then this
-## string is supposed to be a path to a directory and then
+## If a non empty string argument (@var{top_str}) is provided as first argument
+## then this string is supposed to be a path to a directory and then
 ## @code{find_m_toolboxes} searches the toolboxes in this directory and its
 ## subdirectories.
 ##
-## If a cell array of non empty strings is given as first argument, then every
-## string in the cell array is supposed to be a path to a directory and then
-## @code{find_m_toolboxes} searches the toolboxes in these directories and
-## their subdirectories.
+## If a cell array of non empty strings (@var{top_c}) is given as first
+## argument, then every string in the cell array is supposed to be a path to a
+## directory and then @code{find_m_toolboxes} searches the toolboxes in these
+## directories and their subdirectories.
 ##
 ## An optional argument @var{ignore_p} can be provided as second argument.  It
 ## is a logical scalar.  True means that pcode files (files with extension ".p"
@@ -103,10 +103,11 @@ function s = find_m_toolboxes(varargin)
     isPrivate = mFilePresent & privateDir;
     toolboxPath = sFF.dir(isToolbox);
     nTb = numel(toolboxPath);
+    mn = min([1 nTb]);
 
-    mFiles = cell(1, nTb);
-    mFileBytes = cell(1, nTb);
-    depFile = cell(1, nTb);
+    mFiles = cell(mn, nTb);
+    mFileBytes = cell(mn, nTb);
+    depFile = cell(mn, nTb);
     kk = 0;
     for k = find(isToolbox)
         kk = kk + 1;
@@ -116,7 +117,7 @@ function s = find_m_toolboxes(varargin)
         depFile{kk} = find_dep_file(sFF.dir{k});
     endfor
 
-    privateIdx = zeros(1, nTb);
+    privateIdx = zeros(mn, nTb);
 
     pI = find(isPrivate);
     kk = 0;
@@ -143,8 +144,9 @@ function s = find_m_toolboxes(varargin)
     pI = find(isPrivate);
 
     nP = numel(pI);
-    privateMFiles = cell(1, nP);
-    privateMFileBytes = cell(1, nP);
+    mn = min([1 nP]);
+    privateMFiles = cell(mn, nP);
+    privateMFileBytes = cell(mn, nP);
     kk = 0;
     for k = pI
         kk = kk + 1;

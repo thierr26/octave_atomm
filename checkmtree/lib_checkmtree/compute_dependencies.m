@@ -71,7 +71,7 @@
 
 function s = compute_dependencies(s1)
 
-    s = validated_mandatory_args({@valid_arg}, s1);
+    s = validated_mandatory_args({@is_find_m_toolboxes_s}, s1);
 
     nTB = numel(s.toolboxpath);
     nP = numel(s.privatemfiles);
@@ -216,71 +216,6 @@ function s = compute_dependencies(s1)
 endfunction
 
 # -----------------------------------------------------------------------------
-
-# Check the input structure.
-
-function ret = valid_arg(s)
-
-    ret = isstruct(s);
-
-    ret = ret && isfield(s, 'toolboxpath');
-    ret = ret && is_cell_array_of_strings(s.toolboxpath) ...
-        && (isempty(s.toolboxpath) || isrow(s.toolboxpath));
-
-    ret = ret && isfield(s, 'mfiles');
-    ret = ret && iscell(s.mfiles) && isrow(s.mfiles) ...
-        && (isempty(s.mfiles) ...
-            || all(cellfun(@(x) is_cell_array_of_strings(x) && isrow(x), ...
-                s.mfiles)));
-    ret = ret && numel(s.toolboxpath) == numel(s.mfiles);
-
-    ret = ret && isfield(s, 'mfilebytes');
-    ret = ret && iscell(s.mfilebytes) && isrow(s.mfilebytes) ...
-        && (isempty(s.mfilebytes) ...
-            || all(cellfun(@(x) is_integer_vect(x) && min(x) >= 0, ...
-                s.mfilebytes)));
-
-    if ret
-        for k = 1 : numel(s.toolboxpath)
-            ret = ret && numel(s.mfiles{k}) == numel(s.mfilebytes{k});
-        endfor
-    endif
-
-    ret = ret && isfield(s, 'privateidx') && is_integer_vect(s.privateidx) ...
-        && isrow(s.privateidx) ...
-        && (isempty(s.privateidx) || min(s.privateidx) >= 0) ...
-        && numel(s.privateidx) == numel(s.toolboxpath);
-    privateIdxNZ = s.privateidx(s.privateidx ~= 0);
-    privateIdxNZU = unique(privateIdxNZ);
-    ret = ret && numel(privateIdxNZ) == numel(privateIdxNZU) ...
-        && all(diff(privateIdxNZU) == 1);
-
-    ret = ret && isfield(s, 'privatemfiles');
-    ret = ret && iscell(s.privatemfiles) && isrow(s.privatemfiles) ...
-        && (isempty(s.privatemfiles) ...
-            || all(cellfun(@(x) is_cell_array_of_strings(x) && isrow(x), ...
-                s.privatemfiles)));
-    ret = ret && numel(s.privatemfiles) == numel(privateIdxNZ);
-
-    ret = ret && isfield(s, 'privatemfilebytes');
-    ret = ret && iscell(s.privatemfilebytes) && isrow(s.privatemfilebytes) ...
-        && (isempty(s.privatemfiles) ...
-            || all(cellfun(@(x) is_integer_vect(x) && min(x) >= 0, ...
-                s.privatemfilebytes)));
-
-    if ret && ~isempty(privateIdxNZU)
-        for k = privateIdxNZU
-            ret = ret ...
-                && numel(s.privatemfiles{k}) == numel(s.privatemfilebytes{k});
-        endfor
-    endif
-
-    ret = ret ...
-        && isfield(s, 'privatesubdir') && is_non_empty_string(s.privatesubdir);
-
-endfunction
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # Return the list of the public functions of all the toolboxes. Duplicates are
 # not removed.

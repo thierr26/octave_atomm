@@ -17,9 +17,8 @@ function ret = is_find_files_s(s)
 
     if ~isstruct(s)
         ret = false;
-    elseif ~isfield(s, 'dir') || ~iscell(s.dir) ...
-            || (~is_cell_array_of_unique_non_empty_strings(s.dir) ...
-            && ~isempty(s.dir))
+    elseif ~isfield(s, 'dir') || ~iscell(s.dir) || ~is_string_list(s.dir) ...
+            || ~all(cellfun(@(x) strcmp(x, absolute_path(x)), s.dir))
         ret = false;
     elseif ~isfield(s, 'first_file_idx') ...
             || ~isnumeric(s.first_file_idx) ...
@@ -52,9 +51,6 @@ function ret = is_find_files_s(s)
     endif
 
     if ret
-        # Fields shape and type is OK.
-
-        # Check values.
         v1 = s.first_file_idx;
         v2 = s.last_file_idx;
         last_file_idx_zero = v2 == 0;

@@ -30,24 +30,18 @@
 
 function s = read_declared_dependencies(s1)
 
-    s = validated_mandatory_args(...
-        {@(x) isstruct(x) ...
-            && isfield(x, 'toolboxpath') ...
-            && isfield(x, 'depfile') ...
-            && is_cell_array_of_strings(x.toolboxpath) ...
-            && (isempty(x.toolboxpath) || isrow(x.toolboxpath)) ...
-            && is_cell_array_of_strings(x.depfile) && isrow(x.depfile) ...
-            && numel(x.toolboxpath) == numel(x.depfile)}, s1);
+    s = validated_mandatory_args({@is_find_m_toolboxes_s}, s1);
 
-    nTB = numel(s.toolboxpath);
-    s.decl_dep = cell(1, nTB);
+    nTb = numel(s.toolboxpath);
+    mn = min([1 nTb]);
+    s.decl_dep = cell(mn, nTb);
 
     oId = outman_connect_and_config_if_master;
-    pId = outman('init_progress', oId, 0, nTB, ...
+    pId = outman('init_progress', oId, 0, nTb, ...
         'Reading declared dependencies...');
 
     # Loop over toolboxes.
-    for kTB = 1 : nTB
+    for kTB = 1 : nTb
         if ~isempty(s.depfile{kTB})
 
             # Read dependency file for current toolbox and remove comments.
@@ -60,7 +54,7 @@ function s = read_declared_dependencies(s1)
             end_try_catch
 
             s.decl_dep{kTB} = zeros(1, numel(c));
-            dup = false(1, nTB);
+            dup = false(1, nTb);
 
             # Loop over the lines of the dependency file.
             declDepIdx = 0;

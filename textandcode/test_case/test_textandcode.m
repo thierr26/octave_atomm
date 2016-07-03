@@ -58,10 +58,6 @@ function s = test_textandcode
         @wordwrap_long_4, ...
         @wordwrap_long_5, ...
         @is_ascii_file_self, ...
-        @m_file_filters_no_arg, ...
-        @m_file_filters_all, ...
-        @m_file_filters_m_lang_only, ...
-        @m_comment_leaders_ok, ...
         @quote_delimiters_ok, ...
         @strip_comment_from_line_wrong_arg_1, ...
         @strip_comment_from_line_wrong_arg_2, ...
@@ -589,50 +585,6 @@ endfunction
 function ret = is_ascii_file_self
 
     ret = is_ascii_file(fullmfilename);
-
-endfunction
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-function ret = m_file_filters_no_arg
-
-    c = {'*.m', '*.p'};
-    if is_octave
-        ret = isequal(m_file_filters('all'), c(1));
-    else
-        ret = isequal(m_file_filters('all'), c);
-    endif
-
-endfunction
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-function ret = m_file_filters_all
-
-    c = {'*.m', '*.p'};
-    if is_octave
-        ret = isequal(m_file_filters('all'), c(1));
-    else
-        ret = isequal(m_file_filters('all'), c);
-    endif
-
-endfunction
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-function ret = m_file_filters_m_lang_only
-
-    c = {'*.m', '*.p'};
-    ret = isequal(m_file_filters('m_lang_only'), c(1));
-
-endfunction
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-function ret = m_comment_leaders_ok
-
-    c = m_comment_leaders;
-    ret = ismember('%', c) && ismember('#', c);
 
 endfunction
 
