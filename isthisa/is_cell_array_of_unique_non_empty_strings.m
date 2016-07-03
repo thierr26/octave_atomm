@@ -12,7 +12,8 @@
 ## If @var{c} is an empty cell array then
 ## @code{is_cell_array_of_unique_non_empty_strings} returns false.
 ##
-## @seealso{is_cell_array_of_non_empty_strings, is_non_empty_string, is_string}
+## @seealso{is_cell_array_of_non_empty_strings, is_non_empty_string, is_string,
+## is_string_list}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>

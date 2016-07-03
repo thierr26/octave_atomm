@@ -120,7 +120,16 @@ function s = test_isthisa
         @is_empty_or_row_cell_array_of_strings_non_row_char, ...
         @is_empty_or_row_cell_array_of_strings_numel_1, ...
         @is_empty_or_row_cell_array_of_strings_numel_2, ...
-        @is_empty_or_row_cell_array_of_strings_non_row};
+        @is_empty_or_row_cell_array_of_strings_non_row, ...
+        @is_string_list_empty_c, ...
+        @is_string_list_non_cell_c, ...
+        @is_string_list_non_cellstr_c, ...
+        @is_string_list_non_row_char, ...
+        @is_string_list_numel_1, ...
+        @is_string_list_numel_2, ...
+        @is_string_list_non_row, ...
+        @is_string_list_not_non_empty, ...
+        @is_string_list_not_unique};
 
     # Run the test case.
     s = run_test_case(mfilename, testRoutine);
@@ -964,5 +973,86 @@ endfunction
 function ret = is_empty_or_row_cell_array_of_strings_non_row
 
     ret = ~is_empty_or_row_cell_array_of_strings({'abc'; 'def'});
+
+endfunction
+
+
+
+
+
+
+
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_string_list_empty_c
+
+    ret = is_string_list({});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_string_list_non_cell_c
+
+    ret = ~is_string_list(true);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_string_list_non_cellstr_c
+
+    ret = ~is_string_list({true});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_string_list_non_row_char
+
+    str = 'abc';
+    str = str';
+    ret = ~is_string_list({str});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_string_list_numel_1
+
+    ret = is_string_list({'abc'});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_string_list_numel_2
+
+    ret = is_string_list({'abc', 'def'});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_string_list_non_row
+
+    ret = ~is_string_list({'abc'; 'def'});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_string_list_not_non_empty
+
+    ret = ~is_string_list({'abc', ''});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_string_list_not_unique
+
+    ret = ~is_string_list({'abc', 'abc'});
 
 endfunction
