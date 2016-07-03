@@ -2,7 +2,7 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {@Function File} is_string_list (@var{c})
+## @deftypefn {Function File} is_string_list (@var{c})
 ##
 ## Return true if @var{c} is an empty or row cell array of unique non empty
 ## strings.
