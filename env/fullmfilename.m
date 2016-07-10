@@ -7,7 +7,7 @@
 ## Full name of the caller function file.
 ##
 ## When used from inside a function M-file, @code{fullmfilename} returns the
-## full name of the M-File, including the extension.
+## full name of the M-file, including the extension.
 ##
 ## In Octave, @code{fullmfilename} is equivalent to
 ## @code{mfilename('fullpathext')}.

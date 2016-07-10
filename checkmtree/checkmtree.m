@@ -19,9 +19,11 @@
 ## @deftypefnx {Function File} checkmtree (..., '--', @var{s})
 ## @deftypefnx {Function File} checkmtree ('quit')
 ##
+## Check M-file trees (encoding, code, dependencies).
+##
 ## @code{checkmtree} is equivalent to @code{checkmtree('check_all')}.
 ##
-## The first argument to Checkmtree must be one of the follwing command names:
+## The first argument to Checkmtree must be one of the follwoing command names:
 ##
 ## @table @asis
 ## @item "check_code"
@@ -33,7 +35,7 @@
 ## @item "check_dependencies"
 ## Checkmtree checks the declared dependencies for the toolboxes.  A toolbox
 ## in this context is a directory containing at least one M-file.  A toolbox
-## may also have a "private" subdirectory that also contains some M-Files.
+## may also have a "private" subdirectory that also contains some M-files.
 ## The declared dependencies for a toolbox are those read in a file named
 ## "dependencies" or "dependencies.txt".  The list of the declared dependencies
 ## for a given toolbox is supposed to be the list of directories that must be
@@ -97,7 +99,7 @@
 ## @itemize @bullet
 ## @item m_file_count: Number of analysed M-files.
 ##
-## @item max_m_file_byte_size: Byte size of the largest analysed M-Files.
+## @item max_m_file_byte_size: Byte size of the largest analysed M-files.
 ##
 ## @item cum_line_count: Cumulative number of lines in the analysed M-files.
 ##
