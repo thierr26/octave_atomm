@@ -49,7 +49,6 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~)
             sM = read_declared_dependencies(...
                 compute_dependencies(find_m_toolboxes(top)));
             s.deps = sM;
-            s.top = top;
         else
 
             # Explore the toolboxes only.
