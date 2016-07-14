@@ -27,14 +27,15 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~)
             absPath = {absolute_path(top)};
             outman('logf', oId, '\nAnalysed tree:\n%s\n', absPath{1});
         else
-            if numel(top) == 1
-                absPath = {absolute_path(top{1})};
+            topU = unique(top);
+            if numel(topU) == 1
+                absPath = {absolute_path(topU{1})};
                 outman('logf', oId, '\nAnalysed tree:\n%s\n', absPath{1});
             else
-                absPath = top;
+                absPath = topU;
                 outman('logf', oId, '\nAnalysed trees:');
-                for k = 1 : numel(top)
-                    absPath{k} = absolute_path(top{k});
+                for k = 1 : numel(topU)
+                    absPath{k} = absolute_path(topU{k});
                     outman('logf', oId, '%s', absPath{k});
                 endfor
                 outman('logf', oId, '');
