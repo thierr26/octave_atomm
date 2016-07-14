@@ -23,30 +23,30 @@
 ##
 ## @code{checkmtree} is equivalent to @code{checkmtree('check_all')}.
 ##
-## The first argument to Checkmtree must be one of the follwoing command names:
+## The first argument to Checkmtree must be one of the following command names:
 ##
 ## @table @asis
 ## @item "check_code"
-## Checkmtree applies @code{checkcode} (if available) to the M-files
-## recursively found in @var{top}, or in the working directory if @var{top} is
-## not provided.  @var{top} can be a cell array of strings containing multiple
-## directory names.  In this case M-files are searched in all the directories.
+## Apply @code{checkcode} (if available) to the M-files recursively found in
+## @var{top}, or in the working directory if @var{top} is not provided.
+## @var{top} can be a cell array of strings containing multiple directory
+## names.  In this case M-files are searched in all the directories.
 ##
 ## @item "check_dependencies"
-## Checkmtree checks the declared dependencies for the toolboxes.  A toolbox
-## in this context is a directory containing at least one M-file.  A toolbox
-## may also have a "private" subdirectory that also contains some M-files.
-## The declared dependencies for a toolbox are those read in a file named
-## "dependencies" or "dependencies.txt".  The list of the declared dependencies
-## for a given toolbox is supposed to be the list of directories that must be
-## in the path to be able to use all the functions of the toolbox.  Toolboxes
-## that have no dependencies do not need to have a "dependencies" or
-## "dependencies.txt" file in their directory.  In "dependencies" or
-## "dependencies.txt" files, their must be one toolbox designation per line.
-## Empty lines and "end of lines comments" are allowed.  "#" and "%" can be
-## used as comment leaders.  A toolbox designation is a toolbox directory base
-## name.  One or more parent directory names can be prepended (with a "/" or
-## "\" separator) if it is needed to disambigate the toolbox designation.
+## Check the declared dependencies for the toolboxes.  A toolbox in this
+## context is a directory containing at least one M-file.  A toolbox may also
+## have a "private" subdirectory that also contains some M-files.  The declared
+## dependencies for a toolbox are those read in a file named "dependencies" or
+## "dependencies.txt".  The list of the declared dependencies for a given
+## toolbox is supposed to be the list of directories that must be in the path
+## to be able to use all the functions of the toolbox.  Toolboxes that have no
+## dependencies do not need to have a "dependencies" or "dependencies.txt" file
+## in their directory.  In "dependencies" or "dependencies.txt" files, their
+## must be one toolbox designation per line.  Empty lines and "end of lines
+## comments" are allowed.  "#" and "%" can be used as comment leaders.  A
+## toolbox designation is a toolbox directory base name.  One or more parent
+## directory names can be prepended (with a "/" or "\" separator) if it is
+## needed to disambigate the toolbox designation.
 ##
 ## @item "check_encoding"
 ## Checkmtree checks the encoding of the M-files and of the "dependencies" or
@@ -57,14 +57,13 @@
 ## dependencies check).
 ##
 ## @item "list_toolbox_deps"
-## Checkmtree lists the dependencies for the toolbox @var{toolbox}.
-## @var{toolbox} is the kind of toolbox designations that can be found in the
-## dependency files.  The return value is a cell array of strings with two
-## rows.  The first raw contains the names of the functions from other
-## toolboxes that are called by @var{toolbox}.  The second row contains the
-## path to the toolboxes containing those functions.
-## IMPORTANT: Command "list_toolbox_deps" is available only if a
-## "check_dependencies" or a "check_all" command has been run since
+## List the dependencies for the toolbox @var{toolbox}.  @var{toolbox} is the
+## kind of toolbox designations that can be found in the dependency files.  The
+## return value is a cell array of strings with two rows.  The first raw
+## contains the names of the functions from other toolboxes that are called by
+## @var{toolbox}.  The second row contains the path to the toolboxes containing
+## those functions.  IMPORTANT: Command "list_toolbox_deps" is available only
+## if a "check_dependencies" or a "check_all" command has been run since
 ## Checkmtree's startup.  In the other case, Checkmtree raises an error.
 ##
 ## @item "list_deps"
@@ -85,7 +84,18 @@
 ## @end enumerate
 ## IMPORTANT: Command "list_deps" is available only if a "check_dependencies"
 ## or a "check_all" command has been run since Checkmtree's startup.  In the
-## other case, Checkmtree raises an error.
+## other case, Checkmtree issues an error.
+##
+## @item "get_config"
+## Get Checkmtree's whole configuration structure (a structure where each field
+## name is a configuration parameter name for Checkmtree and the associated
+## field values are the configuration parameter values).
+##
+## @item "get_config_origin"
+## Get Checkmtree's configuration origin structure (a structure where each
+## field name is a configuration parameter name for Checkmtree and the
+## associated field values are strings indicating where the configuration
+## parameter values come from).
 ## @end table
 ##
 ## Note that when the provided command name is "check_dependencies", the

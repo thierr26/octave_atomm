@@ -78,6 +78,11 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~)
             'End of checkmtree(''%s'') output (took %s)\n', ...
             c, duration_str(now - startTime));
 
+    elseif strcmp(c, 'get_config')
+        varargout{1} = cf;
+    elseif strcmp(c, 'get_config_origin')
+        varargout{1} = o;
+
     endif
 
     outman('disconnect', oId);
