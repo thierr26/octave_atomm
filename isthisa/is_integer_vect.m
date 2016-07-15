@@ -49,8 +49,7 @@ function ret = is_integer_vect(x, varargin)
         valueCheckRequired = true;
     endif
 
-    ret = (isrow(x) || iscolumn(x)) && isnumeric(x) ...
-        && all(floor(x) == ceil(x));
+    ret = isvector(x) && isnumeric(x) && all(floor(x) == ceil(x));
 
     if ret && valueCheckRequired
         ret = all(x >= m & x <= n);

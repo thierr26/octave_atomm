@@ -13,4 +13,4 @@ function ret = is
 
     ret = true;
 
-end
+endfunction

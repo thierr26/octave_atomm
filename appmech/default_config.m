@@ -3,9 +3,9 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@
-## [@var{conf}, @var{ori}] =} default_config (@var{s})
+## [@var{cf}, @var{ori}] =} default_config (@var{s})
 ## @deftypefnx {Function File} {@
-## [@var{conf}, @var{ori}] =} default_config (@var{s}, @var{appname})
+## [@var{cf}, @var{ori}] =} default_config (@var{s}, @var{appname})
 ##
 ## Application default configuration.
 ##
@@ -15,17 +15,17 @@
 ##
 ## The configuration for an application is really just a structure.  The fields
 ## of the structure are the application configuration parameters.
-## @code{default_config} returns this structure (@var{conf}) with the
+## @code{default_config} returns this structure (@var{cf}) with the
 ## configuration parameters set to default values.  It also returns @var{ori}
-## which is a structure with the same field list as @var{conf} but the fields
+## which is a structure with the same field list as @var{cf} but the fields
 ## contain a string which is either "Default" or a string starting with
 ## "Session specific configuration".
 ##
-## "Default" means that the value in @var{conf} has been taken from the
+## "Default" means that the value in @var{cf} has been taken from the
 ## "configuration structure" (@var{s}), precisely from the field "default" of
 ## its field named like the configuration parameter.
 ##
-## "Session specific configuration" means that the value in @var{conf} has been
+## "Session specific configuration" means that the value in @var{cf} has been
 ## taken from a structure retrieved via a call to @code{getappdata} with 0 as
 ## first argument and @var{appname} as second argument.  It is the case when
 ## all the following conditions are fulfilled:
@@ -61,7 +61,7 @@
 
 ## Author: Thierry Rascle <thierr26@free.fr>
 
-function [conf, ori] = default_config(s, varargin)
+function [cf, ori] = default_config(s, varargin)
 
     validated_mandatory_args({@is_valid_dflt_s}, s);
     appname = validated_opt_args({@is_string, ''}, varargin{:});
@@ -77,7 +77,7 @@ function [conf, ori] = default_config(s, varargin)
         endif
     endif
 
-    conf = s;
+    cf = s;
     ori = s;
     for k = 1 : n
 
@@ -95,7 +95,7 @@ function [conf, ori] = default_config(s, varargin)
             endif
         endif
 
-        conf.(param{k}) = defaultValue;
+        cf.(param{k}) = defaultValue;
         ori.(param{k}) = oriStr;
     endfor
 
