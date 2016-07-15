@@ -40,7 +40,12 @@ function s = test_structure
         @merge_struct_empty_6, ...
         @merge_struct_scalar, ...
         @merge_struct_array, ...
-        };
+        @clean_up_struct_fail_wrong_s_type, ...
+        @clean_up_struct_fail_wrong_c_type, ...
+        @clean_up_struct_empty_s_1, ...
+        @clean_up_struct_empty_s_2, ...
+        @clean_up_struct_empty_c, ...
+        @clean_up_struct_non_empty_c};
 
     # Run the test case.
     s = run_test_case(mfilename, testRoutine);
@@ -255,5 +260,59 @@ function merge_struct_array
     s2(2).fgh = true;
 
     merge_struct(s1, s2);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function clean_up_struct_fail_wrong_s_type
+
+    clean_up_struct(true, {'abc', 'def'});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function clean_up_struct_fail_wrong_c_type
+
+    clean_up_struct(struct('field', 0), true);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = clean_up_struct_empty_s_1
+
+    ret = isequal(struct(), clean_up_struct(struct(), {'abc', 'def'}));
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = clean_up_struct_empty_s_2
+
+    ret = isequal(struct([]), clean_up_struct(struct([]), {'abc', 'def'}));
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = clean_up_struct_empty_c
+
+    s = struct('field1', 0, 'field2', 'abc');
+    s(2) = struct('field1', 1, 'field2', 'def');
+    ret = isequal(rmfield(s, {'field1', 'field2'}), ...
+        clean_up_struct(s, {}));
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = clean_up_struct_non_empty_c
+
+    s = struct('field1', 0, 'field2', 'abc');
+    s(2) = struct('field1', 1, 'field2', 'def');
+    ret = isequal(rmfield(s, {'field1'}), ...
+        clean_up_struct(s, {'field2'}));
 
 endfunction

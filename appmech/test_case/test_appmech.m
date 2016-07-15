@@ -72,7 +72,12 @@ function s = test_appmech
         @find_string_first_occurrence_in_cell_array_empty, ...
         @find_string_first_occurrence_in_cell_array_zero, ...
         @find_string_first_occurrence_in_cell_array_non_zero, ...
-        @no_appdata_end};
+        @no_appdata_end, ...
+        @strip_defaults_from_config_stru_fail_wrong_cf_type, ...
+        @strip_defaults_from_config_stru_fail_wrong_ori_type, ...
+        @strip_defaults_from_config_stru_fail_wrong_ori_field_type, ...
+        @strip_defaults_from_config_stru_fail_missing_ori_field, ...
+        @strip_defaults_from_config_stru_ok};
 
     # Run the test case.
     s = run_test_case(mfilename, testRoutine);
@@ -686,5 +691,52 @@ function ret = find_string_first_occurrence_in_cell_array_non_zero
 
     ret = find_string_first_occurrence_in_cell_array('abc', ...
         {true, 'abc', 1, 'abc'}) == 2;
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function strip_defaults_from_config_stru_fail_wrong_cf_type
+
+    strip_defaults_from_config_stru(true, ...
+        struct('field1', 'Default', 'field2', 'Default'));
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function strip_defaults_from_config_stru_fail_wrong_ori_type
+
+    strip_defaults_from_config_stru(struct('field1', 0, 'field2', 1), true);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function strip_defaults_from_config_stru_fail_wrong_ori_field_type
+
+    [dflt, cf, ori] = cfstrus;
+    ori.arg1logic = true;
+    strip_defaults_from_config_stru(cf, ori);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function strip_defaults_from_config_stru_fail_missing_ori_field
+
+    [dflt, cf, ori] = cfstrus;
+    ori = rmfield(ori, 'arg1logic');
+    strip_defaults_from_config_stru(cf, ori);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = strip_defaults_from_config_stru_ok
+
+    [dflt, cf, ori] = cfstrus;
+    ret = isequal(rmfield(cf, 'arg2num'), ...
+        strip_defaults_from_config_stru(cf, ori));
 
 endfunction

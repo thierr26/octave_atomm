@@ -97,14 +97,9 @@ function s = build_outman_config_stru(s1, cf, o)
 
     s = s1;
     if ~isfield(s1, 'outman_config_stru')
-        s.outman_config_stru = rmfield(cf, ...
-            {'m_file_char_set', 'max_read_bytes'});
-        [c, n] = field_names_and_count(s.outman_config_stru);
-        for k = 1 : n
-            if strcmp(o.(c{k}), 'Default')
-                s.outman_config_stru = rmfield(s.outman_config_stru, c{k});
-            endif
-        endfor
+        s.outman_config_stru ...
+            = strip_defaults_from_config_stru(...
+                clean_up_struct(cf, fieldnames(outman_config_stru)), o);
     endif
 
 endfunction
