@@ -3,6 +3,7 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} checkmtree ()
+## @deftypefnx {Function File} checkmtree ('quit')
 ## @deftypefnx {Function File} checkmtree ('check_code')
 ## @deftypefnx {Function File} checkmtree ('check_code', @var{top})
 ## @deftypefnx {Function File} checkmtree ('check_dependencies')
@@ -17,13 +18,17 @@
 ## config_param_1_name}, @var{config_param_1_value}, @var{@
 ## config_param_2_name}, @var{config_param_2_value}, ...)
 ## @deftypefnx {Function File} checkmtree (..., '--', @var{s})
-## @deftypefnx {Function File} checkmtree ('quit')
 ##
 ## Check M-file trees (encoding, code, dependencies).
 ##
-## @code{checkmtree} is equivalent to @code{checkmtree('check_all')}.
+## @code{checkmtree ()} starts up Checkmtree and configures it with the default
+## configuration parameters.  Please read below for more details about
+## Checkmtree's configuration parameters.  Note that it is not mandatory to
+## issue such an argument free call to start up Checkmtree.  You can startup
+## Checkmtree and invoke directly a command.  The command name must be provided
+## as the first argument.
 ##
-## The first argument to Checkmtree must be one of the following command names:
+## The supported commands are:
 ##
 ## @table @asis
 ## @item "check_code"
@@ -48,6 +53,9 @@
 ## directory names can be prepended (with a "/" or "\" separator) if it is
 ## needed to disambigate the toolbox designation.
 ##
+## IMPORTANT: "check_dependencies" command is slow and can easily take minutes
+## to run even on source trees of moderate size.
+##
 ## @item "check_encoding"
 ## Checkmtree checks the encoding of the M-files and of the "dependencies" or
 ## "dependencies.txt" files.
@@ -56,20 +64,34 @@
 ## Checkmtree performs all the checks (encoding check, @code{checkcode}, and
 ## dependencies check).
 ##
+## IMPORTANT: "check_all" command is slow and can easily take minutes to run
+## even on source trees of moderate size.
+##
 ## @item "list_toolbox_deps"
 ## List the dependencies for the toolbox @var{toolbox}.  @var{toolbox} is the
 ## kind of toolbox designations that can be found in the dependency files.  The
 ## return value is a cell array of strings with two rows.  The first raw
 ## contains the names of the functions from other toolboxes that are called by
 ## @var{toolbox}.  The second row contains the path to the toolboxes containing
-## those functions.  IMPORTANT: Command "list_toolbox_deps" is available only
-## if a "check_dependencies" or a "check_all" command has been run since
+## those functions.
+##
+## IMPORTANT: Command "list_toolbox_deps" is available only if a
+## "check_dependencies" or a "check_all" command has been run since
 ## Checkmtree's startup.  In the other case, Checkmtree raises an error.
+##
+## Checkmtree's "list_toolbox_deps" command might look similar to Toolman's
+## "list_declared_deps" command but it is not.  Checkmtree's
+## "list_toolbox_deps" command lists the dependencies for a toolbox based on
+## the results of the analysis of the source tree that command
+## "check_dependencies" performs.  Toolman's "list_declared_deps" command lists
+## the dependencies for a toolbox based on the dependencies declared in the
+## "dependencies" or "dependencies.txt" files.
 ##
 ## @item "list_deps"
 ## Checkmtree lists the dependencies for all the M-files in the analysed tree
 ## that depend on at least one function in another toolbox.  The return value
 ## is a cell array of strings with 5 columns.
+##
 ## @enumerate
 ## @item A function name.
 ##
@@ -82,6 +104,7 @@
 ##
 ## @item Path to the other toolbox.
 ## @end enumerate
+##
 ## IMPORTANT: Command "list_deps" is available only if a "check_dependencies"
 ## or a "check_all" command has been run since Checkmtree's startup.  In the
 ## other case, Checkmtree issues an error.
@@ -155,7 +178,7 @@
 ## Once Checkmtree has been configured, a @code{checkmtree ('quit')} command
 ## must be issued to be able to reconfigure it.
 ##
-## @seealso{checkcode, outman, outman_connect_and_config_if_master}
+## @seealso{checkcode, outman, outman_connect_and_config_if_master, toolman}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>

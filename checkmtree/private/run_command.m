@@ -20,28 +20,9 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~)
             top = cargs{1};
         endif
 
-        # Write the names of the analysed tree tops to the log file.
         outman('logtimef', oId, 'checkmtree(''%s'') launched', c);
         startTime = now;
-        if ischar(top)
-            absPath = {absolute_path(top)};
-            outman('logf', oId, '\nAnalysed tree:\n%s\n', absPath{1});
-        else
-            topU = unique(top);
-            if numel(topU) == 1
-                absPath = {absolute_path(topU{1})};
-                outman('logf', oId, '\nAnalysed tree:\n%s\n', absPath{1});
-            else
-                absPath = topU;
-                outman('logf', oId, '\nAnalysed trees:');
-                for k = 1 : numel(topU)
-                    absPath{k} = absolute_path(topU{k});
-                    outman('logf', oId, '%s', absPath{k});
-                endfor
-                outman('logf', oId, '');
-            endif
-        endif
-        err_msg_for_non_existant_tops(absPath, oId);
+        log_dirs_err_if_non_existent('Analysed tree(s):', top)
 
         if checkmtree_command(c, 'dependencies_checking_command')
 
@@ -97,8 +78,7 @@ function s = build_outman_config_stru(s1, cf, o)
 
     s = s1;
     if ~isfield(s1, 'outman_config_stru')
-        s.outman_config_stru ...
-            = strip_defaults_from_config_stru(...
+        s.outman_config_stru = strip_defaults_from_config_stru(...
                 clean_up_struct(cf, fieldnames(outman_config_stru)), o);
     endif
 
@@ -227,20 +207,6 @@ function s_c = check_tree(o_id, s, cf, s_m, c, start_time)
     outman('logf', o_id, '');
     outman('logtimef', o_id, 'checkmtree(''%s'') done (took %s)\n', c, ...
         duration_str(now - start_time));
-endfunction
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-# Issue an error message if the argument does not exist as a directory
-
-function err_msg_for_non_existant_tops(dirname, o_id)
-
-    for k = 1 : numel(dirname)
-        if exist(dirname{k}, 'dir') ~= 7
-            outman('errorf', o_id, 'Directory %s does not exist', dirname{k});
-        endif
-    endfor
-
 endfunction
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
