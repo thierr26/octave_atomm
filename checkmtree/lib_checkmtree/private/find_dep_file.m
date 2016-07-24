@@ -9,7 +9,7 @@ function dep_file_name = find_dep_file(directory, varargin)
     c = {'dependencies', 'dependencies.txt'};
     s = find_files_empty_s;
     for k = 1 : numel(c)
-        s = find_files(s, directory, c{k}, 1);
+        s = find_files(s, directory, c{k}, 1, ignored_dir_list, true);
     endfor
 
     dep_file_name = '';

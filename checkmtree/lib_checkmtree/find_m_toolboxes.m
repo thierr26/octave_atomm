@@ -86,12 +86,14 @@ function s = find_m_toolboxes(varargin)
     oId = outman_connect_and_config_if_master;
 
     sFF = find_files_empty_s;
-    pId = outman('init_progress', oId, 0, nTop * nFilt + 0.01, ...
+    findFilesIterCount = nTop * nFilt;
+    pId = outman('init_progress', oId, 0, findFilesIterCount + 2, ...
         'Exploring the tree...');
     p = 0;
     for topIdx = 1 : nTop
         for filtIdx = 1 : nFilt
-            sFF = find_files(sFF, top{topIdx}, filt{filtIdx});
+            sFF = find_files(sFF, top{topIdx}, filt{filtIdx}, 0, ...
+                ignored_dir_list, true);
             p = p + 1;
             outman('update_progress', oId, pId, p);
         endfor
@@ -109,12 +111,15 @@ function s = find_m_toolboxes(varargin)
     mFileBytes = cell(mn, nTb);
     depFile = cell(mn, nTb);
     kk = 0;
-    for k = find(isToolbox)
+    v = find(isToolbox);
+    n = numel(v);
+    for k = v
         kk = kk + 1;
         [f, b] = remove_p_file_if_m_present(sFF, k);
         mFiles{kk} = f;
         mFileBytes{kk} = b;
         depFile{kk} = find_dep_file(sFF.dir{k});
+        outman('update_progress', oId, pId, findFilesIterCount + 2 * kk / n);
     endfor
 
     privateIdx = zeros(mn, nTb);

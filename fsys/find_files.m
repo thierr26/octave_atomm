@@ -22,8 +22,8 @@
 ## @deftypefnx {@
 ## Function File} find_files (@var{top}, @var{f}, @var{mx}, @var{ign})
 ## @deftypefnx {@
-## Function File} find_files (@var{top}, @var{f}, @var{mx}, @var{ign}, @var{@
-## nocheck})
+## Function File} find_files (@var{s}, @var{top}, @var{f}, @var{mx}, @var{@
+## ign}, @var{nocheck})
 ##
 ## Find files recursively.
 ##
@@ -36,7 +36,7 @@
 ## empty cell array of strings if @var{top} does not exist as a directory.  If
 ## @var{top} is not provided, then the working directory is used instead.  The
 ## directories that are in cell array of strings @var{ign} (or in the cell
-## array of strings returned by @code{find_files_empty_s} if @var{ign} is not
+## array of strings returned by @code{ignored_dir_list} if @var{ign} is not
 ## provided) are omitted.  If @var{mx} is provided and set to a positive
 ## integer value, then the subdirectories at a depth greater than @var{mx} are
 ## omitted.  @var{top} is at depth 1.
@@ -140,7 +140,7 @@ function s = find_files(varargin)
                 else
                     newMx = mx - 1;
                 endif
-                s = find_files(s, absName, f, newMx, ign, false);
+                s = find_files(s, absName, f, newMx, ign, true);
             endif
         endfor
     endif
@@ -238,6 +238,10 @@ endfunction
 # Check the arguments.
 
 function [s1, top, f, mx, ign] = check_args(varargin)
+
+    if nargin > 6
+        error('Too many arguments');
+    endif
 
     needToCheckS1 = true;
     if nargin == 0
