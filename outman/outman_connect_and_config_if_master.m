@@ -92,7 +92,7 @@ function [caller_id, master] = outman_connect_and_config_if_master(varargin)
     master = ~mislocked('outman');
     if master
         # Start and configure Outman.
-        caller_id = outman('configure', '--', varargin{:});
+        [~, caller_id] = outman('configure', '--', varargin{:});
     else
         # Connect to Outman without attempting to configure it (which would
         # cause an error).

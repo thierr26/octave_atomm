@@ -2,9 +2,8 @@
 ## MIT license. Please refer to the LICENSE file.
 ## Author: Thierry Rascle <thierr26@free.fr>
 
-function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~)
+function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~, ~)
 
-    varargout{1} = [];
     s = build_outman_config_stru(s1, cf, o);
     s = set_encoding_check_func(s, cf);
 
@@ -59,7 +58,7 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~)
             'End of checkmtree(''%s'') output (took %s)\n', ...
             c, duration_str(now - startTime));
 
-    elseif strcmp(c, 'get_config')
+    elseif strcmp(c, 'configure')
         varargout{1} = cf;
     elseif strcmp(c, 'get_config_origin')
         varargout{1} = o;

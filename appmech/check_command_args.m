@@ -30,7 +30,7 @@
 
 function check_command_args(s, cmdname, varargin)
 
-    if ~s.(cmdname)(varargin{:})
+    if ~s.(cmdname).valid(varargin{:})
         error('Invalid arguments for command %s', cmdname);
     endif
 

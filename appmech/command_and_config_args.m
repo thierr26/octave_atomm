@@ -40,7 +40,7 @@ function [cmd_nam, cmd_arg, config_arg] = command_and_config_args(arg, s)
     cmd_nam = arg{1};
 
     # Get the validation function for the command arguments.
-    c_arg_valid = s.(cmd_nam);
+    c_arg_valid = s.(cmd_nam).valid;
 
     # Search for the first "--" argument.
     doubleHyphen = repmat('-', 1, 2);

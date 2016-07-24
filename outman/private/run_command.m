@@ -2,10 +2,9 @@
 ## MIT license. Please refer to the LICENSE file.
 ## Author: Thierry Rascle <thierr26@free.fr>
 
-function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~)
+function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~, ~)
 
     clear_req = false;
-    varargout{1} = [];
     s = setup_log_file_full_name(s1, cf);
     [s, callerID] = get_caller_id(s, c, cargs);
 
@@ -21,57 +20,46 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~)
             s.caller_id(idx) = [];
 
         case 'configure'
-            varargout{1} = callerID;
-
-        case 'get_config'
             varargout{1} = cf;
-            return_caller_id_if_required(nargout, 2);
+            varargout{2} = callerID;
 
         case 'connect'
             varargout{1} = callerID;
 
         case 'disp'
             s = echo(s, cf, false, false, cargs{end});
-            varargout{1} = callerID;
 
         case 'dispf'
             a = first_non_id_arg_idx(cargs);
             s = echo(s, cf, false, true, sprintf(cargs{a : end}));
-            varargout{1} = callerID;
 
         case 'printf'
             a = first_non_id_arg_idx(cargs);
             s = echo(s, cf, true, true, sprintf(cargs{a : end}));
-            varargout{1} = callerID;
 
         case 'errorf'
             a = first_non_id_arg_idx(cargs);
             s = echo(s, cf, true, true, ...
                 sprintf([cf.error_leader cargs{a}], cargs{a + 1 : end}));
-            varargout{1} = callerID;
 
         case 'warningf'
             a = first_non_id_arg_idx(cargs);
             s = echo(s, cf, true, true, ...
                 sprintf([cf.warning_leader cargs{a}], cargs{a + 1 : end}));
-            varargout{1} = callerID;
 
         case 'infof'
             a = first_non_id_arg_idx(cargs);
             s = echo(s, cf, true, true, ...
                 sprintf([cf.info_leader cargs{a}], cargs{a + 1 : end}));
-            varargout{1} = callerID;
 
         case 'logf'
             a = first_non_id_arg_idx(cargs);
             s = write_to_log_file(s, cf, sprintf(cargs{a : end}));
-            varargout{1} = callerID;
 
         case 'logtimef'
             a = first_non_id_arg_idx(cargs);
             s = write_to_log_file(...
                 s, cf, sprintf([timestamp ' ' cargs{a}], cargs{a + 1 : end}));
-            varargout{1} = callerID;
 
         case 'init_progress'
             [s, progressID] ...
@@ -81,20 +69,20 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~)
 
         case 'update_progress'
             s = update_progress(s, cf, cargs);
-            varargout{1} = callerID;
 
         case 'shift_progress'
             s = shift_progress(s, cargs);
-            varargout{1} = callerID;
 
         case 'terminate_progress'
             [s, duration] = terminate_progress(s, cf, cargs);
             varargout{1} = duration;
-            return_caller_id_if_required(nargout, 2);
 
         case 'cancel_progress'
             s = cancel_progress(s, cf, cargs);
-            varargout{1} = callerID;
+
+        case 'get_config'
+            varargout{1} = cf;
+            return_caller_id_if_required(nargout, 2);
 
         case 'get_config_origin'
             varargout{1} = o;

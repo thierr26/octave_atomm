@@ -9,5 +9,6 @@ function s = alias_stru
     s.exit = {'quit'};
     s.bye = {'quit'};
     s.clear = {'quit'};
+    s.get_config = {'configure'};
 
 endfunction

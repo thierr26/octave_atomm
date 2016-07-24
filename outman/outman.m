@@ -22,11 +22,9 @@
 ## @var{progress_indicator_id} =} outman ('init_progress', @var{@
 ## caller_id}, @var{start_position}, @var{finish_position}, @var{@
 ## task_description_string})
-## @deftypefnx {Function File} {@
-## @var{progress_indicator_id} =} outman ('update_progress', @var{@
+## @deftypefnx {Function File} outman ('update_progress', @var{@
 ## caller_id}, @var{progress_indicator_id}, @var{new_position})
-## @deftypefnx {Function File} {@
-## @var{progress_indicator_id} =} outman ('update_progress', @var{@
+## @deftypefnx {Function File} outman ('update_progress', @var{@
 ## caller_id}, @var{progress_indicator_id}, @var{start_position}, @var{@
 ## finish_position}, @var{new_position})
 ## @deftypefnx {Function File} {@var{@
@@ -258,8 +256,15 @@ function varargout = outman(varargin)
 
     cfLocked = true;
 
-    [clearAppRequested, state, varargout{1 : max([1 nargout])}] ...
-        = run_command(cmdName, cmdArg, config, configOrigin, state, name);
+    if cmd.(cmdName).no_return_value
+        minCmdOutputArgCount = 0;
+    else
+        minCmdOutputArgCount = 1;
+    endif
+    CmdOutputArgCount = max([minCmdOutputArgCount nargout]);
+    [clearAppRequested, state, varargout{1 : CmdOutputArgCount}] ...
+        = run_command(cmdName, cmdArg, config, configOrigin, state, ...
+            nargout, name);
 
     if clearAppRequested
         munlock;

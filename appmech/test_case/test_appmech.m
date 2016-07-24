@@ -47,7 +47,11 @@ function s = test_appmech
         @check_command_stru_and_default_fail_wrong_stru_type, ...
         @check_command_stru_and_default_fail_empty_stru_1, ...
         @check_command_stru_and_default_fail_empty_stru_2, ...
-        @check_command_stru_and_default_fail_wrong_stru, ...
+        @check_command_stru_and_default_fail_no_stru, ...
+        @check_command_stru_and_default_fail_wrong_no_return_value, ...
+        @check_command_stru_and_default_fail_wrong_valid, ...
+        @check_command_stru_and_default_fail_missing_no_return_value, ...
+        @check_command_stru_and_default_fail_missing_valid, ...
         @check_command_stru_and_default_ok, ...
         @command_alias_expansion_no_arg, ...
         @command_alias_expansion_fail_wrong_first_arg, ...
@@ -88,7 +92,7 @@ endfunction
 
 function s = cmdstrubuiltin
 
-    s = struct('cmd1', @islogical);
+    s = struct('cmd1', struct('valid', @islogical, 'no_return_value', false));
 
 endfunction
 
@@ -96,7 +100,11 @@ endfunction
 
 function s = cmdstru
 
-    s = struct('cmd1', @(x) islogical(x), 'cmd2', @(x) isnumeric(x));
+    s = struct(...
+        'cmd1', ...
+        struct('valid', @(x) islogical(x), 'no_return_value', false), ...
+        'cmd2', ...
+        struct('valid', @(x) isnumeric(x), 'no_return_value', false));
 
 endfunction
 
@@ -104,8 +112,13 @@ endfunction
 
 function s = cmdstru2
 
-    s = struct('cmd1', @(x) islogical(x), 'cmd2', @(x) isnumeric(x), ...
-        'cmd3', @(varargin) nargin);
+    s = struct(...
+        'cmd1', struct(...
+            'valid', @(x) islogical(x), 'no_return_value', false), ...
+        'cmd2', struct(...
+            'valid', @(x) isnumeric(x), 'no_return_value', false), ...
+        'cmd3', struct(...
+            'valid', @(varargin) nargin, 'no_return_value', false));
 
 endfunction
 
@@ -418,9 +431,45 @@ endfunction
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function check_command_stru_and_default_fail_wrong_stru
+function check_command_stru_and_default_fail_no_stru
 
     check_command_stru_and_default(struct('cmd1', 0), 'cmd1');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function check_command_stru_and_default_fail_wrong_no_return_value
+
+    check_command_stru_and_default(struct('cmd1', ...
+        struct('valid', @(x) islogical(x), 'no_return_value', 0)), 'cmd1');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function check_command_stru_and_default_fail_wrong_valid
+
+    check_command_stru_and_default(struct('cmd1', ...
+        struct('valid', 0, 'no_return_value', true)), 'cmd1');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function check_command_stru_and_default_fail_missing_no_return_value
+
+    check_command_stru_and_default(struct('cmd1', ...
+        struct('valid', @(x) islogical(x))), 'cmd1');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function check_command_stru_and_default_fail_missing_valid
+
+    check_command_stru_and_default(struct('cmd1', ...
+        struct('no_return_value', true)), 'cmd1');
 
 endfunction
 

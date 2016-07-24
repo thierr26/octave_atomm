@@ -232,8 +232,15 @@ function varargout = checkmtree(varargin)
 
     cfLocked = true;
 
-    [clearAppRequested, state, varargout{1 : max([1 nargout])}] ...
-        = run_command(cmdName, cmdArg, config, configOrigin, state, name);
+    if cmd.(cmdName).no_return_value
+        minCmdOutputArgCount = 0;
+    else
+        minCmdOutputArgCount = 1;
+    endif
+    CmdOutputArgCount = max([minCmdOutputArgCount nargout]);
+    [clearAppRequested, state, varargout{1 : CmdOutputArgCount}] ...
+        = run_command(cmdName, cmdArg, config, configOrigin, state, ...
+            nargout, name);
 
     if clearAppRequested
         munlock;
