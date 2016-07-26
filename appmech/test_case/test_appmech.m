@@ -764,7 +764,7 @@ endfunction
 
 function strip_defaults_from_config_stru_fail_wrong_ori_field_type
 
-    [dflt, cf, ori] = cfstrus;
+    [~, cf, ori] = cfstrus;
     ori.arg1logic = true;
     strip_defaults_from_config_stru(cf, ori);
 
@@ -774,7 +774,7 @@ endfunction
 
 function strip_defaults_from_config_stru_fail_missing_ori_field
 
-    [dflt, cf, ori] = cfstrus;
+    [~, cf, ori] = cfstrus;
     ori = rmfield(ori, 'arg1logic');
     strip_defaults_from_config_stru(cf, ori);
 
@@ -784,7 +784,7 @@ endfunction
 
 function ret = strip_defaults_from_config_stru_ok
 
-    [dflt, cf, ori] = cfstrus;
+    [~, cf, ori] = cfstrus;
     ret = isequal(rmfield(cf, 'arg2num'), ...
         strip_defaults_from_config_stru(cf, ori));
 

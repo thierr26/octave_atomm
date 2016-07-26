@@ -42,7 +42,7 @@ function index = toolbox_index(s, toolbox_designation, varargin)
 
     validated_mandatory_args({@is_find_m_toolboxes_s, ...
             @is_non_empty_string}, s, toolbox_designation);
-    k = validated_opt_args({@is_num_scalar, 0}, varargin{:});
+    k = validated_opt_args({@is_integer_scalar, 0}, varargin{:});
 
     if ~isempty(toolbox_designation) ...
             && ~is_matched_by(toolbox_designation, '^\s*$')
