@@ -20,8 +20,7 @@
 ## "toolboxpath" of @var{s}.
 ##
 ## @var{index} is empty if the toolbox is not found in @var{s}.  In this case,
-## an Outman warning message is issued (except if @var{toolbox_designation} is
-## empty or blank).
+## an Outman warning message is issued.
 ##
 ## @var{index} is a vector with more than one component if
 ## @var{toolbox_designation} is ambiguous.  In this case, an Outman error
@@ -44,70 +43,63 @@ function index = toolbox_index(s, toolbox_designation, varargin)
             @is_non_empty_string}, s, toolbox_designation);
     k = validated_opt_args({@is_integer_scalar, 0}, varargin{:});
 
-    if ~isempty(toolbox_designation) ...
-            && ~is_matched_by(toolbox_designation, '^\s*$')
-
-        if ispc
-            wrongFileSep = '/';
-        else
-            wrongFileSep = '\';
-        endif
-        tD = strrep(toolbox_designation, wrongFileSep, filesep);
-
-        if strcmp(tD, absolute_path(tD))
-            # Toolbox designation is an absolute path.
-
-            f = strcmp(tD, s.toolboxpath);
-        else
-            # Toolbox designation is a relative path.
-
-            f = is_matched_by(s.toolboxpath, ...
-                ['\' filesep strrep(tD, filesep, ['\' filesep]) '$']);
-        endif
-        matchCount = sum(f);
-        index = find(f);
-        if matchCount > 1
-            [flag, idx] = ismember(k, index);
-            if flag
-                index(idx) = [];
-                matchCount = matchCount - 1;
-            endif
-        endif
-        if matchCount == 1 && index == k
-            oId = outman_connect_and_config_if_master;
-            outman('errorf', oId, ['%s must not be a declared dependency ' ...
-                'of itself'], s.toolboxpath{k});
-            outman('disconnect', oId);
-        else
-            if matchCount > 1
-                oId = outman_connect_and_config_if_master;
-                if k > 0
-                    outman('errorf', oId, ['In %s, "%s" is ambiguous. It ' ...
-                        'can be one of:'], dep_file_name, toolbox_designation);
-                else
-                    outman('errorf', oId, ['"%s" is ambiguous. It can be ' ...
-                        'one of:'], toolbox_designation);
-                endif
-                for kk = index
-                    outman('printf', oId, '\t%s', s.toolboxpath{kk});
-                endfor
-                outman('disconnect', oId);
-            elseif matchCount == 0
-                oId = outman_connect_and_config_if_master;
-                if k > 0
-                    outman('warningf', oId, ['In %s, toolbox "%s" is ' ...
-                        'mentioned but is not in the analysed tree'], ...
-                        dep_file_name, toolbox_designation);
-                else
-                    outman('warningf', oId, ['toolbox "%s" is not in the ' ...
-                        'analysed tree'], toolbox_designation);
-                endif
-                outman('disconnect', oId);
-            endif
-        endif
-
+    if ispc
+        wrongFileSep = '/';
     else
-        index = [];
+        wrongFileSep = '\';
+    endif
+    tD = strrep(toolbox_designation, wrongFileSep, filesep);
+
+    if strcmp(tD, absolute_path(tD))
+        # Toolbox designation is an absolute path.
+
+        f = strcmp(tD, s.toolboxpath);
+    else
+        # Toolbox designation is a relative path.
+
+        f = is_matched_by(s.toolboxpath, ...
+            ['\' filesep strrep(tD, filesep, ['\' filesep]) '$']);
+    endif
+    matchCount = sum(f);
+    index = find(f);
+    if matchCount > 1
+        [flag, idx] = ismember(k, index);
+        if flag
+            index(idx) = [];
+            matchCount = matchCount - 1;
+        endif
+    endif
+    if matchCount == 1 && index == k
+        oId = outman_connect_and_config_if_master;
+        outman('errorf', oId, ['%s must not be a declared dependency ' ...
+            'of itself'], s.toolboxpath{k});
+        outman('disconnect', oId);
+    else
+        if matchCount > 1
+            oId = outman_connect_and_config_if_master;
+            if k > 0
+                outman('errorf', oId, ['In %s, "%s" is ambiguous. It ' ...
+                    'can be one of:'], dep_file_name, toolbox_designation);
+            else
+                outman('errorf', oId, ['"%s" is ambiguous. It can be ' ...
+                    'one of:'], toolbox_designation);
+            endif
+            for kk = index
+                outman('printf', oId, '\t%s', s.toolboxpath{kk});
+            endfor
+            outman('disconnect', oId);
+        elseif matchCount == 0
+            oId = outman_connect_and_config_if_master;
+            if k > 0
+                outman('warningf', oId, ['In %s, toolbox "%s" is ' ...
+                    'mentioned but is not in the analysed tree'], ...
+                    dep_file_name, toolbox_designation);
+            else
+                outman('warningf', oId, ['toolbox "%s" is not in the ' ...
+                    'analysed tree'], toolbox_designation);
+            endif
+            outman('disconnect', oId);
+        endif
     endif
 
 # -----------------------------------------------------------------------------

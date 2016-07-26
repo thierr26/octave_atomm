@@ -53,6 +53,8 @@ function s = read_declared_dependencies(s1)
                 c = {};
             end_try_catch
 
+            c = c(~cellfun(@is_blank_string, c));
+
             s.decl_dep{kTB} = zeros(1, numel(c));
             dup = false(1, nTb);
 

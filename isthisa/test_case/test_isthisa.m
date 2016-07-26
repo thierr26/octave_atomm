@@ -129,7 +129,11 @@ function s = test_isthisa
         @is_string_list_numel_2, ...
         @is_string_list_non_row, ...
         @is_string_list_not_non_empty, ...
-        @is_string_list_not_unique};
+        @is_string_list_not_unique, ...
+        @is_blank_string_fail_wrong_type, ...
+        @is_blank_string_empty, ...
+        @is_blank_string_false, ...
+        @is_blank_string_true};
 
     # Run the test case.
     s = run_test_case(mfilename, testRoutine);
@@ -1054,5 +1058,37 @@ endfunction
 function ret = is_string_list_not_unique
 
     ret = ~is_string_list({'abc', 'abc'});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function is_blank_string_fail_wrong_type
+
+    is_blank_string(true);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_blank_string_empty
+
+    ret = is_blank_string('');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_blank_string_false
+
+    ret = ~is_blank_string('abc.def');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_blank_string_true
+
+    ret = is_blank_string(sprintf(' ', '\t'));
 
 endfunction
