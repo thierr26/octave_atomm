@@ -90,13 +90,10 @@
 function s = find_files(varargin)
 
     if arg_check_needed(varargin{:})
-        [s1, top, f, mx, ign] = check_args(varargin{:});
+        [s, top, f, mx, ign] = check_args(varargin{:});
     else
-        [s1, top, f, mx, ign] = varargin{:};
+        [s, top, f, mx, ign] = varargin{:};
     endif
-
-    # Initialize the output structure.
-    s = s1;
 
     absTop = absolute_path(top);
 

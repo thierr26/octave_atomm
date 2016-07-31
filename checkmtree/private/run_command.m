@@ -2,7 +2,7 @@
 ## MIT license. Please refer to the LICENSE file.
 ## Author: Thierry Rascle <thierr26@free.fr>
 
-function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~, ~)
+function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~, aname)
 
     s = build_outman_config_stru(s1, cf, o);
     s = set_encoding_check_func(s, cf);
@@ -19,7 +19,7 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~, ~)
             top = cargs{1};
         endif
 
-        outman('logtimef', oId, 'checkmtree(''%s'') launched', c);
+        outman('logtimef', oId, '%s(''%s'') launched', aname, c);
         startTime = now;
         log_dirs_err_if_non_existent('Analysed tree(s):', top)
 
@@ -35,17 +35,17 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~, ~)
             sM = find_m_toolboxes(top, true);
         endif
 
-        varargout{1} = check_tree(oId, s, cf, sM, c, startTime);
+        varargout{1} = check_tree(oId, s, cf, sM, c, startTime, aname);
 
     elseif checkmtree_command(c, 'listing_command')
 
         if ~isfield(s, 'deps')
             error(['Command %s is unavailable. Please issue a ' ...
-                'checkmtree(''dependencies'', ...) or ' ...
-                'checkmtree(''all'', ...) command'], c);
+                '%s(''dependencies'', ...) or ' ...
+                '%s(''all'', ...) command'], c, aname, aname);
         endif
 
-        outman('logtimef', oId, 'checkmtree(''%s'') output:', c);
+        outman('logtimef', oId, '%s(''%s'') output:', aname, c);
         startTime = now;
 
         if checkmtree_command(c, 'toolbox_dependencies_listing')
@@ -55,8 +55,8 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~, ~)
         endif
 
         outman('logtimef', oId, ...
-            'End of checkmtree(''%s'') output (took %s)\n', ...
-            c, duration_str(now - startTime));
+            'End of %s(''%s'') output (took %s)\n', ...
+            aname, c, duration_str(now - startTime));
 
     elseif strcmp(c, 'configure')
         varargout{1} = cf;
@@ -116,7 +116,7 @@ endfunction
 
 # Check M-files tree.
 
-function s_c = check_tree(o_id, s, cf, s_m, c, start_time)
+function s_c = check_tree(o_id, s, cf, s_m, c, start_time, appname)
 
     s_c = struct('m_file_count', ...
         cell_cum_numel(s_m.mfiles) + cell_cum_numel(s_m.privatemfiles), ...
@@ -204,7 +204,7 @@ function s_c = check_tree(o_id, s, cf, s_m, c, start_time)
     endfor
     outman('terminate_progress', o_id, pId);
     outman('logf', o_id, '');
-    outman('logtimef', o_id, 'checkmtree(''%s'') done (took %s)\n', c, ...
+    outman('logtimef', o_id, '%s(''%s'') done (took %s)\n', appname, c, ...
         duration_str(now - start_time));
 endfunction
 
