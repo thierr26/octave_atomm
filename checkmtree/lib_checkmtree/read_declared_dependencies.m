@@ -61,7 +61,7 @@ function s = read_declared_dependencies(s1)
             # Loop over the lines of the dependency file.
             declDepIdx = 0;
             for k = 1 : numel(c)
-                matchIdx = toolbox_index(s, c{k}, kTB);
+                [matchIdx, s] = toolbox_index(s, c{k}, kTB, false, true);
                 if isscalar(matchIdx) ...
                         && any(s.decl_dep{kTB}(1 : declDepIdx) == matchIdx)
                     if ~dup(matchIdx)
