@@ -1089,6 +1089,6 @@ endfunction
 
 function ret = is_blank_string_true
 
-    ret = is_blank_string(sprintf(' ', '\t'));
+    ret = is_blank_string(sprintf(' \t '));
 
 endfunction

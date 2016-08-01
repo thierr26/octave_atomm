@@ -69,7 +69,6 @@ function [index, s] = toolbox_index(s1, toolbox_designation, varargin)
 
     if numel(index) ~= 1
 
-        index = [];
         if ispc
             wrongFileSep = '/';
         else
