@@ -3,6 +3,8 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} report_test_rslt (@var{s})
+## @deftypefnx {Function File} report_test_rslt (@var{s}, @var{@
+## write_to_log_file_only})
 ##
 ## Output test case results.
 ##
@@ -11,19 +13,32 @@
 ## case.
 ##
 ## @code{report_test_rslt} outputs the results for the test cases using
-## application @code{outman}.
+## @code{outman}, more precisely using Outman's "printf" command, unless the
+## input argument @var{write_to_log_file_only} is provided and set to true.
+##
+## @code{report_test_rslt} also returns a row vector of length 2.  The first
+## component of the vector is the total number of passed test routines.  The
+## second component of the vector is the total number of failed test routines.
 ##
 ## @seealso{outman, run_test_case}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>
 
-function report_test_rslt(s)
+function ret = report_test_rslt(s, varargin)
 
     [testCase, testCaseCount] = field_names_and_count(s);
+    write_to_log_file_only ...
+        = validated_opt_args({@is_logical_scalar, false}, varargin{:});
+    if write_to_log_file_only
+        oCmd = 'logf';
+    else
+        oCmd = 'printf';
+    endif
 
     oId = outman_connect_and_config_if_master;
 
+    ret = zeros(1, 2);
     for tC = 1 : testCaseCount
         tCN = testCase{tC};
         if isfield(s.(tCN), 'test')
@@ -49,16 +64,22 @@ function report_test_rslt(s)
                 endif
             endfor
             failedIdx = failedIdx(1 : failedCount);
-            outman('printf', oId, ['%s test case: %d test routines (%d ' ...
+            ret = ret + [passedCount failedCount];
+            outman(oCmd, oId, ['%s test case: %d test routines (%d ' ...
                 'passed, %d failed)'], ...
                 tCN, passedCount + failedCount, passedCount, failedCount);
             for r = failedIdx
                 rName = routine{r};
-                outman('printf', oId, '\tTest routine %s failed: %s', ...
+                outman(oCmd, oId, '\tTest routine %s failed: %s', ...
                     rName, s.(tCN).test.(rName).failure_cause);
             endfor
         endif
     endfor
+
+    if testCaseCount > 1
+        outman(oCmd, oId, 'Total: %d test routines (%d passed, %d failed)', ...
+            sum(ret), ret(1), ret(2));
+    endif
 
     outman('disconnect', oId);
 
