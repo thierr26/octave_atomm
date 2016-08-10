@@ -339,8 +339,8 @@ endfunction
 
 # Print per M-file dependencies list.
 
-function [c, h] ...
-    = print_deps_list(o_id, p_id, kw, k_t_b, c1, h1, t_b_p, pub_m_f, m_f, e_f)
+function [c, h] = print_deps_list(...
+        o_id, p_id, kw, k_t_b, c1, h1, t_b_p, pub_m_f, m_f, e_f)
 
     c = c1;
     h = h1;

@@ -4,7 +4,8 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} compute_dependencies (@var{s})
 ##
-## Grow the output of @code{find_m_toolboxes} with declared dependencies.
+## Grow the output of @code{find_m_toolboxes} with dependencies, based on code
+## analysis.
 ##
 ## @code{compute_dependencies} takes as argument a structure output by
 ## @code{find_m_toolboxes} or @code{read_declared_dependencies} and adds the
