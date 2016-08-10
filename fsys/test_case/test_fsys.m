@@ -33,6 +33,10 @@ function s = test_fsys
         @find_files_no_error_1, ...
         @find_files_no_error_2, ...
         @file_byte_size_no_error, ...
+        @file_ext_fail_wrong_type, ...
+        @file_ext_empty_filename, ...
+        @file_ext_empty_ext, ...
+        @file_ext_non_empty_ext, ...
         @is_mat_file_name_fail_wrong_type, ...
         @is_mat_file_name_empty, ...
         @is_mat_file_name_false, ...
@@ -193,6 +197,38 @@ function ret = file_byte_size_no_error
 
     file_byte_size(fullmfilename);
     ret = true;
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function file_ext_fail_wrong_type
+
+    file_ext(true);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = file_ext_empty_filename
+
+    ret = strcmp(file_ext(''), '');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = file_ext_empty_ext
+
+    ret = strcmp(file_ext('abc'), '');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = file_ext_non_empty_ext
+
+    ret = strcmp(file_ext('abc.def'), '.def');
 
 endfunction
 
