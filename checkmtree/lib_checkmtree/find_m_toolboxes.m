@@ -5,8 +5,6 @@
 ## @deftypefn {Function File} find_m_toolboxes ()
 ## @deftypefnx {Function File} find_m_toolboxes (@var{top_str})
 ## @deftypefnx {Function File} find_m_toolboxes (@var{top_c})
-## @deftypefnx {Function File} find_m_toolboxes (@var{top_str}, @var{ignore_p})
-## @deftypefnx {Function File} find_m_toolboxes (@var{top_c}, @var{ignore_p})
 ##
 ## Find toolboxes (directories containing at least one M-file) recursively.
 ##
@@ -22,10 +20,6 @@
 ## argument, then every string in the cell array is supposed to be a path to a
 ## directory and then @code{find_m_toolboxes} searches the toolboxes in these
 ## directories and their subdirectories.
-##
-## An optional argument @var{ignore_p} can be provided as second argument.  It
-## is a logical scalar.  True means that pcode files (files with extension ".p"
-## are ignored).  It defaults to false.
 ##
 ## @code{find_m_toolboxes} uses Outman for progress indication and messaging.
 ##
@@ -74,13 +68,9 @@
 
 function s = find_m_toolboxes(varargin)
 
-    [top, ignoreP] = check_args(varargin{:});
+    top = check_args(varargin{:});
     nTop = numel(top);
-    if ignoreP
-        filt = m_file_filters('m_lang_only');
-    else
-        filt = m_file_filters;
-    endif
+    filt = m_file_filters;
     nFilt = numel(filt);
 
     oId = outman_connect_and_config_if_master;
@@ -179,12 +169,10 @@ endfunction
 
 # Check the arguments.
 
-function [top, ignore_p] = check_args(varargin)
+function top = check_args(varargin)
 
-    [top, ignore_p] = validated_opt_args(...
-        {@(x) is_non_empty_string(x) ...
-            || is_cell_array_of_non_empty_strings(x), pwd; ...
-            @is_logical_scalar, false}, varargin{:});
+    top = validated_opt_args({@(x) is_non_empty_string(x) ...
+            || is_cell_array_of_non_empty_strings(x), pwd}, varargin{:});
     if ~iscell(top)
         top = {top};
     endif

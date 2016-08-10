@@ -25,10 +25,13 @@ function ret = m_file_filters(varargin)
 
     str = validated_opt_args({@is_valid_arg, 'all'}, varargin{:});
 
-    if ~is_octave && strcmp(str, 'all')
-        ret = {'*.m', '*.p'};
-    else
-        ret = {'*.m'};
+    ret = {'*.m'};
+    if strcmp(str, 'all')
+        if is_octave
+            ret(end + 1 : end + 2) = {['*.' mexext], '*.oct'};
+        else
+            ret(end + 1 : end + 2) = {'*.p', ['*.' mexext]};
+        endif
     endif
 
 endfunction

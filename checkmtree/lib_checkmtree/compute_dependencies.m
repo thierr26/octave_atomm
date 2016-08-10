@@ -49,7 +49,7 @@
 ## field of the input structure) containing the names of the functions from
 ## other toolboxes that are called by the private M-file.
 ##
-## @item external_funcs
+## @item externalfuncs
 ## Cell array (same shape as the toolboxpath field of the input structure) of
 ## cell arrays of strings containing the names of the functions from other
 ## toolboxes that are called by the toolbox.
@@ -82,7 +82,7 @@ function s = compute_dependencies(s1)
     s.privatemfilelinecount = cell(1, nP);
     s.privatemfilesloc = cell(1, nP);
     s.privatemfileexternalfuncs = cell(1, nP);
-    s.external_funcs = cell(1, nTB);
+    s.externalfuncs = cell(1, nTB);
     s.comp_dep = cell(1, nTB);
 
     cumBytes = sum(cellfun(@(x) sum(x), s.mfilebytes)) ...
@@ -110,9 +110,8 @@ function s = compute_dependencies(s1)
 
         # Loop over the toolbox public functions.
         for k = 1 : nM
-            [~, ~, ext] = fileparts(s.mfiles{kTB}{k});
             symb = {};
-            if strcmp(ext, '.m')
+            if strcmp(file_ext(s.mfiles{kTB}{k}), '.m')
                 filename = fullfile(s.toolboxpath{kTB}, s.mfiles{kTB}{k});
                 [symb, n, sloc] = m_symb_l(filename, pId, p);
                 s.mfilelinecount{kTB}(k) = n;
@@ -143,9 +142,8 @@ function s = compute_dependencies(s1)
 
             # Loop over the toolbox private functions.
             for k = 1 : nPM
-                [~, ~, ext] = fileparts(s.privatemfiles{kP}{k});
                 symb = {};
-                if strcmp(ext, '.m')
+                if strcmp(file_ext(s.mfiles{kTB}{k}), '.m')
                     filename = fullfile(fullfile(s.toolboxpath{kTB}, ...
                         s.privatesubdir), s.privatemfiles{kP}{k});
                     [symb, n, sloc] = m_symb_l(filename, pId, p);
@@ -164,22 +162,30 @@ function s = compute_dependencies(s1)
 
         endif
         s.comp_dep{kTB} = find(h);
-        s.external_funcs{kTB} = publicFunc(hF);
+        s.externalfuncs{kTB} = publicFunc(hF);
 
         # Loop over the toolbox public functions.
         for k = 1 : nM
-            [~, idx] = ismember(s.external_funcs{kTB}, ...
-                s.mfileexternalfuncs{kTB}{k});
-            s.mfileexternalfuncs{kTB}{k} ...
-                = s.mfileexternalfuncs{kTB}{k}(idx(idx ~= 0));
+            if strcmp(file_ext(s.mfiles{kTB}{k}), '.m')
+                [~, idx] = ismember(s.externalfuncs{kTB}, ...
+                    s.mfileexternalfuncs{kTB}{k});
+                s.mfileexternalfuncs{kTB}{k} ...
+                    = s.mfileexternalfuncs{kTB}{k}(idx(idx ~= 0));
+            else
+                s.mfileexternalfuncs{kTB}{k} = {};
+            endif
         endfor
 
         # Loop over the toolbox private functions if any.
         for k = 1 : nPM
-            [~, idx] = ismember(s.external_funcs{kTB}, ...
-                s.privatemfileexternalfuncs{kP}{k});
-            s.privatemfileexternalfuncs{kP}{k} ...
-                = s.privatemfileexternalfuncs{kP}{k}(idx(idx ~= 0));
+            if strcmp(file_ext(s.privatemfiles{kTB}{k}), '.m')
+                [~, idx] = ismember(s.externalfuncs{kTB}, ...
+                    s.privatemfileexternalfuncs{kP}{k});
+                s.privatemfileexternalfuncs{kP}{k} ...
+                    = s.privatemfileexternalfuncs{kP}{k}(idx(idx ~= 0));
+            else
+                s.privatemfileexternalfuncs{kTB}{k} = {};
+            endif
         endfor
 
     endfor

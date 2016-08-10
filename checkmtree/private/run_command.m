@@ -32,7 +32,7 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~, aname)
         else
 
             # Explore the toolboxes only.
-            sM = find_m_toolboxes(top, true);
+            sM = find_m_toolboxes(top);
         endif
 
         varargout{1} = check_tree(oId, s, cf, sM, c, startTime, aname);
@@ -158,12 +158,12 @@ function s_c = check_tree(o_id, s, cf, s_m, c, start_time, appname)
         endif
 
         for fileIdx = 1 : numel(file)
-            [~, ~, ext] = fileparts(file{fileIdx});
-            isMFile = strcmp(ext, '.m');
+            isMFile = strcmp(file_ext(file{fileIdx}), '.m');
             absPath = fullfile(s_m.toolboxpath{tBIdx}, file{fileIdx});
 
-            if checkmtree_command(c, 'encoding_checking_command') ...
-                    || checkmtree_command(c, 'dependencies_checking_command')
+            if isMFile ...
+                    && (checkmtree_command(c, 'encoding_checking_command') ...
+                    || checkmtree_command(c, 'dependencies_checking_command'))
                 check_encoding(absPath, o_id, s, cf);
             endif
 
@@ -173,7 +173,7 @@ function s_c = check_tree(o_id, s, cf, s_m, c, start_time, appname)
                 try_checkcode(absPath, o_id);
             endif
 
-            if bytes(fileIdx) > s_c.max_m_file_byte_size
+            if isMFile && bytes(fileIdx) > s_c.max_m_file_byte_size
                 s_c.max_m_file_byte_size = bytes(fileIdx);
             endif
             p = p + bytes(fileIdx);
@@ -256,7 +256,7 @@ function c = toolbox_deps(o_id, s, cargs)
     kTB = toolbox_index(s, cargs{1});
     nTB = numel(s.toolboxpath);
     if isscalar(kTB)
-        c = s.external_funcs{kTB};
+        c = s.externalfuncs{kTB};
         n = numel(c);
         c = [c; cell(1, n)];
         for k = 1 : n
