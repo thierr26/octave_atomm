@@ -105,9 +105,9 @@ function s = find_m_toolboxes(varargin)
     n = numel(v);
     for k = v
         kk = kk + 1;
-        [f, b] = remove_p_file_if_m_present(sFF, k);
-        mFiles{kk} = f;
-        mFileBytes{kk} = b;
+        mFiles{kk} = sFF.file(sFF.first_file_idx(k) : sFF.last_file_idx(k));
+        mFileBytes{kk} ...
+            = sFF.bytes(sFF.first_file_idx(k) : sFF.last_file_idx(k));
         depFile{kk} = find_dep_file(sFF.dir{k});
         outman('update_progress', oId, pId, findFilesIterCount + 2 * kk / n);
     endfor
@@ -145,9 +145,10 @@ function s = find_m_toolboxes(varargin)
     kk = 0;
     for k = pI
         kk = kk + 1;
-        [f, b] = remove_p_file_if_m_present(sFF, k);
-        privateMFiles{kk} = f;
-        privateMFileBytes{kk} = b;
+        privateMFiles{kk} ...
+            = sFF.file(sFF.first_file_idx(k) : sFF.last_file_idx(k));
+        privateMFileBytes{kk} ...
+            = sFF.bytes(sFF.first_file_idx(k) : sFF.last_file_idx(k));
     endfor
 
     outman('terminate_progress', oId, pId);
@@ -176,27 +177,6 @@ function top = check_args(varargin)
     if ~iscell(top)
         top = {top};
     endif
-
-endfunction
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-# Extract M-file names and byte size from the find_files structure and remove
-# the pcode files when a file with ".m" extension has been found.
-
-function [f, b] = remove_p_file_if_m_present(s, k)
-
-    keep = false(1, numel(s.file));
-    keep(s.first_file_idx(k) : s.last_file_idx(k)) = true;
-    for z = s.first_file_idx(k) : s.last_file_idx(k)
-        [~, name, ext] = fileparts(s.file{z});
-        if strcmp(ext, '.p') && ismember([name '.m'], ...
-                s.file(s.first_file_idx(k) : s.last_file_idx(k)))
-            keep(z) = false;
-        endif
-    endfor
-    f = s.file(keep);
-    b = s.bytes(keep);
 
 endfunction
 

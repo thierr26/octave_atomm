@@ -33,11 +33,12 @@ endfunction
 
 function ret = m_file_filters_no_arg
 
-    c = {'*.m', '*.p'};
     if is_octave
-        ret = isequal(m_file_filters('all'), c(1));
+        c = {'*.m', ['*.' mexext], '*.oct'};
+        ret = isequal(m_file_filters, c);
     else
-        ret = isequal(m_file_filters('all'), c);
+        c = {'*.m', '*.p', ['*.' mexext]};
+        ret = isequal(m_file_filters, c);
     endif
 
 endfunction
@@ -46,10 +47,11 @@ endfunction
 
 function ret = m_file_filters_all
 
-    c = {'*.m', '*.p'};
     if is_octave
-        ret = isequal(m_file_filters('all'), c(1));
+        c = {'*.m', ['*.' mexext], '*.oct'};
+        ret = isequal(m_file_filters('all'), c);
     else
+        c = {'*.m', '*.p', ['*.' mexext]};
         ret = isequal(m_file_filters('all'), c);
     endif
 
@@ -59,8 +61,8 @@ endfunction
 
 function ret = m_file_filters_m_lang_only
 
-    c = {'*.m', '*.p'};
-    ret = isequal(m_file_filters('m_lang_only'), c(1));
+    c = {'*.m'};
+    ret = isequal(m_file_filters('m_lang_only'), c);
 
 endfunction
 

@@ -85,8 +85,10 @@ function s = compute_dependencies(s1)
     s.externalfuncs = cell(1, nTB);
     s.comp_dep = cell(1, nTB);
 
-    cumBytes = sum(cellfun(@(x) sum(x), s.mfilebytes)) ...
-        + sum(cellfun(@(x) sum(x), s.privatemfilebytes));
+    cumBytes = m_files_cum_byte_size(s);
+
+    mFilt = m_file_filters ('m_lang_only');
+    mExt = file_ext(mFilt{1});
 
     oId = outman_connect_and_config_if_master;
     pId = outman('init_progress', oId, 0, cumBytes, ...
@@ -111,16 +113,19 @@ function s = compute_dependencies(s1)
         # Loop over the toolbox public functions.
         for k = 1 : nM
             symb = {};
-            if strcmp(file_ext(s.mfiles{kTB}{k}), '.m')
+            if strcmp(file_ext(s.mfiles{kTB}{k}), mExt)
                 filename = fullfile(s.toolboxpath{kTB}, s.mfiles{kTB}{k});
                 [symb, n, sloc] = m_symb_l(filename, pId, p);
                 s.mfilelinecount{kTB}(k) = n;
                 s.mfilesloc{kTB}(k) = sloc;
                 s.mfileexternalfuncs{kTB}{k} = symb;
+                p = p + s.mfilebytes{kTB}(k);
+                outman('update_progress', oId, pId, p);
             endif
             symbL = unique([symbL symb]);
-            p = p + s.mfilebytes{kTB}(k);
-            outman('update_progress', oId, pId, p);
+            if numel(symbL) == 0
+                symbL = {};
+            end
         endfor
 
         hF = false(1, nPF);
@@ -143,17 +148,20 @@ function s = compute_dependencies(s1)
             # Loop over the toolbox private functions.
             for k = 1 : nPM
                 symb = {};
-                if strcmp(file_ext(s.mfiles{kTB}{k}), '.m')
+                if strcmp(file_ext(s.privatemfiles{kP}{k}), mExt)
                     filename = fullfile(fullfile(s.toolboxpath{kTB}, ...
                         s.privatesubdir), s.privatemfiles{kP}{k});
                     [symb, n, sloc] = m_symb_l(filename, pId, p);
                     s.privatemfilelinecount{kP}(k) = n;
                     s.privatemfilesloc{kP}(k) = sloc;
                     s.privatemfileexternalfuncs{kP}{k} = symb;
+                    p = p + s.privatemfilebytes{kP}(k);
+                    outman('update_progress', oId, pId, p);
                 endif
                 symbL = unique([symbL symb]);
-                p = p + s.privatemfilebytes{kP}(k);
-                outman('update_progress', oId, pId, p);
+                if numel(symbL) == 0
+                    symbL = {};
+                end
             endfor
 
             for symb = symbL
@@ -166,7 +174,7 @@ function s = compute_dependencies(s1)
 
         # Loop over the toolbox public functions.
         for k = 1 : nM
-            if strcmp(file_ext(s.mfiles{kTB}{k}), '.m')
+            if strcmp(file_ext(s.mfiles{kTB}{k}), mExt)
                 [~, idx] = ismember(s.externalfuncs{kTB}, ...
                     s.mfileexternalfuncs{kTB}{k});
                 s.mfileexternalfuncs{kTB}{k} ...
@@ -178,13 +186,13 @@ function s = compute_dependencies(s1)
 
         # Loop over the toolbox private functions if any.
         for k = 1 : nPM
-            if strcmp(file_ext(s.privatemfiles{kTB}{k}), '.m')
+            if strcmp(file_ext(s.privatemfiles{kP}{k}), mExt)
                 [~, idx] = ismember(s.externalfuncs{kTB}, ...
                     s.privatemfileexternalfuncs{kP}{k});
                 s.privatemfileexternalfuncs{kP}{k} ...
                     = s.privatemfileexternalfuncs{kP}{k}(idx(idx ~= 0));
             else
-                s.privatemfileexternalfuncs{kTB}{k} = {};
+                s.privatemfileexternalfuncs{kP}{k} = {};
             endif
         endfor
 

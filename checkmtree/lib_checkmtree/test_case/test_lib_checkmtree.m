@@ -22,7 +22,6 @@ function s = test_lib_checkmtree
     # Declare the test routines.
     testRoutine = {...
         @find_m_toolboxes_no_error, ...
-        @find_m_toolboxes_ignore_p_no_error, ...
         @string_or_cellstr_arg_or_none_string, ...
         @string_or_cellstr_arg_or_none_cellstr, ...
         @string_or_cellstr_arg_or_none_none, ...
@@ -51,15 +50,6 @@ endfunction
 function ret = find_m_toolboxes_no_error
 
     find_m_toolboxes(atomm_dir);
-    ret = true;
-
-endfunction
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-function ret = find_m_toolboxes_ignore_p_no_error
-
-    find_m_toolboxes(atomm_dir, true);
     ret = true;
 
 endfunction

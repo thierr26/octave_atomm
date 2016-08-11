@@ -118,9 +118,9 @@ endfunction
 
 function s_c = check_tree(o_id, s, cf, s_m, c, start_time, appname)
 
-    s_c = struct('m_file_count', ...
-        cell_cum_numel(s_m.mfiles) + cell_cum_numel(s_m.privatemfiles), ...
-        'max_m_file_byte_size', 0);
+    mFilt = m_file_filters ('m_lang_only');
+    mExt = file_ext(mFilt{1});
+    s_c = struct('m_file_count', 0, 'max_m_file_byte_size', 0);
     if checkmtree_command(c, 'dependencies_checking_command')
         s_c.cum_line_count ...
             = sum(cellfun(@sum, s_m.mfilelinecount)) ...
@@ -138,8 +138,7 @@ function s_c = check_tree(o_id, s, cf, s_m, c, start_time, appname)
             'available. Cannot perform code checking.']);
     endif
 
-    cumBytes = sum(cellfun(@(x) sum(x), s_m.mfilebytes)) ...
-        + sum(cellfun(@(x) sum(x), s_m.privatemfilebytes));
+    cumBytes = m_files_cum_byte_size(s_m);
 
     pId = outman('init_progress', o_id, 0, cumBytes, ...
         'Checking the tree...');
@@ -158,7 +157,7 @@ function s_c = check_tree(o_id, s, cf, s_m, c, start_time, appname)
         endif
 
         for fileIdx = 1 : numel(file)
-            isMFile = strcmp(file_ext(file{fileIdx}), '.m');
+            isMFile = strcmp(file_ext(file{fileIdx}), mExt);
             absPath = fullfile(s_m.toolboxpath{tBIdx}, file{fileIdx});
 
             if isMFile ...
@@ -176,8 +175,12 @@ function s_c = check_tree(o_id, s, cf, s_m, c, start_time, appname)
             if isMFile && bytes(fileIdx) > s_c.max_m_file_byte_size
                 s_c.max_m_file_byte_size = bytes(fileIdx);
             endif
-            p = p + bytes(fileIdx);
-            outman('update_progress', o_id, pId, p);
+
+            if isMFile
+                s_c.m_file_count = s_c.m_file_count + 1;
+                p = p + bytes(fileIdx);
+                outman('update_progress', o_id, pId, p);
+            endif
         endfor
 
         if checkmtree_command(c, 'dependencies_checking_command')
