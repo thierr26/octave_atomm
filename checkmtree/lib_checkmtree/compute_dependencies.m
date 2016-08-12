@@ -277,7 +277,7 @@ endfunction
 
 function ret = valid_file_name(filename, func_name)
 
-    ret = any(strcmp(filename, {[func_name '.m'], [func_name '.p']}));
+    ret = strncmp([func_name '.'], filename, length(func_name) + 1);
 
 endfunction
 
