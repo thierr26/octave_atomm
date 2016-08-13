@@ -1,4 +1,4 @@
-argcheck
-fsys
-isthisa
-mlang
+atomm/argcheck
+atomm/fsys
+atomm/isthisa
+atomm/textandcode/mlang

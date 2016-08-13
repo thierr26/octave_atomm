@@ -1,4 +1,4 @@
-argcheck
-isthisa
-outman
-structure
+atomm/argcheck
+atomm/isthisa
+atomm/outman
+atomm/structure

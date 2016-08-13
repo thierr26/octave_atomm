@@ -1,6 +1,6 @@
-argcheck
-env
-isthisa
-math
-outman
-textandcode
+atomm/argcheck
+atomm/env
+atomm/isthisa
+atomm/math
+atomm/outman
+atomm/textandcode

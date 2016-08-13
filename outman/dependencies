@@ -1,8 +1,8 @@
-appmech
-env
-fsys
-isthisa
-lib_outman
-math
-textandcode
-datetime
+atomm/appmech
+atomm/env
+atomm/fsys
+atomm/isthisa
+atomm/outman/lib_outman
+atomm/math
+atomm/textandcode
+atomm/datetime

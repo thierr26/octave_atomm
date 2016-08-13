@@ -1,4 +1,4 @@
-argcheck
-isthisa
-outman
-datetime
+atomm/argcheck
+atomm/isthisa
+atomm/outman
+atomm/datetime

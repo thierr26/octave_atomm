@@ -1,7 +1,7 @@
-argcheck
-fsys
-isthisa
-math
-mlang
-outman
-textandcode
+atomm/argcheck
+atomm/fsys
+atomm/isthisa
+atomm/math
+atomm/textandcode/mlang
+atomm/outman
+atomm/textandcode
