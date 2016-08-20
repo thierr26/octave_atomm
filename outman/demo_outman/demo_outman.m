@@ -3,55 +3,61 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} demo_outman ()
-## @deftypefnx {Function File} demo_outman (@var{logdir})
-## @deftypefnx {Function File} demo_outman (@var{logdir}, @var{logname})
+## @deftypefnx {Function File} demo_outman (@var{@
+## outman_config_param_1_name}, @var{outman_config_param_1_value}, @var{@
+## outman_config_param_2_name}, @var{outman_config_param_2_value}, ...)
+## @deftypefnx {Function File} demo_outman (@var{s})
 ##
 ## Demonstrate what @code{outman} can do.
 ##
-## If no argument is provided, then @code{demo_outman} does not write to any
-## log file.  If @var{logdir} (first argument) is provided, then
-## @code{demo_outman} writes to log file demo_outman.log in directory
-## @var{logdir}.  if @var{logname} (second argument) is also provided, then
-## @code{demo_outman} writes to log file @var{logname} in directory
-## @var{logdir}.
+## If no argument is provided, then @code{demo_outman} uses Outman with its
+## default configuration parameters.  To use Outman with non default
+## configuration parameters, provide them as arguments (name-value pairs) or as
+## a structure @var{s}.  Examples:
 ##
-## If @var{logdir} is an empty string, then the log file is written to the
-## current working directory.
+## @example
+## @group
+## demo_outman('logname', 'demo_outman.log', 'progress_max_count', 1);
+## @end group
+## @end example
 ##
-## You can run @code{demo_outman} in narrow or large command windows to see the
-## beahvior difference.
+## @example
+## @group
+## demo_outman(struct('logname', 'demo_outman.log', 'progress_max_count', 1));
+## @end group
+## @end example
 ##
-## Note that Outman's progress indicators will show up only if the use of
-## backspace characters in template strings for @code{fprintf} is supported
-## (i.e. if @code{backspace_supported} returns true).
+## Please see the documentation for @code{outman_connect_and_config_if_master}
+## for a list of all Outman configuration parameters.
 ##
-## @seealso{backspace_supported, outman}
+## Note that Outman's progress indicators may not show up, dependending on
+## Outman's configuration.  For example, when run by Matlab for windows,
+## Outman's default configuration is to not show the progress indicators.
+##
+## @seealso{outman, outman_connect_and_config_if_master}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>
 
 function demo_outman(varargin)
 
-    [logdir, logname] = validated_opt_args(...
-        {@is_string, ''; ...
-        @is_non_empty_string, 'demo_outman.log'}, varargin{:});
-
     oName = 'Outman';
+    alreadyConfigured = mislocked('outman');
 
-    if nargin > 0
-        alreadyConfigured = mislocked('outman');
-        oId = outman_connect_and_config_if_master(...
-            'logdir', logdir, 'logname', logname);
-        outman('logtimef', oId, '%s started', mfilename);
-        if alreadyConfigured
-            outman('infof', oId, ['%s was already configured. The log ' ...
-                'file may not be the one you expect, or there may be ' ...
-                'no log file.'], oName);
-        endif
-    else
+    if alreadyConfigured
         oId = outman_connect_and_config_if_master;
+    else
+        oId = outman_connect_and_config_if_master(varargin{:});
     endif
+    outman('logtimef', oId, '%s started', mfilename);
     cf = outman('get_config', oId);
+    if alreadyConfigured
+        outman('dispf', oId, ['%s was already configured. The input ' ...
+            'arguments to %s (if any) have been ignored. %s configuration ' ...
+            'is:'], oName, mfilename, oName);
+        outman('disp', oId, cf);
+    endif
+
     logFile = outman('get_log_file_name', oId);
     oCName = 'outman_connect_and_config_if_master';
     if isempty(logFile)
