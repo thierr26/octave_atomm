@@ -29,9 +29,13 @@
 ##
 ## @table @asis
 ## @item "hmi_variant"
-## Type of man machine interface used by Outman (supported values:
-## "command_window" (default) and "log_file_only_if_any" (to cause Outman to
-## no display anything and write only to the log file if any)).
+## Type of human machine interface used by Outman (supported values:
+## "command_window" (default, except when run by Matlab for Windows),
+## "command_window_no_progress" (default when run on Matlab for Windows
+## (it has been chosen to disable the progress indicators in the Matlab for
+## Windows command window because they trigger some errors in the Matlab Java
+## desktop)) and "log_file_only_if_any" (to cause Outman to no display anything
+## and write only to the log file if any)).
 ##
 ## @item "logdir"
 ## Directory where the log file is located (user home directory by default).

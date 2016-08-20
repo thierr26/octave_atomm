@@ -6,6 +6,7 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~, ~)
 
     clear_req = false;
     s = setup_log_file_full_name(s1, cf);
+    s = setup_cmd_win_prog_warn_needed(s, cf);
     [s, callerID] = get_caller_id(s, c, cargs);
 
     switch c
@@ -175,6 +176,21 @@ endfunction
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+# Setup the "need to warn that progress indication in the command window is
+# automatically disabled" flag.
+
+function s = setup_cmd_win_prog_warn_needed(s1, cf)
+
+    s = s1;
+    if ~isfield(s1, 'cmd_win_prog_auto_disa_warn_needed')
+        s.cmd_win_prog_auto_disa_warn_needed ...
+            = strcmp(cf.hmi_variant, 'command_window') && ~backspace_supported;
+    endif
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 # Setup progress indicator format strings.
 
 function s = setup_progress_formats(s1, cf)
@@ -212,24 +228,26 @@ function [s, id] = create_new_progress_if_max_count_not_reached(s1, cf, cargs)
         s.progress.actually_shown = false(1, 0);
         s.progress.refresh_needed = false;
 
+        s.progress.displayed_str = '';
+
         switch cf.hmi_variant
 
             case 'command_window'
-                s.progress.displayed_str = '';
-                s.progress.more_was_on = more_is_on;
-                if s.progress.more_was_on
-                    more('off');
+                if s.cmd_win_prog_auto_disa_warn_needed
+                    s = echo(s, cf, false, true, [cf.error_leader ...
+                        'Won''t attempt to perform progress indication ' ...
+                        'in this command window because backspace ' ...
+                        '("fprintf(''\b'')") is not supported']);
+                    s.cmd_win_prog_auto_disa_warn_needed = false;
+                endif
+                if backspace_supported
+                    s.progress.more_was_on = more_is_on;
+                    if s.progress.more_was_on
+                        more('off');
+                    endif
                 endif
 
-            case 'log_file_only_if_any'
-                1;
-
-            otherwise
-                error('Internal error: MMI variant %s not handled', ...
-                    cf.hmi_variant);
-
         endswitch
-
     endif
 
     if numel(s.progress.id) < cf.progress_max_count
@@ -340,7 +358,7 @@ function [s, duration] = delete_progress(s1, cf, idx)
         switch cf.hmi_variant
 
             case 'command_window'
-                if ~more_is_on && s.progress.more_was_on
+                if backspace_supported && ~more_is_on && s.progress.more_was_on
                     more('on');
                 endif
 
@@ -526,8 +544,12 @@ function s = echo(s1, cf, also_to_file, word_wrap, x)
 
     switch cf.hmi_variant
 
-        case 'command_window'
-            if isfield(s, 'progress') && ~isempty(s.progress.displayed_str)
+        case {'command_window', 'command_window_no_progress'}
+            progress_displayed = strcmp(cf.hmi_variant, 'command_window') ...
+                && backspace_supported ...
+                && isfield(s, 'progress') ...
+                && ~isempty(s.progress.displayed_str);
+            if progress_displayed
                 n = length(s.progress.displayed_str);
                 # Backspace character ("\b") is used to erase.
                 backspaceString = repmat('\b', [1, n]);
@@ -548,7 +570,7 @@ function s = echo(s1, cf, also_to_file, word_wrap, x)
                 disp(x);
             endif
 
-            if isfield(s, 'progress') && ~isempty(s.progress.displayed_str)
+            if progress_displayed
                 fprintf('%s', s.progress.displayed_str);
             endif
 
