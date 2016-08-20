@@ -77,7 +77,7 @@
 ## @item "error_leader"
 ## Prefix used in errorf commands ("(E)" plus a space character by default).
 ##
-## @item "min_width_for_word_wrap"
+## @item "min_width_for_word_wrapping"
 ## Window width thresholds (in characters) to apply word wrapping in "dispf",
 ## "printf", "infof", "errorf", "printf" commands (50 by default).
 ## @end table

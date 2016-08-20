@@ -541,7 +541,7 @@ function s = echo(s1, cf, also_to_file, word_wrap, x)
             endif
 
             w = command_window_width - 1;
-            if word_wrap && w >= cf.min_width_for_word_wrap && is_string(x)
+            if word_wrap && w >= cf.min_width_for_word_wrapping && is_string(x)
                 xx = wordwrap(x, w);
                 cellfun(@disp, xx);
             else
