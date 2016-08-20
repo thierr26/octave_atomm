@@ -1,0 +1,9 @@
+atomm/appmech
+atomm/isthisa
+atomm/checkmtree/lib_checkmtree
+atomm/outman/lib_outman
+atomm/toolman/lib_toolman
+atomm/math
+atomm/outman
+atomm/structure
+atomm/tester
