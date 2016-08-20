@@ -35,14 +35,9 @@ function s = outman_command_window_update_progress(s1, cf, nown)
     if backspace_supported
 
         # Build new displayed string for the progress indicators.
-        if cf.progress_display_duration
-            dura_str = duration_str(nown - s.progress.start_datenum(1));
-        else
-            dura_str = '';
-        endif
         str = outman_progress_string(s.progress.message, ...
             s.progress.percent, s.progress_fmt.fmt, s.progress_fmt.order, ...
-            dura_str);
+            progress_duration_str(s, cf, nown));
         s.progress.actually_shown(:) = true;
         if length(str) >= command_window_width
             str = outman_progress_string(s.progress.message(1), ...
