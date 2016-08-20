@@ -39,7 +39,7 @@
 ## @deftypefnx {Function File} {@var{@
 ## config_origin} =} outman ('get_config_origin', @var{caller_id})
 ## @deftypefnx {Function File} {@var{@
-## mmi_variant} =} outman ('get_mmi_variant', @var{caller_id})
+## hmi_variant} =} outman ('get_hmi_variant', @var{caller_id})
 ## @deftypefnx {Function File} {@var{@
 ## log_file_name} =} outman ('get_log_file_name', @var{caller_id})
 ## @deftypefnx {Function File} outman ('disconnect', @var{caller_id})
@@ -194,8 +194,8 @@
 ## values are strings indicating where the configuration parameter values come
 ## from).
 ##
-## @item "get_mmi_variant"
-## Get the value of Outman's "mmi_variant" configuration parameter.
+## @item "get_hmi_variant"
+## Get the value of Outman's "hmi_variant" configuration parameter.
 ##
 ## @item "get_log_file_name"
 ## Get the name of the log file (empty string if no log file).

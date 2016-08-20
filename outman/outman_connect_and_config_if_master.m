@@ -7,7 +7,7 @@
 ## config_param_2_name}, @var{config_param_2_value}, ...)
 ## @deftypefnx {Function File} outman_connect_and_config_if_master (@var{s})
 ##
-## Connect to application Outman and configure if if the caller is the master.
+## Connect to application Outman and configure if the caller is the master.
 ##
 ## @code{outman_connect_and_config_if_master} connects to Outman and configures
 ## it if the caller is the master (i.e. if @code{outman} has not been
@@ -28,7 +28,7 @@
 ## The names of the configuration parameters are:
 ##
 ## @table @asis
-## @item "mmi_variant"
+## @item "hmi_variant"
 ## Type of man machine interface used by Outman (supported values:
 ## "command_window" (default) and "log_file_only_if_any" (to cause Outman to
 ## no display anything and write only to the log file if any)).

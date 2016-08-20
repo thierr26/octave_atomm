@@ -88,8 +88,8 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~, ~)
             varargout{1} = o;
             return_caller_id_if_required(nargout, 2);
 
-        case 'get_mmi_variant'
-            varargout{1} = cf.mmi_variant;
+        case 'get_hmi_variant'
+            varargout{1} = cf.hmi_variant;
             return_caller_id_if_required(nargout, 2);
 
         case 'get_log_file_name'
@@ -212,7 +212,7 @@ function [s, id] = create_new_progress_if_max_count_not_reached(s1, cf, cargs)
         s.progress.actually_shown = false(1, 0);
         s.progress.refresh_needed = false;
 
-        switch cf.mmi_variant
+        switch cf.hmi_variant
 
             case 'command_window'
                 s.progress.displayed_str = '';
@@ -226,7 +226,7 @@ function [s, id] = create_new_progress_if_max_count_not_reached(s1, cf, cargs)
 
             otherwise
                 error('Internal error: MMI variant %s not handled', ...
-                    cf.mmi_variant);
+                    cf.hmi_variant);
 
         endswitch
 
@@ -288,7 +288,7 @@ function s = update_progress(s1, cf, cargs)
             if (nowN - s.progress.last_update_datenum) * 86400 ...
                     * update_rate >= 1
 
-                switch cf.mmi_variant
+                switch cf.hmi_variant
 
                     case 'command_window'
                         s = outman_command_window_update_progress(s, cf, nowN);
@@ -337,7 +337,7 @@ function [s, duration] = delete_progress(s1, cf, idx)
     s.progress.actually_shown(idx) = [];
     if isempty(s.progress.id)
 
-        switch cf.mmi_variant
+        switch cf.hmi_variant
 
             case 'command_window'
                 if ~more_is_on && s.progress.more_was_on
@@ -365,7 +365,7 @@ function [s, duration] = terminate_progress(s1, cf, cargs)
             s.progress.last_update_datenum = 0;
             s = update_progress(s, cf, [cargs {s.progress.finish(idx)}]);
 
-            switch cf.mmi_variant
+            switch cf.hmi_variant
 
                 case 'command_window'
                     s = outman_command_window_erase_progress(s, idx);
@@ -389,7 +389,7 @@ function s = cancel_progress(s1, cf, cargs)
         [found, idx] = ismember(cargs{2}, s1.progress.id);
         if found
 
-            switch cf.mmi_variant
+            switch cf.hmi_variant
 
                 case 'command_window'
                     outman_command_window_erase_progress(s, idx);
@@ -518,13 +518,13 @@ endfunction
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# Echo message to display and (depending configuration) to log file.
+# Echo message to display and (depending on configuration) to log file.
 
 function s = echo(s1, cf, also_to_file, word_wrap, x)
 
     s = s1;
 
-    switch cf.mmi_variant
+    switch cf.hmi_variant
 
         case 'command_window'
             if isfield(s, 'progress') && ~isempty(s.progress.displayed_str)
