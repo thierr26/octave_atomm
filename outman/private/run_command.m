@@ -7,6 +7,7 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~, ~)
     clear_req = false;
     s = setup_log_file_full_name(s1, cf);
     s = setup_cmd_win_prog_warn_needed(s, cf);
+    s = setup_progress_file_error_already_issued(s, cf);
     [s, callerID] = get_caller_id(s, c, cargs);
 
     switch c
@@ -191,6 +192,20 @@ endfunction
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+# Setup the "need to warn that progress indication in the command window is
+# automatically disabled" flag.
+
+function s = setup_progress_file_error_already_issued(s1, cf)
+
+    s = s1;
+    if ~isfield(s1, 'progress_file_error_already_issued')
+        s.progress_file_error_already_issued = false;
+    endif
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 # Setup progress indicator format strings.
 
 function s = setup_progress_formats(s1, cf)
@@ -215,6 +230,7 @@ endfunction
 function [s, id] = create_new_progress_if_max_count_not_reached(s1, cf, cargs)
 
     s = s1;
+    progFileId = -1;
     if ~isfield(s1, 'progress')
         s = setup_progress_formats(s, cf);
         s.progress = struct();
@@ -248,6 +264,20 @@ function [s, id] = create_new_progress_if_max_count_not_reached(s1, cf, cargs)
                 endif
 
         endswitch
+
+        if ~isempty(cf.progress_file_name) && cf.progress_max_count >= 1 ...
+                && exist(cf.progress_file_name, 'file') ~= 2
+
+            # Attempt to create the progress indicator file.
+            progFileId = fopen(cf.progress_file_name, 'wt');
+
+            if progFileId == -1 && ~s.progress_file_error_already_issued
+                s = echo(s, cf, false, true, [cf.error_leader ...
+                    'Unable to create progress indicator file ' ...
+                    cf.progress_file_name]);
+                s.progress_file_error_already_issued = true;
+            endif
+        endif
     endif
 
     if numel(s.progress.id) < cf.progress_max_count
@@ -266,6 +296,16 @@ function [s, id] = create_new_progress_if_max_count_not_reached(s1, cf, cargs)
         s.progress.start_datenum(end + 1) = now;
         s.progress.actually_shown(end + 1) = false;
 
+        if progFileId ~= -1
+            s.progress.prog_file_str = outman_progress_string(...
+                s.progress.message, s.progress.percent, s.progress_fmt.fmt, ...
+                s.progress_fmt.order, ...
+                progress_duration_str(s, cf, s.progress.start_datenum));
+            s.progress.last_prog_file_update_datenum ...
+                = s.progress.start_datenum;
+            fprintf(progFileId, '%s', s.progress.prog_file_str);
+            fclose(progFileId);
+        endif
     else
         id = -1;
     endif
@@ -316,6 +356,24 @@ function s = update_progress(s1, cf, cargs)
                 s.progress.last_update_datenum = nowN;
                 s.progress.refresh_needed = false;
             endif
+
+            if isfield(s.progress, 'last_prog_file_update_datenum') ...
+                    && (nowN - s.progress.last_prog_file_update_datenum) ...
+                        * 86400 * cf.progress_file_update_rate >= 1
+                newProgFileStr = outman_progress_string(s.progress.message, ...
+                    s.progress.percent, s.progress_fmt.fmt, ...
+                    s.progress_fmt.order, ...
+                    progress_duration_str(s, cf, nowN));
+                if ~strcmp(s.progress.prog_file_str, newProgFileStr)
+                    progFileId = fopen(cf.progress_file_name, 'wt');
+                    if progFileId ~= -1
+                        s.progress.prog_file_str = newProgFileStr;
+                        s.progress.last_prog_file_update_datenum = nowN;
+                        fprintf(progFileId, '%s', s.progress.prog_file_str);
+                        fclose(progFileId);
+                    endif
+                endif
+            endif
         endif
     endif
 
@@ -364,6 +422,9 @@ function [s, duration] = delete_progress(s1, cf, idx)
 
         endswitch
 
+        if isfield(s.progress, 'last_prog_file_update_datenum')
+            delete(cf.progress_file_name);
+        endif
         s = rmfield(s, 'progress');
     endif
 

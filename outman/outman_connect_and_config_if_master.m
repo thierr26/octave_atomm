@@ -72,6 +72,14 @@
 ## otherwise) to require an immediate reshow of the progress indicator after
 ## the display of a message.
 ##
+## @item "progress_file_name"
+## Name of the progress indicator file (one line text file to which Outman
+## writes progress indication) (empty by default (an empty value means that
+## there is no progress indicator file)).
+##
+## @item "progress_file_update_rate"
+## Refresh rate (Hz) of the progress indicator file (0.33 Hz by default).
+##
 ## @item "info_leader"
 ## Prefix used in errorf commands ("(I)" plus a space character by default).
 ##
