@@ -14,7 +14,7 @@
 ## @var{byte_size_threshold}, then @code{rotate_file} renames @var{name} by
 ## appending ".1" to its name.  Before that, if a file with that name already
 ## existed, then @code{rotate_file} would have renamed the file by substituting
-## ".1" with ".2".  And so on...
+## ".1" with ".2".  And so on@dots{}
 ##
 ## @code{rotate_file} raises an error if at least one of the following
 ## conditions is fulfilled:
