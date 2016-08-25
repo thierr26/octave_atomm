@@ -53,7 +53,7 @@
 ##     validated_mandatory_args(@{@@iscell, @@isstruct@}, c, s);
 ##     [str1, str2] = validated_opt_args(...
 ##         @{@@ischar, 'foo'; @@ischar, 'bar'@}, varargin@{:@});
-##     ...
+##     @dots{}
 ## end
 ## @end group
 ## @end example

@@ -34,7 +34,7 @@
 ## function example1(c, s)
 ##     validated_mandatory_args(@{@@iscell, @@isstruct@}, c, s);
 ##
-##     ...
+##     @dots{}
 ## end
 ## @end group
 ## @end example
@@ -48,7 +48,7 @@
 ##     [c, s] = validated_mandatory_args(...
 ##         @{@@iscell, @@isstruct@}, varargin@{:@});
 ##
-##     ...
+##     @dots{}
 ## end
 ## @end group
 ## @end example
