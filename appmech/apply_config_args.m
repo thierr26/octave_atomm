@@ -25,20 +25,20 @@
 ## argument.  No checking is done on these arguments.
 ##
 ## The fifth argument (@var{locked}) is a logical flag.  true means that the
-## application has already been configured (i.e. that the call to the
+## application has already been configured (i.e.@ that the call to the
 ## application M-file that lead to the call of @code{apply_config_args} is not
 ## the "startup call" to the application).
 ##
 ## @code{apply_config_args} checks that the arguments from the sixth one on are
 ## valid application configuration arguments with regard to the validation
 ## function provided in @var{dcf}.  The application configuration arguments (if
-## any) must be given as "name-value pairs" (i.e. configuration parameter names
-## in arguments 6, 8, 10, etc., corresponding configuration parameter values in
-## arguments 7, 9, 11, etc.) or as a structure (in this case the structure is
-## the sixth and last argument, the names of the fields are the names of the
-## configuration parameters and the values in the structure are the values of
-## the configuration parameters).  If the application configuration arguments
-## are not valid, then an error is raised.
+## any) must be given as "name-value pairs" (i.e.@ configuration parameter
+## names in arguments 6, 8, 10, etc., corresponding configuration parameter
+## values in arguments 7, 9, 11, etc.) or as a structure (in this case the
+## structure is the sixth and last argument, the names of the fields are the
+## names of the configuration parameters and the values in the structure are
+## the values of the configuration parameters).  If the application
+## configuration arguments are not valid, then an error is raised.
 ##
 ## @code{apply_config_args} returns @var{cf} and @var{ori} which are
 ## @var{cf1} and @var{ori1} with updated values (depending on the configuration

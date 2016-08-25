@@ -58,8 +58,8 @@
 ## Cell array (same shape as the toolboxpath field of the input structure) of
 ## numerical arrays containing indices to the toolboxpath field of the input
 ## structure.  The presence of an index means that the corresponding toolbox
-## seems to be a dependency (i.e. a toolbox from which at least one function is
-## used).
+## seems to be a dependency (i.e.@ a toolbox from which at least one function
+## is used).
 ## @end table
 ##
 ## @code{compute_dependencies} uses Outman for progress indication and

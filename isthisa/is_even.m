@@ -6,7 +6,7 @@
 ##
 ## Return true if @var{x} is divisible by two.
 ##
-## @code{is_even} returns true if @var{x} is divisible by two (i.e. if
+## @code{is_even} returns true if @var{x} is divisible by two (i.e.@ if
 ## @code{mod(x, 2) == 0}).  No argument checking is done.  If @var{x} is not of
 ## a type that is supported by @code{mod}, then an error is raised.
 ##

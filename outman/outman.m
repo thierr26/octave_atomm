@@ -59,7 +59,7 @@
 ##
 ## @code{demo_outman} shows what Outman can currenlty do.  Note that Outman's
 ## progress indicators will show up only if the use of backspace characters in
-## template strings for @code{fprintf} is supported (i.e. if
+## template strings for @code{fprintf} is supported (i.e.@ if
 ## @code{backspace_supported} returns true).
 ##
 ## A function using Outman must at first connect to Outman and obtain a "caller

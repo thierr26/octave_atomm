@@ -26,7 +26,7 @@
 ##
 ## @code{check_alias_stru} checks that the fields of @var{aliasstru} are cell
 ## arrays with a non empty string as first element, and that the string is the
-## name of a field in @var{s} (i.e. is a command for the application).
+## name of a field in @var{s} (i.e.@ is a command for the application).
 ##
 ## @seealso{check_command_stru_and_default, hello, outman}
 ## @end deftypefn

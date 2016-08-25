@@ -15,7 +15,7 @@
 ## Cell array (same shape as the toolboxpath field of the input structure) of
 ## numerical arrays containing indices to the toolboxpath field of the input
 ## structure.  The presence of an index means that the corresponding toolbox is
-## a declared dependency (i.e. a dependency read in a dependency file).
+## a declared dependency (i.e.@ a dependency read in a dependency file).
 ## Please see the documentation for @code{checkmtree} for more information
 ## about dependency files.
 ## @end table

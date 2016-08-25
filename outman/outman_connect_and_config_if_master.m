@@ -10,7 +10,7 @@
 ## Connect to application Outman and configure if the caller is the master.
 ##
 ## @code{outman_connect_and_config_if_master} connects to Outman and configures
-## it if the caller is the master (i.e. if @code{outman} has not been
+## it if the caller is the master (i.e.@ if @code{outman} has not been
 ## configured already).  The arguments are the configuration arguments to
 ## Outman.  They must be provided as "name-value pairs" or as a structure
 ## @var{s} (the names of the fields in this structure must be names of
@@ -21,7 +21,7 @@
 ##
 ## When the caller is the caller master, all configuration parameters that are
 ## not provided as arguments are set to their default value.  The default value
-## is the "factory defined default value" (i.e. the default value written in
+## is the "factory defined default value" (i.e.@ the default value written in
 ## Outman"s code) unless @code{getappdata(0, 'outman')} returns a structure
 ## (similar to @var{s}) with other values.
 ##

@@ -8,7 +8,7 @@
 ##
 ## Uncomment a line.
 ##
-## @code{uncomment_line(@var{str})} returns @var{str} uncommented (i.e. with
+## @code{uncomment_line(@var{str})} returns @var{str} uncommented (i.e.@ with
 ## the leading blanks and end of line comment leaders removed if any).
 ##
 ## If @var{comment_leaders} (second argument) is not provided, then the end of
