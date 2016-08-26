@@ -111,6 +111,17 @@ function ret = toolbox_argument_index(s, cargs)
             nTb = numel(s.read_dep.toolboxpath);
             for kTb = 1 : nTb
                 [flag, idx] = ismember(cargs{1}, s.read_dep.mfiles{kTb});
+                if ~flag
+                    if isempty(file_ext(cargs{1}))
+                        for k = 1 : numel(s.read_dep.mfiles{kTb})
+                            [~, name] = fileparts(s.read_dep.mfiles{kTb}{k});
+                            if strcmp(cargs{1}, name)
+                                flag = true;
+                                idx = k;
+                            endif
+                        endfor
+                    endif
+                endif
                 if flag
                     n = n + 1;
                     c{1, n} = fullfile(s.read_dep.toolboxpath{kTb}, ...
@@ -178,6 +189,8 @@ function c = find_deps(s, cmd_args, test_cases_included)
 endfunction
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Run tests.
 
 function s = run_tests(tb, s1)
 

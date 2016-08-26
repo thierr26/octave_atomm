@@ -1,5 +1,6 @@
 atomm/appmech
 atomm/datetime
+atomm/fsys
 atomm/isthisa
 atomm/checkmtree/lib_checkmtree
 atomm/outman/lib_outman
