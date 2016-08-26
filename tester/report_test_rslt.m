@@ -2,30 +2,63 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} report_test_rslt (@var{s})
-## @deftypefnx {Function File} report_test_rslt (@var{s}, @var{@
-## write_to_log_file_only})
+## @deftypefn {Function File} {@var{passed_failed} =} report_test_rslt (@var{@
+## s})
+## @deftypefnx {Function File} {@var{passed_failed} =} report_test_rslt (@var{@
+## s}, @var{write_to_log_file_only})
 ##
-## Output test case results.
+## Output a human readable report for test case results.
 ##
-## @var{s} is a structure as returned by @code{run_test_case}, except it may
-## have multiple fields and thus contain the results for more than one test
-## case.
+## @code{@var{passed_failed} = report_test_rslt (@var{s})} outputs a human
+## readable report for test results.  @var{s} is the kind of structure that
+## function @code{run_test_case} reports, except that it can have more than one
+## field and thus contain the results of multiple test cases.  Please run
+## @code{help run_test_case} to get a full description of the fields of
+## @var{s}.
 ##
-## @code{report_test_rslt} outputs the results for the test cases using
-## @code{outman}, more precisely using Outman's "printf" command, unless the
-## input argument @var{write_to_log_file_only} is provided and set to true.
+## In the Atomm source tree, all the functions having a name starting with
+## "test_" (for example @code{test_structure} in the structure/test_case
+## subdirectory) return structures that can be provided as argument to function
+## @code{report_test_rslt}.
 ##
-## @code{report_test_rslt} also returns a row vector of length 2.  The first
-## component of the vector is the total number of passed test routines.  The
-## second component of the vector is the total number of failed test routines.
+## @example
+## @group
+## @var{passed_failed} = report_test_rslt (test_structure);
+## @end group
+## @end example
 ##
-## @seealso{outman, run_test_case}
+## The returned value @var{passed_failed} is a row vector of length 2.  The
+## first component of the vector is the total number of passed tests.  The
+## second component of the vector is the total number of failed tests.
+##
+## The optional argument @var{write_to_log_file_only} is useful to control the
+## output.  It is a logical scalar and defaults to false.  To understand its
+## role, one have to be aware that @code{report_test_rslt} uses Outman (the
+## output manager provided in the Atomm source tree) for its output.  Precisely
+## it uses the following Outman commands:
+##
+## @table @asis
+## @item "errorf"
+## To output an error message to the HMI and to the log file (if Outman's
+## master caller has set up a log file) if @var{s} is not valid as an input
+## argument.
+##
+## @item "printf" if @var{write_to_log_file_only} is false, "logf" otherwise
+## To output the human readable test report.
+## @end table
+##
+## Outman command "printf" outputs to both the HMI and the log file (if
+## Outman's master caller has set up a log file).  Outman command "logf"
+## outputs to the log file only.  So @var{write_to_log_file_only} must be set
+## to true when no output to the HMI is desired.  Please run @code{help outman}
+## for more information about Outman.
+##
+## @seealso{outman, run_test_case, test_structure}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>
 
-function ret = report_test_rslt(s, varargin)
+function passed_failed = report_test_rslt(s, varargin)
 
     [testCase, testCaseCount] = field_names_and_count(s);
     write_to_log_file_only ...
@@ -38,7 +71,7 @@ function ret = report_test_rslt(s, varargin)
 
     oId = outman_connect_and_config_if_master;
 
-    ret = zeros(1, 2);
+    passed_failed = zeros(1, 2);
     for tC = 1 : testCaseCount
         tCN = testCase{tC};
         if isfield(s.(tCN), 'test')
@@ -64,7 +97,7 @@ function ret = report_test_rslt(s, varargin)
                 endif
             endfor
             failedIdx = failedIdx(1 : failedCount);
-            ret = ret + [passedCount failedCount];
+            passed_failed = passed_failed + [passedCount failedCount];
             outman(oCmd, oId, ['%s test case: %d test routines (%d ' ...
                 'passed, %d failed)'], ...
                 tCN, passedCount + failedCount, passedCount, failedCount);
@@ -78,7 +111,7 @@ function ret = report_test_rslt(s, varargin)
 
     if testCaseCount > 1
         outman(oCmd, oId, 'Total: %d test routines (%d passed, %d failed)', ...
-            sum(ret), ret(1), ret(2));
+            sum(passed_failed), passed_failed(1), passed_failed(2));
     endif
 
     outman('disconnect', oId);
