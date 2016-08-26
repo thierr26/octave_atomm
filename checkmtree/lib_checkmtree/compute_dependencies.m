@@ -125,7 +125,7 @@ function s = compute_dependencies(s1)
             symbL = unique([symbL symb]);
             if numel(symbL) == 0
                 symbL = {};
-            end
+            endif
         endfor
 
         hF = false(1, nPF);
@@ -161,7 +161,7 @@ function s = compute_dependencies(s1)
                 symbL = unique([symbL symb]);
                 if numel(symbL) == 0
                     symbL = {};
-                end
+                endif
             endfor
 
             for symb = symbL
