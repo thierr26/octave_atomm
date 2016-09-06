@@ -123,7 +123,8 @@ function [index, s] = toolbox_index(s1, toolbox_designation, varargin)
                         dep_file_name, toolbox_designation);
                 else
                     outman('warningf', oId, ['toolbox "%s" is not in the ' ...
-                        'analysed tree'], toolbox_designation);
+                        'analysed tree or does not contain any function ' ...
+                        'files'], toolbox_designation);
                 endif
                 outman('disconnect', oId);
             elseif matchCount == 1

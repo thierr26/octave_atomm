@@ -37,14 +37,13 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, nout, a)
                     endif
                     varargout{1} = find_deps(s, cargs, ...
                         toolman_command(c, 'run_test_command'));
+                    if toolman_command(c, 'add_to_path_command')
+                        addpath(strjoin(varargout{1}, pathsep));
+                    endif
                     if toolman_command(c, 'run_test_command')
                         s = run_tests(varargout{1}, s);
                     endif
                     report(varargout{1}, s, c, cargs, nout, a);
-                endif
-
-                if toolman_command(c, 'add_to_path_command')
-                    addpath(strjoin(varargout{1}, pathsep));
                 endif
 
         endswitch
