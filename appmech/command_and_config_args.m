@@ -69,7 +69,7 @@ function [cmd_nam, cmd_arg, config_arg] = command_and_config_args(arg, s)
 
         if nGivenCArgs >= nExpectedCArgs
             cmd_arg = arg(2 : nExpectedCArgs + 1);
-            if nGivenCArgs > nExpectedCArgs
+            if nGivenCArgs > nExpectedCArgs || sepArgPos ~= 0
                 if sepArgPos == 0
                     config_arg = arg(nExpectedCArgs + 2 : end);
                 elseif sepArgPos == nExpectedCArgs + 2

@@ -63,6 +63,7 @@ function s = test_appmech
         @command_and_config_args_var_cmd_args_no_cf_arg, ...
         @command_and_config_args_var_cmd_args_no_cf_arg_2, ...
         @command_and_config_args_var_cmd_args_one_cf_arg, ...
+        @command_and_config_args_fixed_cmd_args_double_hyphen, ...
         @default_config_empty_s, ...
         @default_config_non_scalar_empty_struct, ...
         @default_config_fail_wrong_s_type, ...
@@ -119,6 +120,14 @@ function s = cmdstru2
             'valid', @(x) isnumeric(x), 'no_return_value', false), ...
         'cmd3', struct(...
             'valid', @(varargin) nargin, 'no_return_value', false));
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function s = cmdstru3
+
+    s = struct('cmd1', struct('valid', @is, 'no_return_value', false));
 
 endfunction
 
@@ -609,6 +618,18 @@ function ret = command_and_config_args_var_cmd_args_one_cf_arg
     [cmd, cmdA, cfA] = command_and_config_args(a, s);
     ret = isequal(cmd, a{1}) && isequal(cmdA, a(2)) ...
         && isequal(cfA, a(4 : end));
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = command_and_config_args_fixed_cmd_args_double_hyphen
+
+    s = cmdstru3;
+    dfltCmd = 'cmd1';
+    a = {dfltCmd, '--', 'cfparam', 1};
+    [cmd, cmdA, cfA] = command_and_config_args(a, s);
+    ret = isequal(cmd, a{1}) && isempty(cmdA) && isequal(cfA, a(3 : end));
 
 endfunction
 
