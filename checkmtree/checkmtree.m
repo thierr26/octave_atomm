@@ -230,23 +230,33 @@ function varargout = checkmtree(varargin)
         rethrow(e);
     end_try_catch
 
-    cfLocked = true;
-
     if cmd.(cmdName).no_return_value
         minCmdOutputArgCount = 0;
     else
         minCmdOutputArgCount = 1;
     endif
     CmdOutputArgCount = max([minCmdOutputArgCount nargout]);
-    [clearAppRequested, state, varargout{1 : CmdOutputArgCount}] ...
-        = run_command(cmdName, cmdArg, config, configOrigin, state, ...
-            nargout, name);
+    try
+        [clearAppRequested, state, varargout{1 : CmdOutputArgCount}] ...
+            = run_command(cmdName, cmdArg, config, configOrigin, state, ...
+                nargout, name);
+        commandError = false;
+    catch e
+        clearAppRequested = ~cfLocked;
+        commandError = true;
+    end_try_catch
+
+    cfLocked = true;
 
     if clearAppRequested
         munlock;
         clear(mfilename);
     else
         mlock;
+    endif
+
+    if commandError
+        rethrow(e);
     endif
 
 endfunction
