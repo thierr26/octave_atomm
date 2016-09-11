@@ -5,7 +5,7 @@
 ## @deftypefn {Function File} {@var{s} =} run_test_case (@var{@
 ## test_case_name}, @var{test_routine})
 ##
-## Run a test case.
+## Run a test case and return the results as a structure.
 ##
 ## In this context, a test case is a list of test routines provided in the
 ## @var{test_routine} argument as a cell array of function handles.  The
@@ -52,7 +52,7 @@
 ## @end itemize
 ##
 ## The action of @code{@var{s} = run_test_case (@var{test_case_name}, @var{@
-## test_routine}} is to attempt to run all the test routines and return a
+## test_routine})} is to attempt to run all the test routines and return a
 ## structure @var{s} which serves as a test report.  This structure contains
 ## one field.  The name of this field is the test case name provided in the
 ## @var{test_case_name} argument.  Of course, this implies that
@@ -135,7 +135,7 @@
 ##
 ## @example
 ## @group
-## toolman ('run_test', 'structure', '--', 'top', '/path/to/atomm');
+## toolman ('run_test', 'structure', '--', 'top', 'path/to/atomm');
 ## @end group
 ## @end example
 ##

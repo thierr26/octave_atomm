@@ -38,20 +38,21 @@
 ## it uses the following Outman commands:
 ##
 ## @table @asis
-## @item "errorf"
+## @item @qcode{"errorf"}
 ## To output an error message to the HMI and to the log file (if Outman's
 ## master caller has set up a log file) if @var{s} is not valid as an input
 ## argument.
 ##
-## @item "printf" if @var{write_to_log_file_only} is false, "logf" otherwise
-## To output the human readable test report.
+## @item @qcode{"printf"} or @qcode{"logf"} to output the human readable report
+## The former if @var{write_to_log_file_only} is false, the latter otherwise.
 ## @end table
 ##
-## Outman command "printf" outputs to both the HMI and the log file (if
-## Outman's master caller has set up a log file).  Outman command "logf"
-## outputs to the log file only.  So @var{write_to_log_file_only} must be set
-## to true when no output to the HMI is desired.  Please run @code{help outman}
-## for more information about Outman.
+## Outman command @qcode{"printf"} outputs to both the HMI and the log file (if
+## Outman's master caller has set up a log file).  Outman command
+## @qcode{"logf"} outputs to the log file only.  So
+## @var{write_to_log_file_only} must be set to true when no output to the HMI
+## is desired.  Please run @code{help outman} for more information about
+## Outman.
 ##
 ## @seealso{outman, run_test_case, test_structure}
 ## @end deftypefn

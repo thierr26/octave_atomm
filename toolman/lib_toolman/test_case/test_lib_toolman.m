@@ -2,17 +2,25 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} test_lib_toolman ()
+## @deftypefn {Function File} {@var{s} =} test_lib_toolman ()
 ##
-## Test the lib_toolman toolbox.
+## Run test case for toolbox "lib_toolman", return results as a structure.
 ##
-## @code{test_lib_toolman} tests the lib_toolman toolbox and returns a
-## structure.
+## @code{@var{s} = test_lib_toolman ()} actually runs a
+## @code{@var{s} = run_test_case (@var{test_case_name}, @var{test_routine})}
+## statement.  Please run @code{help run_test_case} for more information about
+## function @code{run_test_case} and its output structure.
 ##
-## This structure is a structure returned by @code{run_test_case} and can be
-## used as argument to @code{report_test_rslt}.
+## @table @asis
+## @item @var{test_case_name}
+## "test_lib_toolman" (function name, given by function @code{mfilename}).
 ##
-## @seealso{report_test_rslt, run_test_case}
+## @item @var{test_routine}
+## Cell array of handles to local functions (test routines) written
+## specifically to test the toolbox "lib_toolman".
+## @end table
+##
+## @seealso{mfilename, run_test_case}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>

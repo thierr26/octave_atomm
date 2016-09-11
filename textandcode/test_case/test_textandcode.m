@@ -2,15 +2,25 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} test_textandcode ()
+## @deftypefn {Function File} {@var{s} =} test_textandcode ()
 ##
-## Test the textandcode toolbox.
+## Run test case for toolbox "textandcode", return results as a structure.
 ##
-## @code{test_textandcode} tests the textandcode toolbox and returns a
-## structure.  This structure is a structure returned by @code{run_test_case}
-## and can be used as argument to @code{report_test_rslt}.
+## @code{@var{s} = test_textandcode ()} actually runs a
+## @code{@var{s} = run_test_case (@var{test_case_name}, @var{test_routine})}
+## statement.  Please run @code{help run_test_case} for more information about
+## function @code{run_test_case} and its output structure.
 ##
-## @seealso{report_test_rslt, run_test_case}
+## @table @asis
+## @item @var{test_case_name}
+## "test_textandcode" (function name, given by function @code{mfilename}).
+##
+## @item @var{test_routine}
+## Cell array of handles to local functions (test routines) written
+## specifically to test the toolbox "textandcode".
+## @end table
+##
+## @seealso{mfilename, run_test_case}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>
