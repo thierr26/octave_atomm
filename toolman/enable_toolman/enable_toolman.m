@@ -2,12 +2,12 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Script File} enable_toolman
+## @defmac enable_toolman
 ##
 ## Add Toolman's dependencies to the function search path.
 ##
 ## @seealso{toolman}
-## @end deftypefn
+## @end defmac
 
 ## Author: Thierry Rascle <thierr26@free.fr>
 

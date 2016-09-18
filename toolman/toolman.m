@@ -119,10 +119,13 @@
 ## in this documentation.
 ##
 ## Here are the rules that must be obeyed when writing dependency files.  Note
-## that Checkmtree is provided in the Atomm source tree to help writing and
-## maintaining the dependency files.  Checkmtree can detect missing and
-## superfluous dependencies as well as badly written dependency files.  Please
-## run @code{help checkmtree} for more information about Outman.
+## that toolboxes that don't depend on any other toolbox don't need any
+## dependency file (but they can have an empty one or one containing only
+## comments).  Not also that Checkmtree is provided in the Atomm source tree
+## to help writing and maintaining the dependency files.  Checkmtree can
+## detect missing and superfluous dependency declarations as well as badly
+## written dependency files.  Please run @code{help checkmtree} for more
+## information about Checkmtree.
 ##
 ## @enumerate
 ## @item
@@ -274,7 +277,7 @@
 ##
 ## @example
 ## @group
-## added_to_path = toolman ('add_to_path', 'demo_outman');
+## @var{added_to_path} = toolman ('add_to_path', 'demo_outman');
 ## @end group
 ## @end example
 ##
@@ -316,7 +319,7 @@
 ##
 ## @example
 ## @group
-## list = toolman ('list_declared_deps', 'demo_outman');
+## @var{list} = toolman ('list_declared_deps', 'demo_outman');
 ## @end group
 ## @end example
 ##
@@ -340,7 +343,7 @@
 ##
 ## @example
 ## @group
-## added_to_path = toolman ('run_test', 'home_dir');
+## @var{added_to_path} = toolman ('run_test', 'home_dir');
 ## @end group
 ## @end example
 ##
@@ -412,6 +415,18 @@
 ## @group
 ## toolman ('configure', '--', 'top', ...
 ##     @{'a/source/tree', 'another/tree', 'yet/another/one'@});
+## @end group
+## @end example
+##
+## If you want to configure Toolman with all its default configuration
+## parameters, issue one of the following statements.  The third one exploits
+## the fact that @qcode{configure} is the default command for Toolman.
+##
+## @example
+## @group
+## toolman ('configure');
+## toolman ('configure', '--');
+## toolman ();
 ## @end group
 ## @end example
 ##
