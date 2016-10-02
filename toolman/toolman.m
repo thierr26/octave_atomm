@@ -190,7 +190,7 @@
 ##
 ## @item
 ## They're located in subdirectories of the toolboxes they are testing.  The
-## name of these subdirectories match a regular expression.  For each toolbox,
+## name of these subdirectories match a regular expression.  For every toolbox,
 ## there must be at most one subdirectory matching the regular expression.  By
 ## default, this regular expression is "^test_".  This means that the names of
 ## the subdirectories start with "test_".  You can instruct Toolman to use
@@ -200,7 +200,7 @@
 ##
 ## @item
 ## Their names (i.e.@ the name of the functions) match a regular expression.
-## For each toolbox, there can be multiple functions matching the regular
+## For every toolbox, there can be multiple functions matching the regular
 ## expression.  By default, this regular expression is "^test_".  This means
 ## that the names of the test case functions start with "test_".  You can
 ## instruct Toolman to use another regular expression instead via a
@@ -530,7 +530,7 @@
 ## @qcode{"get_config"} is actually an alias for @qcode{"configure"}.
 ##
 ## The @qcode{"get_config_origin"} also returns a structure with one field for
-## each configuration parameters, but the field values are strings giving
+## every configuration parameters, but the field values are strings giving
 ## information about the origin of the configuration parameter values.  The
 ## strings are all one of the following strings:
 ##

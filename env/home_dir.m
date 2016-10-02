@@ -2,7 +2,7 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} home_dir ()
+## @deftypefn {Function File} {@var{path} =} home_dir ()
 ##
 ## Path to the home directory of the user.
 ## @end deftypefn

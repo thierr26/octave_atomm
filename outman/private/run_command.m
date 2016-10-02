@@ -7,7 +7,7 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~, ~)
     clear_req = false;
     s = setup_log_file_full_name(s1, cf);
     s = setup_cmd_win_prog_warn_needed(s, cf);
-    s = setup_progress_file_error_already_issued(s, cf);
+    s = setup_progress_file_error_already_issued(s);
     [s, callerID] = get_caller_id(s, c, cargs);
 
     switch c
@@ -195,7 +195,7 @@ endfunction
 # Setup the "need to warn that progress indication in the command window is
 # automatically disabled" flag.
 
-function s = setup_progress_file_error_already_issued(s1, cf)
+function s = setup_progress_file_error_already_issued(s1)
 
     s = s1;
     if ~isfield(s1, 'progress_file_error_already_issued')

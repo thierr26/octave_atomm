@@ -5,10 +5,11 @@
 ## @deftypefn {@
 ## Function File} rotate_file (@var{name}, @var{byte_size_threshold})
 ##
-## Rotate file (usefull for log files).
+## Rotate file (useful for log files).
 ##
-## @code{rotate_file} does nothing if @var{name} does not exist or is a file
-## and has a byte size lower than @var{byte_size_threshold}.
+## @code{rotate_file (@var{name}, @var{byte_size_threshold})} does nothing if
+## @var{name} does not exist or is a file and has a byte size lower than
+## @var{byte_size_threshold}.
 ##
 ## If @var{name} is a file and has a byte size greater than or equal to
 ## @var{byte_size_threshold}, then @code{rotate_file} renames @var{name} by
@@ -16,17 +17,14 @@
 ## existed, then @code{rotate_file} would have renamed the file by substituting
 ## ".1" with ".2".  And so on@dots{}
 ##
-## @code{rotate_file} raises an error if at least one of the following
-## conditions is fulfilled:
+## @code{rotate_file} raises an error in the following cases:
 ##
 ## @itemize @bullet
-##
 ## @item
 ## @var{name} is the name of a directory.
 ##
 ## @item
 ## One of the renaming has failed.
-##
 ## @end itemize
 ## @end deftypefn
 

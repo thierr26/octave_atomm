@@ -67,8 +67,8 @@
 ## How much wall clock time (in days) it took to run all the test routines.
 ##
 ## @item test
-## A structure containing one field for each of the test routines.  The fields
-## have the names of the test routines.
+## A structure containing one field for every test routine.  The fields have
+## the names of the test routines.
 ## @end table
 ##
 ## The fields of @code{@var{s}.(@var{test_case_name}).test} are themselves

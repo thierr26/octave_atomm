@@ -6,14 +6,14 @@
 ## @deftypefnx {Function File} demo_outman (@var{@
 ## outman_config_param_1_name}, @var{outman_config_param_1_value}, @var{@
 ## outman_config_param_2_name}, @var{outman_config_param_2_value}, ...)
-## @deftypefnx {Function File} demo_outman (@var{s})
+## @deftypefnx {Function File} demo_outman (@var{stru})
 ##
 ## Demonstrate what @code{outman} can do.
 ##
 ## If no argument is provided, then @code{demo_outman} uses Outman with its
-## default configuration parameters.  To use Outman with non default
-## configuration parameters, provide them as arguments (name-value pairs) or as
-## a structure @var{s}.  Examples:
+## default configuration parameters.  To cause @code{demo_outman} to use Outman
+## with non default configuration parameters, provide them as name-value pairs
+## arguments or as a structure argument.  Examples:
 ##
 ## @example
 ## @group
@@ -27,14 +27,14 @@
 ## @end group
 ## @end example
 ##
-## Please see the documentation for @code{outman_connect_and_config_if_master}
-## for a list of all Outman configuration parameters.
+## Outman usage and configuration is fully documented in the help for Outman.
+## Please issue a @code{help outman} command to read it.
 ##
-## Note that Outman's progress indicators may not show up, dependending on
+## Note that Outman's progress indicators may not show up, depending on
 ## Outman's configuration.  For example, when run by Matlab for windows,
 ## Outman's default configuration is to not show the progress indicators.
 ##
-## @seealso{outman, outman_connect_and_config_if_master}
+## @seealso{outman}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>
@@ -44,11 +44,7 @@ function demo_outman(varargin)
     oName = 'Outman';
     alreadyConfigured = mislocked('outman');
 
-    if alreadyConfigured
-        oId = outman_connect_and_config_if_master;
-    else
-        oId = outman_connect_and_config_if_master(varargin{:});
-    endif
+    oId = outman_connect_and_config_if_master(varargin{:});
     outman('logtimef', oId, '%s started', mfilename);
     cf = outman('get_config', oId);
     if alreadyConfigured

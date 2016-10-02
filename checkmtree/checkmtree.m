@@ -2,10 +2,10 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} checkmtree {stru =} ('check_code', ...)
-## @deftypefnx {Function File} checkmtree {stru =} ('check_encoding', ...)
-## @deftypefnx {Function File} checkmtree {stru =} ('check_dependencies', ...)
-## @deftypefnx {Function File} checkmtree {stru =} ('check_all', ...)
+## @deftypefn {Function File} {stru =} checkmtree ('check_code', ...)
+## @deftypefnx {Function File} {stru =} checkmtree ('check_encoding', ...)
+## @deftypefnx {Function File} {stru =} checkmtree ('check_dependencies', ...)
+## @deftypefnx {Function File} {stru =} checkmtree ('check_all', ...)
 ## @deftypefnx {Function File} checkmtree {@
 ## tb_deps =} ('list_toolbox_deps', @var{toolbox_relative_or_absolute_path})
 ## @deftypefnx {Function File} {deps =} checkmtree ('list_deps')

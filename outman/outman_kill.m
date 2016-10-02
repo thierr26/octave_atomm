@@ -4,15 +4,18 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} outman_kill ()
 ##
-## Unlock and clear Outman's main function.
+## Force Outman's shutdown.
 ##
-## @code{outman_kill} is usefull when, for whatever reason, Outman has not been
-## exited properly and you need to make it ready for a new start with possibly
-## new configuration parameters.
+## @code{outman_kill} is useful when for whatever reason Outman's master caller
+## has not disconnected and the master caller ID is lost.
 ##
-## Of course, the preferred way when applicable to unlock and clear Outman's
-## main function is to exit it with the dedicated command:
-## @code{outman('disconnect', @var{master_caller_id})}.
+## A @code{outman_kill ()} statement shuts down outman.
+##
+## Of course, the preferred way to shut down Outman is to issue a
+## @code{outman('disconnect', @var{master_caller_id})} statement.
+##
+## Outman usage is fully documented in the help for Outman. Please issue a
+## @code{help outman} command to read it.
 ##
 ## @seealso{outman}
 ## @end deftypefn

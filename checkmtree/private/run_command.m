@@ -312,7 +312,7 @@ endfunction
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# List the dependencies for each and every M-file.
+# List the dependencies for every M-file.
 
 function c = list_deps(o_id, s)
 
