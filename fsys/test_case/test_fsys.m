@@ -262,7 +262,7 @@ endfunction
 
 function ret = is_mat_file_name_false
 
-    ret = ~is_mat_file_name('abc.def');
+    ret = ~is_mat_file_name('abc.mat.txt');
 
 endfunction
 
