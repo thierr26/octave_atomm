@@ -275,8 +275,8 @@ function [s1, top, f, mx, ign] = check_args(varargin)
         f = '';
     endif
 
-    if nargin >= k
-        if ~is_positive_integer_scalar(varargin{k}) && varargin{k} ~= 0
+    if nargin >= k && is_integer_scalar(varargin{k})
+        if varargin{k} < 0
             error('Invalid maximum depth argument');
         endif
         mx = varargin{k};
