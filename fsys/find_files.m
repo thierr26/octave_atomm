@@ -2,87 +2,348 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} find_files ()
-## @deftypefnx {Function File} find_files (@var{top})
-## @deftypefnx {Function File} find_files (@var{top}, @var{f})
-## @deftypefnx {Function File} find_files (@var{top}, @var{mx})
-## @deftypefnx {Function File} find_files (@var{top}, @var{f}, @var{mx})
-## @deftypefnx {Function File} find_files (@var{top}, @var{ign})
-## @deftypefnx {Function File} find_files (@var{top}, @var{f}, @var{ign})
-## @deftypefnx {@
-## Function File} find_files (@var{top}, @var{f}, @var{mx}, @var{ign})
-## @deftypefnx {Function File} find_files (@var{s}, @var{top})
-## @deftypefnx {Function File} find_files (@var{s}, @var{top}, @var{f})
-## @deftypefnx {Function File} find_files (@var{s}, @var{top}, @var{mx})
-## @deftypefnx {@
-## Function File} find_files (@var{s}, @var{top}, @var{f}, @var{mx})
-## @deftypefnx {Function File} find_files (@var{s}, @var{top}, @var{ign})
-## @deftypefnx {@
-## Function File} find_files (@var{s}, @var{top}, @var{f}, @var{ign})
-## @deftypefnx {@
-## Function File} find_files (@var{top}, @var{f}, @var{mx}, @var{ign})
-## @deftypefnx {@
-## Function File} find_files (@var{s}, @var{top}, @var{f}, @var{mx}, @var{@
-## ign}, @var{nocheck})
+## @deftypefn {Function File} {@var{s} =} find_files ()
+## @deftypefnx {Function File} {@var{s} =} find_files (@var{top})
+## @deftypefnx {Function File} {@var{s} =} find_files (@var{top}, @var{filter})
+## @deftypefnx {Function File} {@var{s} =} find_files (@var{top}, @var{@
+## filter}, @var{max_depth})
+## @deftypefnx {Function File} {@var{s} =} find_files (@var{top}, @var{@
+## filter}, @var{max_depth}, @var{ignored_dirs})
+## @deftypefnx {Function File} {@var{s} =} find_files (@var{s1}, @var{top})
+## @deftypefnx {Function File} {@var{s} =} find_files (@var{s1}, @var{@
+## top}, @var{filter})
+## @deftypefnx {Function File} {@var{s} =} find_files (@var{s1}, @var{@
+## top}, @var{filter}, @var{max_depth})
+## @deftypefnx {Function File} {@var{s} =} find_files (@var{s1}, @var{@
+## top}, @var{filter}, @var{max_depth}, @var{ignored_dirs})
+## @deftypefnx {Function File} {@var{s} =} find_files (@var{s1}, @var{@
+## top}, @var{filter}, @var{max_depth}, @var{ignored_dirs}, @var{no_check})
 ##
 ## Find files recursively.
 ##
-## @code{find_files} returns a structure containing the following fields:
+## @strong{Explore a directory tree.}
+##
+## @code{@var{s} = find_files ()} scans the current working directory and its
+## subdirectories and returns a structure containing the following fields:
 ##
 ## @table @asis
-## @item dir
-## A cell array of strings containing the absolute path to @var{top} and the
-## absolute path to every subdirectory recursively found in @var{top}, or an
-## empty cell array of strings if @var{top} does not exist as a directory.  If
-## @var{top} is not provided, then the working directory is used instead.  The
-## directories that are in cell array of strings @var{ign} (or in the cell
-## array of strings returned by @code{ignored_dir_list} if @var{ign} is not
-## provided) are omitted.  If @var{mx} is provided and set to a positive
-## integer value, then the subdirectories at a depth greater than @var{mx} are
-## omitted.  @var{top} is at depth 1.
+## @item @qcode{"dir"}
+## A cell array of strings containing the absolute path to the current working
+## directory and the absolute path to every subdirectory recursively found.
+## The directories that have their name in the cell array of strings returned
+## by function @code{ignored_dir_list} are omitted.
 ##
-## @item file
+## @item @qcode{"file"}
 ## A cell array of strings containing the base names of the files found in the
-## directories present in the "dir" field.  The files are grouped by parent
-## directory.  If filter @var{f} is provided, then the files that don't match
-## the filter are omitted.  Wildcards character are supported like in
-## @code{dir}.  For example, you can set @var{f} to "*.m" to omit all the files
-## with a name not ending with ".m".
+## directories present in the @qcode{"dir"} field.  The files are grouped by
+## parent directory.
 ##
-## @item bytes
-## A vector having the same shape as the "file" field containing the byte sizes
-## of the files (similar to the "bytes" field structures returned by
-## @code{dir}).
+## @item @qcode{"bytes"}
+## A vector having the same shape as the @qcode{"file"} field containing the
+## byte sizes of the files (similar to the @qcode{"bytes"} field structures
+## returned by function @code{dir}).
 ##
-## @item datenum
-## A vector having the same shape as the "file" field containing the timestamp
-## of file modification as serial date number (similar to the "datenum" field
-## structures returned by @code{dir}).  Serial date numbers are the kind of
-## values returned by function @code{datenum}.
+## @item @qcode{"datenum"}
+## A vector having the same shape as the @qcode{"file"} field containing the
+## dates of modification of the files as serial date numbers (similar to the
+## @qcode{"datenum"} field structures returned by function @code{dir}).
 ##
-## @item dir_idx
-## A vector having the same shape as the "file" field containing the index in
-## "dir" of the directory to which the file belongs.
+## @item @qcode{"dir_idx"}
+## A vector having the same shape as the @qcode{"file"} field containing the
+## index in field @qcode{"dir"} of the directory to which the file belongs.
 ##
-## @item first_file_idx
-## A vector having the same shape as the "dir" field containing the index in
-## "file" of the first file found in the directory (or 1 if no file was found
-## in the directory).
+## @item @qcode{"first_file_idx"}
+## A vector having the same shape as the @qcode{"dir"} field containing the
+## index in @qcode{"file"} of the first file found in the directory (or 1 if no
+## file was found in the directory).
 ##
-## @item last_file_idx
-## A vector having the same shape as the "dir" field containing the index in
-## "file" of the last file found in the directory (or 0 if no file was found in
-## the directory).
+## @item @qcode{"last_file_idx"}
+## A vector having the same shape as the @qcode{"dir"} field containing the
+## index in @qcode{"file"} of the last file found in the directory (or 0 if no
+## file was found in the directory).
 ## @end table
 ##
-## If @var{s} is provided and is a @code{find_files} return structure, then the
-## information in @var{s} are included in the return structure.  This allows to
-## grow the structure as many times as needed, using various @var{top},
-## @var{f}, @var{mx} and @var{ign} arguments.
+## For example, let's assume that your current working directory is like the
+## following tree:
 ##
-## If @var{nocheck} is provided and is true, then no argument checking is done.
+## @verbatim
+## current_working_directory
+## |
+## |-file_1
+## |-file_2
+## |
+## |-subdir_1
+## | |
+## | |-file_3
+## | |-file_4
+## |
+## |-subdir_2
+## | |
+## | |-subsubdir
+## |   |
+## |   |-file_5
+## |
+## |-subdir_3
+##   |
+##   |-file_6
+##   |-file_7
+## @end verbatim
 ##
-## @seealso{datenum, dir, find_files_empty_s, ignored_dir_list}
+## The @code{@var{s} = find_files ()} statement returns a @var{s} structure
+## like:
+##
+## @verbatim
+## S =
+##
+##   scalar structure containing the fields:
+##
+##     dir = <directories and subdirectories, including working directory>
+##     {
+##       [1,1] = current/working/directory
+##       [1,2] = current/working/directory/subdir_1
+##       [1,3] = current/working/directory/subdir_2
+##       [1,4] = current/working/directory/subdir_2/subsubdir
+##       [1,5] = current/working/directory/subdir_3
+##     }
+##     file = <files found, grouped by parent directory>
+##     {
+##       [1,1] = file_1
+##       [1,2] = file_2
+##       [1,3] = file_3
+##       [1,4] = file_4
+##       [1,5] = file_5
+##       [1,6] = file_6
+##       [1,7] = file_7
+##     }
+##
+##     first_file_idx = <for every directory, index of first file>
+##
+##        1   3   1   5   6
+##
+##     last_file_idx = <for every dir., index of last file (0 if no file)>
+##
+##        2   4   0   5   7
+##
+##     dir_idx = <for every file, index of directory>
+##
+##        1   1   2   2   4   5   5
+##
+##     bytes = <for every file, byte size>
+##
+##        <size_1> <size_2> <size_3> <size_4> <size_5> <size_6> <size_7>
+##
+##     datenum = <for every file, modification date (serial date number)>
+##
+##        <date_1> <date_2> <date_3> <date_4> <date_5> <date_6> <date_7>
+## @end verbatim
+##
+## If you want to explore another directory than your current working
+## directory, provide this directory as an argument to @code{find_files}:
+##
+## @example
+## @group
+## @var{s} = find_files ('path/to/the/directory/to/explore')
+## @end group
+## @end example
+##
+## @strong{Use @code{absolute_path} to get the absolute path to a file.}
+##
+## Function @code{absolute_path} can be used to get back the absolute path to a
+## file from the @qcode{"file"} field of the @code{find_files} return
+## structure.  Just provide @code{find_files} return structure and the index of
+## the file as arguments to @code{absolute_path}.
+##
+## This code:
+##
+## @example
+## @group
+## @var{s} = find_files ();
+## for @var{k} = 1 : numel (@var{s}.file)
+##     disp (absolute_path (@var{s}, @var{k}))
+## end
+## @end group
+## @end example
+##
+## is equivalent to:
+##
+## @example
+## @group
+## @var{s} = find_files ();
+## for @var{k} = 1 : numel (@var{s}.file)
+##     disp (fullfile (...
+##         @var{s}.dir@{@var{s}.dir_idx(@var{k})@}, @var{s}.file@{@var{k}@}))
+## end
+## @end group
+## @end example
+##
+## @strong{Apply a file filter if needed.}
+##
+## @code{find_files} can take a file filter as argument, similarly to function
+## @code{dir}.  For example, if don't want any other files than the files with
+## extension ".c" in the @code{find_files} return structure, add a "*.c"
+## argument:
+##
+## @example
+## @group
+## @var{s} = find_files (pwd, '*.c')
+## @end group
+## @end example
+##
+## An empty string argument is equivalent to not providing any file filter
+## argument (i.e.@ is equivalent to no file filtering).
+##
+## @strong{Limit exploration depth if possible.}
+##
+## @code{find_files} can take a maximum exploration depth as argument.
+##
+## A maximum exploration depth of 1 excludes from the output structure any
+## directory or file that is not directly in the explored directory.
+##
+## A maximum exploration depth of 2 excludes from the output structure any
+## directory or file that is not directly in the explored directory or not
+## directly in a subdirectory of the explored directory.
+##
+## And so on@dots{}
+##
+## Examples:
+##
+## @example
+## @group
+## @var{s} = find_files (pwd, 1)
+## @end group
+## @end example
+##
+## @example
+## @group
+## @var{s} = find_files (pwd, '*.c', 1)
+## @end group
+## @end example
+##
+## A zero value is equivalent to not providing any maximum exploration depth
+## argument (i.e.@ a zero value does not limit the exploration depth).
+##
+## @strong{Ignore some directories (e.g.@ VCS directories).}
+##
+## The directories you want to explore with @code{find_files} may contain some
+## directories that you don't want to see in the output structure.  These are
+## typically directories created by some version control systems (e.g.@ Git,
+## Subversion).  By default, @code{find_files} ignores the directories that are
+## in the list returned by function @code{ignored_dir_list}.
+##
+## If you want to specify your own list of directories to be ignored, add a
+## cell array argument like in the following examples:
+##
+## Examples:
+##
+## @example
+## @group
+## @var{s} = find_files (pwd, @{'ignored_dir_1', 'ignored_dir_2'@})
+## @end group
+## @end example
+##
+## @example
+## @group
+## @var{s} = find_files (pwd, 1, @{'ignored_dir_1', 'ignored_dir_2'@})
+## @end group
+## @end example
+##
+## @example
+## @group
+## @var{s} = find_files (pwd, '*.c', 1, @{'ignored_dir_1', 'ignored_dir_2'@})
+## @end group
+## @end example
+##
+## If you don't want any directory to be ignored, provide an empty cell array
+## as argument.  Example:
+##
+## @example
+## @group
+## @var{s} = find_files (pwd, @{@})
+## @end group
+## @end example
+##
+## @strong{Use @code{find_files} iteratively with various arguments.}
+##
+## The usage examples provided so far demonstrate how to use @code{find_files}
+## to explore one directory tree and specify eventually one file filter, one
+## maximum exploration depth and one ignored directories list.
+##
+## You might need to explore multiple directories and use multiple file filters
+## for example.  In this case, you can issue multiple calls to
+## @code{find_files} providing from the second call on the output structure
+## back as first argument.
+##
+## For example, if you need to explore two directory trees and want to exclude
+## all files but those with ".c" or ".h" extension, do as follow:
+##
+## @example
+## @group
+## @var{s} = find_files ('first/directory', '*.c');
+## @var{s} = find_files (@var{s}, 'first/directory', '*.h');
+## @var{s} = find_files (@var{s}, 'second/directory', '*.c');
+## @var{s} = find_files (@var{s}, 'second/directory', '*.h');
+## @end group
+## @end example
+##
+## Such an iterative use of @code{find_files} results in a @var{s} structure
+## containing the merged results of all the directory tree explorations.
+##
+## Alternatively, you can use function @code{find_files_empty_s} to initialize
+## an empty @code{find_files} return structure and write only one
+## @code{find_files (...)} statement in a loop:
+##
+## @example
+## @group
+## @var{s} = find_files_empty_s;
+## for @var{d} = @{'first/directory', 'second/directory'@}
+##     for @var{f} = @{'*.c', '*.h'@}
+##         @var{s} = find_files (@var{s}, d@{1@}, f@{1@});
+##     end
+## end
+## @end group
+## @end example
+##
+## @strong{Skip argument checking if you know that your input is safe.}
+##
+## @code{find_files} performs by default a check of the input structure and
+## issues an error if it's not a correct @code{find_files} return structure.
+## This check is superfluous for a structure that's been output by functions
+## @code{find_files} or @code{find_files_empty_s} and slows down the execution
+## of the function.
+##
+## You can instruct @code{find_files} to skip the check by providing
+## explicitly all the arguments to the function and adding a supplementary
+## "no_check" argument (a logical flag).  A true value for this supplementary
+## argument causes @code{find_files} to skip the check.
+##
+## Let's rewrite the two previous examples so that the check is skipped:
+##
+## @example
+## @group
+## @var{s} = find_files ('first/directory', '*.c');
+## @var{s} = find_files (@var{s}, 'first/directory', '*.h', 0, ...
+##     ignored_dir_list, true);
+## @var{s} = find_files (@var{s}, 'second/directory', '*.c', 0, ...
+##     ignored_dir_list, true);
+## @var{s} = find_files (@var{s}, 'second/directory', '*.h', 0, ...
+##     ignored_dir_list, true);
+## @end group
+## @end example
+##
+## @example
+## @group
+## @var{s} = find_files_empty_s;
+## for @var{d} = @{'first/directory', 'second/directory'@}
+##     for @var{f} = @{'*.c', '*.h'@}
+##         @var{s} = find_files (@var{s}, d@{1@}, f@{1@}, 0, ...
+##             ignored_dir_list, true);
+##     end
+## end
+## @end group
+## @end example
+##
+## @seealso{absolute_path, datenum, dir, find_files_empty_s, fullfile,
+## ignored_dir_list, pwd}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>

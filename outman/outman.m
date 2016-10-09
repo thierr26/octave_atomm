@@ -182,6 +182,15 @@
 ## @end group
 ## @end example
 ##
+## If you need to know whether Outman has been shut down or not, issue this
+## statement.  A true return value means that Outman has not been shut down.
+##
+## @example
+## @group
+## mislocked ('outman')
+## @end group
+## @end example
+##
 ## Now that the importance of the @qcode{"disconnect"} command has been clearly
 ## stated, Let's have a look to the other Outman commands.  They can be divided
 ## into three families:
@@ -764,7 +773,8 @@
 ## @end table
 ##
 ## @seealso{checkmtree, demo_outman, disp, duration_str, fprintf, home_dir,
-## outman_connect_and_config_if_master, outman_kill, rotate_file, toolman}
+## mislocked, outman_connect_and_config_if_master, outman_kill, rotate_file,
+## toolman}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>

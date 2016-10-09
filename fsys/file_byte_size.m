@@ -2,9 +2,9 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} file_byte_size (@var{filename})
+## @deftypefn {Function File} {@var{byte} =} file_byte_size (@var{filename})
 ##
-## Byte size of file @var{filename}.
+## Return the byte size of file @var{filename}.
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>

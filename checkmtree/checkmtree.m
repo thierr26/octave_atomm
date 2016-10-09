@@ -293,7 +293,7 @@
 ## is a cell array of strings with 5 columns:
 ##
 ## @enumerate
-## @item Function name
+## @item Function name.
 ##
 ## @item "public" if the function is public, "private" if it is private.
 ##

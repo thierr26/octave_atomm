@@ -2,23 +2,26 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} ignored_dir_list ()
+## @deftypefn {Function File} {@var{list} =} ignored_dir_list ()
 ##
-## Return the list of directory names that are ignored by default by
-## @code{find_files}.
+## List of directories that are ignored by default by @code{find_files}.
 ##
-## The list has been built based on the ignore list used by the "ack" software.
-## See file ConfigDefault.pm in ack repository
-## (https://github.com/petdance/ack2).
+## @code{@var{list} = ignored_dir_list ()} returns a cell array of strings
+## containing the names of the directories that are ignored by default by
+## function @code{find_files}.
 ##
 ## @seealso{find_files}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>
 
-function c = ignored_dir_list
+function list = ignored_dir_list
 
-    c = {...
+    # The list has been built based on the ignore list used by the "ack"
+    # software.  See file ConfigDefault.pm in ack repository
+    # (https://github.com/petdance/ack2).
+
+    list = {...
         '.bzr', ...
         '.cdv', ...
         '.git', ...

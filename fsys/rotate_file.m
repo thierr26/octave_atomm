@@ -17,7 +17,7 @@
 ## existed, then @code{rotate_file} would have renamed the file by substituting
 ## ".1" with ".2".  And so on@dots{}
 ##
-## @code{rotate_file} raises an error in the following cases:
+## @code{rotate_file} issues an error in the following cases:
 ##
 ## @itemize @bullet
 ## @item

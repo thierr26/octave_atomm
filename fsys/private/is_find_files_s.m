@@ -1,14 +1,5 @@
 ## Copyright (C) 2016 Thierry Rascle <thierr26@free.fr>
 ## MIT license. Please refer to the LICENSE file.
-
-## -*- texinfo -*-
-## @deftypefn {Function File} is_find_files_s (@var{s})
-##
-## Return true if @var{s} looks like a structure returned by @code{find_files}.
-##
-## @seealso{find_files}
-## @end deftypefn
-
 ## Author: Thierry Rascle <thierr26@free.fr>
 
 function ret = is_find_files_s(s)

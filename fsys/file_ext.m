@@ -2,9 +2,9 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} file_ext (@var{filename})
+## @deftypefn {Function File} {@var{ext} =} file_ext (@var{filename})
 ##
-## Extension of file @var{filename}, including the dot.
+## Return the extension of file @var{filename}, including the dot.
 ##
 ## If @var{filename} is an empty string or has no extension, then an empty
 ## string is returned.

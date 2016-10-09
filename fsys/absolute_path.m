@@ -2,13 +2,36 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} absolute_path (@var{str})
-## @deftypefnx {Function File} absolute_path (@var{s}, @var{k})
-## @deftypefnx {Function File} absolute_path (@var{s}, @var{k}, @var{nocheck})
+## @deftypefn {Function File} {@var{abs_path} =} absolute_path (@var{path})
+## @deftypefnx {Function File} {@var{abs_path} =} absolute_path (@var{@
+## find_files_s}, @var{k})
+## @deftypefnx {Function File} {@var{abs_path} =} absolute_path (@var{@
+## find_files_s}, @var{k}, @var{no_check})
 ##
-## Return full file path to @var{str} or to file with index @var{k} in
-## structure @var{s}, @var{s} being a return value of @code{find_files}.  If
-## @var{nocheck} is true, then skip most of the argument checking.
+## Return a full file path.
+##
+## Function @code{absolute_path} can be used in two different ways:
+##
+## @enumerate
+## @item As a path expanding function.
+##
+## When provided with a path string (relative or absolute) as argument,
+## @code{absolute_path} returns the absolute path.
+##
+## @item As an absolute file path extractor for @code{find_files} structures.
+##
+## When provided with a @code{find_files} structure and a file index,
+## @code{absolute_path} returns the absolute path to the corresponding file.
+## This use of @code{absolute_path} is presented in the documentation for
+## @code{find_files}.  Please run @code{help find_files} to read it.
+##
+## @code{absolute_path} performs by default a check of the input structure.  If
+## you know that your input is safe (e.g.@ if is the input is a direct output
+## of @code{find_files}), you can instruct @code{absolute_path} to skip the
+## check by providing a supplementary argument (a logical flag).  A true value
+## for this supplementary argument causes @code{absolute_path} to skip the
+## check.
+## @end enumerate
 ##
 ## @seealso{find_files}
 ## @end deftypefn
