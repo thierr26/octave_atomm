@@ -286,7 +286,8 @@ function [s1, top, f, mx, ign] = check_args(varargin)
     endif
 
     if nargin >= k
-        if ~is_cell_array_of_non_empty_strings(varargin{k})
+        if ~is_cell_array_of_non_empty_strings(varargin{k}) ...
+                && ~isequal(varargin{k}, {})
             error('Invalid ignored directories argument');
         endif
         ign = varargin{k};
