@@ -92,7 +92,8 @@ function s = test_appmech
         @strip_defaults_from_config_stru_fail_wrong_ori_type, ...
         @strip_defaults_from_config_stru_fail_wrong_ori_field_type, ...
         @strip_defaults_from_config_stru_fail_missing_ori_field, ...
-        @strip_defaults_from_config_stru_ok};
+        @strip_defaults_from_config_stru_ok_1, ...
+        @strip_defaults_from_config_stru_ok_2};
 
     # Run the test case.
     s = run_test_case(mfilename, testRoutine);
@@ -154,6 +155,22 @@ function [dflt, cf, ori] = cfstrus
     ori = struct('arg1logic', 'Default', ...
         'arg2num', ['Session specific configuration ' ...
             '(getappdata(0, ''test''))']);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function [dflt, cf, ori] = cfstrus_2
+
+    dflt = struct(...
+        'arg1logic', ...
+        struct('default', false, 'valid', @islogical), ...
+        'arg2num', ...
+        struct('default', 1, 'valid', @isnumeric));
+    cf = struct('arg1logic', false, 'arg2num', 2);
+    ori = struct('arg1logic', ...
+        ['Session specific configuration (getappdata(0, ''test''))'], ...
+        'arg2num', 'Default');
 
 endfunction
 
@@ -813,9 +830,19 @@ endfunction
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function ret = strip_defaults_from_config_stru_ok
+function ret = strip_defaults_from_config_stru_ok_1
 
     [~, cf, ori] = cfstrus;
+    ret = isequal(rmfield(cf, 'arg1logic'), ...
+        strip_defaults_from_config_stru(cf, ori));
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = strip_defaults_from_config_stru_ok_2
+
+    [~, cf, ori] = cfstrus_2;
     ret = isequal(rmfield(cf, 'arg2num'), ...
         strip_defaults_from_config_stru(cf, ori));
 

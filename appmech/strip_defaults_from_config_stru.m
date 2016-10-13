@@ -44,7 +44,7 @@ function ret = strip_defaults_from_config_stru(cf, ori)
                 'string'], f{k});
         endif
         if strcmp(ori.(f{k}), 'Default')
-            keep(n) = false;
+            keep(k) = false;
         endif
     endfor
     ret = clean_up_struct(cf, f(keep));
