@@ -303,7 +303,7 @@ function [s, id] = create_new_progress_if_max_count_not_reached(s1, cf, cargs)
                 progress_duration_str(s, cf, s.progress.start_datenum));
             s.progress.last_prog_file_update_datenum ...
                 = s.progress.start_datenum;
-            fprintf(progFileId, '%s', s.progress.prog_file_str);
+            fprintf(progFileId, '%s\n', s.progress.prog_file_str);
             fclose(progFileId);
         endif
     else
@@ -369,7 +369,7 @@ function s = update_progress(s1, cf, cargs)
                     if progFileId ~= -1
                         s.progress.prog_file_str = newProgFileStr;
                         s.progress.last_prog_file_update_datenum = nowN;
-                        fprintf(progFileId, '%s', s.progress.prog_file_str);
+                        fprintf(progFileId, '%s\n', s.progress.prog_file_str);
                         fclose(progFileId);
                     endif
                 endif

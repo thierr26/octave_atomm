@@ -2,7 +2,7 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{stru} =} find_files_empty_s ()
+## @deftypefn {Function File} {@var{stru} =} find_files_empty_s ()
 ##
 ## Initialize an empty @code{find_files} return structure.
 ##

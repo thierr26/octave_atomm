@@ -226,7 +226,7 @@ function try_checkcode(filename, o_id)
             filename);
     end_try_catch
     if ~isempty(msg)
-        outman('printf', o_id, '%s:\n%s\n', filename, msg);
+        outman('printf', o_id, '\n%s:\n%s\n', filename, msg);
     endif
 
 endfunction
