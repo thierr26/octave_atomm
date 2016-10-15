@@ -2,63 +2,107 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} validated_opt_args (@var{valid_f_dflt_v}, ...)
+## @deftypefn {Function File} {[arg1, ...] =} validated_opt_args (@var{@
+## valid_f_dflt_v}, ...)
 ##
-## Validate the caller function's optional arguments.
+## Validate optional arguments.
 ##
-## The first argument (@var{valid_f_dflt_v}) must be a 2-dimensional cell array
-## with 2 columns.  In the first column, there must be function handles.  The
-## functions pointed to by the handles are hereafter called the "validation
-## functions".  In the second column, there must be valid values with regard to
-## the validation functions.  These values are the default values for the
-## caller function's optional arguments.
+## The intended use of function @code{validated_opt_args} is to validate the
+## optional arguments of its caller function.
 ##
-## The validation functions must take exactly one argument, return a logical
-## scalar and behave as follows:
+## It takes as first argument a 2 column cell array.  The number of rows of the
+## array is the number of optional arguments.
+##
+## The first column of the cell array is expected to contain function handles.
+## The functions pointed to by the handles are hereafter called the "validation
+## functions".  They must take exactly one argument, return a logical scalar
+## and behave as follows:
 ##
 ## @itemize @bullet
 ## @item
 ## Return true if the argument is valid.
 ##
 ## @item
-## Return false or raise an error if the argument is not valid.
+## Return false or issue an error if the argument is not valid.
 ## @end itemize
 ##
-## @code{validated_opt_args} raises an error if one of the following conditions
-## is fulfilled:
+## The validation functions can eventually be anonymous functions.
 ##
-## @itemize @bullet
-## @item
-## The number of arguments is greater than the number of rows in
-## @var{valid_f_dflt_v} plus one.
-##
-## @item
-## The argument at position 2 (resp. 3, 4, etc.) is not valid with regard to
-## the validation function pointed to by the handle in the first column of
-## @var{valid_f_dflt_v} at row 1 (resp. 2, 3, etc.).
-## @end itemize
-##
-## If no error is raised, then @code{validated_opt_args} returns as many
-## output arguments as the number of rows in @var{valid_f_dflt_v}.  The 1st
-## (resp. 2nd, 3rd, etc.) output argument is the input argument at position 2
-## (resp. 3, 4, etc.).  If the number of input arguments is lower than the
-## number of rows in @var{valid_f_dflt_v} plus one, then the trailing output
-## arguments are copied from the second column of @var{valid_f_dflt_v}.
-##
-## Here is an example of caller function:
+## The second column of the cell array is expected to contain the default
+## values of the optional arguments.  When the @var{n}th optional argument is
+## not provided, then the corresponding default value (
+## @code{@var{valid_f_dflt_v}@{@var{n}, 2@}}) is used instead.  Of course it is
+## required that the default values are valid values with regard to the
+## validation functions:
 ##
 ## @example
 ## @group
-## function example1(c, s, varargin)
-##     validated_mandatory_args(@{@@iscell, @@isstruct@}, c, s);
-##     [str1, str2] = validated_opt_args(...
-##         @{@@ischar, 'foo'; @@ischar, 'bar'@}, varargin@{:@});
-##     @dots{}
+## @var{valid_f_dflt_v}@{@var{n}, 1@}(@var{valid_f_dflt_v}@{@var{n}, 2@})
+## @end group
+## @end example
+##
+## returns true.
+##
+## The arguments from the second one on are the arguments to validate.
+##
+## Let's demonstrate the use of @code{validated_opt_args} with an example
+## function that takes only optional arguments (in this case two optional
+## arguments).
+##
+## @example
+## @group
+## function example1 (varargin)
+##
+##     [@var{logical_array}, @var{numeric_array}] = validated_opt_args (...
+##         @{@@islogical, [true false]; ...
+##          @@isnumeric, [1 2 3]@},     varargin@{:@});
+##
+##     @dots{} % Use @var{logical_array} and @var{numeric_array} here.
 ## end
 ## @end group
 ## @end example
 ##
-## @seealso{validated_mandatory_args}
+## Note the use of varargin both in the function signature and the call to
+## @code{validated_opt_args}.
+##
+## The example function above issues an error if at least one of the following
+## condition is fulfilled:
+##
+## @itemize @bullet
+## @item
+## One argument is provided and it is not a logical array.
+##
+## @item
+## Two arguments are provided and the first one is not a logical array or the
+## second one is not a numeric array.
+##
+## @item
+## More than two arguments are provided.
+## @end itemize
+##
+## In a function that takes mandatory arguments @emph{and} optional arguments,
+## you can use both @code{validated_mandatory_args} and
+## @code{validated_opt_args} like in the following example.  Please issue a
+## @code{help validated_mandatory_args} command to read the documentation for
+## function @code{validated_mandatory_args}.
+##
+## @example
+## @group
+## function example2 (@var{char_array}, varargin)
+##
+##     validated_mandatory_args (@{@@ischar@}, @var{char_array});
+##
+##     [@var{logical_array}, @var{numeric_array}] = validated_opt_args (...
+##         @{@@islogical, [true false]; ...
+##          @@isnumeric, [1 2 3]@},     varargin@{:@});
+##
+##     @dots{} % Use @var{char_array}, @var{logical_array}
+##         % and @var{numeric_array} here.
+## end
+## @end group
+## @end example
+##
+## @seealso{validated_mandatory_args, varargin}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>

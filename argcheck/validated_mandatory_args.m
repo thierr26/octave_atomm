@@ -2,14 +2,18 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} validated_mandatory_args (@var{valid_f}, ...)
+## @deftypefn {Function File} {[arg1, ...] =} validated_mandatory_args (@var{@
+## valid_f}, ...)
 ##
-## Validate the caller function's mandatory arguments.
+## Validate mandatory arguments.
 ##
-## The first argument (@var{valid_f}) must be a row cell array of function
-## handles.  The length of the array must be the number of mandatory arguments
-## for the caller function.  The functions pointed to by the handles are
-## hereafter called the "validation functions". They must take exactly one
+## The intended use of function @code{validated_mandatory_args} is to validate
+## the mandatory arguments of its caller function.
+##
+## It takes as first argument a row cell array of function handles
+## (@var{valid_f}).  The length of the array must be the number of mandatory
+## arguments to validate.  The functions pointed to by the handles are
+## hereafter called the "validation functions".  They must take exactly one
 ## argument, return a logical scalar and behave as follows:
 ##
 ## @itemize @bullet
@@ -17,41 +21,54 @@
 ## Return true if the argument is valid.
 ##
 ## @item
-## Return false or raise an error if the argument is not valid.
+## Return false or issue an error if the argument is not valid.
 ## @end itemize
 ##
-## The arguments from the second one on are the caller function's mandatory
-## arguments.
+## The validation functions can eventually be anonymous functions.
 ##
-## @code{validated_mandatory_args} returns its arguments from the second one on
-## if they are valid with regard to the validation functions.  Otherwise,
-## @code{validated_mandatory_args} raises an error.
+## The arguments from the second one on are the arguments to validate.
 ##
-## Here are examples of caller functions:
+## Example:
 ##
 ## @example
 ## @group
-## function example1(c, s)
-##     validated_mandatory_args(@{@@iscell, @@isstruct@}, c, s);
+## function example1 (@var{logical_array}, @var{numeric_array})
 ##
-##     @dots{}
+##     validated_mandatory_args (@{@@islogical, @@isnumeric@}, ...
+##         @var{logical_array}, @var{numeric_array});
+##
+##     @dots{} % Use @var{logical_array} and @var{numeric_array} here.
 ## end
 ## @end group
 ## @end example
 ##
+## If @var{logical_array} is not a logical array (as determined by function
+## @code{islogical}) or @var{numeric_array} is not a numeric array (as
+## determined by function @code{isnumeric}), then
+## @code{validated_mandatory_args} issues an error.
+##
+## The next example is identical except that the output arguments of
+## @code{validated_mandatory_args} are stored in the @var{l_a} and @var{n_a}
+## arguments.  In this case, it is not especially useful to store the output
+## arguments as they are identical to the input arguments.  It is a way of
+## renaming the arguments when needed.
+##
 ## @example
 ## @group
-## function example2(varargin)
-##     if nargin ~= 2
-##         error('Exactly two arguments expected');
-##     end
-##     [c, s] = validated_mandatory_args(...
-##         @{@@iscell, @@isstruct@}, varargin@{:@});
+## function example2 (@var{logical_array}, @var{numeric_array})
 ##
-##     @dots{}
+##     [@var{l_a}, @var{n_a}] = validated_mandatory_args (...
+##         @{@@islogical, @@isnumeric@}, ...
+##         @var{logical_array}, @var{numeric_array});
+##
+##     @dots{} % Use @var{l_a} and @var{n_a} here.
 ## end
 ## @end group
 ## @end example
+##
+## In the case of a caller function having optional arguments, you may want to
+## use function @code{validated_opt_args} also.  Please issue a
+## @code{help validated_opt_args} command to read its documentation.
 ##
 ## @seealso{validated_opt_args}
 ## @end deftypefn
