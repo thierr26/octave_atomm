@@ -7,18 +7,20 @@
 ## added_to_path} =} toolman ('add_to_path', ...)
 ## @deftypefnx {Function File} {[~] =} toolman ('add_to_path', ...)
 ## @deftypefnx {Function File} toolman ('refresh_cache')
-## @deftypefnx {Function File} {list =} toolman ('list_declared_deps', ...)
+## @deftypefnx {Function File} {@var{@
+## list} =} toolman ('list_declared_deps', ...)
 ## @deftypefnx {Function File} toolman ('run_test', ...)
 ## @deftypefnx {Function File} {@var{@
 ## added_to_path} =} toolman ('run_test', ...)
 ## @deftypefnx {Function File} {[~] =} toolman ('run_test', ...)
-## @deftypefnx {Function File} {config =} toolman ('configure', @var{@
+## @deftypefnx {Function File} {@var{config} =} toolman ('configure', @var{@
 ## config_param_1_name}, @var{config_param_1_value}, @var{@
 ## config_param_2_name}, @var{config_param_2_value}, ...)
-## @deftypefnx {Function File} {config =} toolman ('configure', @var{@
+## @deftypefnx {Function File} {@var{config} =} toolman ('configure', @var{@
 ## config_params_as_a_structure})
-## @deftypefnx {Function File} {config =} toolman ('get_config')
-## @deftypefnx {Function File} {config_origin =} toolman ('get_config_origin')
+## @deftypefnx {Function File} {@var{config} =} toolman ('get_config')
+## @deftypefnx {Function File} {@var{@
+## config_origin} =} toolman ('get_config_origin')
 ## @deftypefnx {Function File} toolman ('quit')
 ##
 ## Add toolboxes to path, run test cases.

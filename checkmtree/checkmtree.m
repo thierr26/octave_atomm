@@ -2,21 +2,25 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {stru =} checkmtree ('check_code', ...)
-## @deftypefnx {Function File} {stru =} checkmtree ('check_encoding', ...)
-## @deftypefnx {Function File} {stru =} checkmtree ('check_dependencies', ...)
-## @deftypefnx {Function File} {stru =} checkmtree ('check_all', ...)
-## @deftypefnx {Function File} checkmtree {@
-## tb_deps =} ('list_toolbox_deps', @var{toolbox_relative_or_absolute_path})
-## @deftypefnx {Function File} {deps =} checkmtree ('list_deps')
-## @deftypefnx {Function File} {config =} checkmtree ('configure', '--', @var{@
-## config_param_1_name}, @var{config_param_1_value}, @var{@
-## config_param_2_name}, @var{config_param_2_value}, ...)
-## @deftypefnx {Function File} {config =} checkmtree ('configure', '--', @var{@
+## @deftypefn {Function File} {@var{stru} =} checkmtree ('check_code', ...)
+## @deftypefnx {Function File} {@var{@
+## stru} =} checkmtree ('check_encoding', ...)
+## @deftypefnx {Function File} {@var{@
+## stru} =} checkmtree ('check_dependencies', ...)
+## @deftypefnx {Function File} {@var{stru} =} checkmtree ('check_all', ...)
+## @deftypefnx {Function File} checkmtree {@var{@
+## tb_deps} =} ('list_toolbox_deps', @var{toolbox_relative_or_absolute_path})
+## @deftypefnx {Function File} {@var{deps} =} checkmtree ('list_deps')
+## @deftypefnx {Function File} {@var{@
+## config} =} checkmtree ('configure', '--', @var{config_param_1_name}, @var{@
+## config_param_1_value}, @var{config_param_2_name}, @var{@
+## config_param_2_value}, ...)
+## @deftypefnx {Function File} {@var{@
+## config} =} checkmtree ('configure', '--', @var{@
 ## config_params_as_a_structure})
-## @deftypefnx {Function File} {config =} checkmtree ('get_config')
+## @deftypefnx {Function File} {@var{config} =} checkmtree ('get_config')
 ## @deftypefnx {Function File} {@
-## config_origin =} checkmtree ('get_config_origin')
+## @var{config_origin} =} checkmtree ('get_config_origin')
 ## @deftypefnx {Function File} checkmtree ('quit')
 ##
 ## Check M-file trees (encoding, code, dependencies).
