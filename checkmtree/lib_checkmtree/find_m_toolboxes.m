@@ -88,11 +88,38 @@ function s = find_m_toolboxes(varargin)
             outman('update_progress', oId, pId, p);
         endfor
     endfor
+    dirCount = numel(sFF.dir);
 
     mFilePresent = sFF.last_file_idx ~= 0;
     [privateDir, privateSubDir] = is_private(sFF.dir);
     isToolbox = mFilePresent & ~privateDir;
     isPrivate = mFilePresent & privateDir;
+    if any(isPrivate)
+        pI = find(isPrivate);
+        nP = numel(pI);
+        v = find(isToolbox);
+        for k = v
+            kk = 1;
+            while kk <= nP && isToolbox(k)
+                if strncmp(sFF.dir{pI(kk)}, sFF.dir{k}, ...
+                        length(sFF.dir{pI(kk)}));
+                    isToolbox(k) = false;
+                endif
+                kk = kk + 1;
+            endwhile
+        endfor
+        for k = pI
+            kk = 1;
+            while kk <= nP && isPrivate(k)
+                if pI(kk) ~= k && strncmp(sFF.dir{pI(kk)}, sFF.dir{k}, ...
+                        length(sFF.dir{pI(kk)}));
+                    'A'
+                    isPrivate(k) = false;
+                endif
+                kk = kk + 1;
+            endwhile
+        endfor
+    endif
     toolboxPath = sFF.dir(isToolbox);
     nTb = numel(toolboxPath);
     mn = min([1 nTb]);
