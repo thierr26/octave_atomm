@@ -88,7 +88,6 @@ function s = find_m_toolboxes(varargin)
             outman('update_progress', oId, pId, p);
         endfor
     endfor
-    dirCount = numel(sFF.dir);
 
     mFilePresent = sFF.last_file_idx ~= 0;
     [privateDir, privateSubDir] = is_private(sFF.dir);
@@ -113,7 +112,6 @@ function s = find_m_toolboxes(varargin)
             while kk <= nP && isPrivate(k)
                 if pI(kk) ~= k && strncmp(sFF.dir{pI(kk)}, sFF.dir{k}, ...
                         length(sFF.dir{pI(kk)}));
-                    'A'
                     isPrivate(k) = false;
                 endif
                 kk = kk + 1;
