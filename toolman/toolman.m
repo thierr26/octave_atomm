@@ -508,10 +508,10 @@
 ##
 ## @strong{Tweak Toolman's default configuration to your needs.}
 ##
-## You can force customized configuration parameter values to be used instead
-## of the "factory defined" ones by setting the application data
+## You can force customized default configuration parameter values to be used
+## instead of the "factory defined" ones by setting the application data
 ## @qcode{"toolman"} for handle 0 to a structure containing the customized
-## configuration parameter values.  Example:
+## default configuration parameter values.  Example:
 ##
 ## @example
 ## @group

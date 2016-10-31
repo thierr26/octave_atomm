@@ -4,11 +4,11 @@
 
 function s = alias_stru
 
-    s = struct();
-    s(1).q = {'quit'};
-    s.exit = {'quit'};
-    s.bye = {'quit'};
-    s.clear = {'quit'};
-    s.disconnect = {'quit'};
+    s = struct(...
+        'q', {{'quit'}}, ...
+        'exit', {{'quit'}}, ...
+        'bye', {{'quit'}}, ...
+        'clear', {{'quit'}}, ...
+        'disconnect', {{'quit'}});
 
 endfunction
