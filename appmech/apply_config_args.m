@@ -4,51 +4,43 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@
 ## [@var{cf}, @var{ori}] =} apply_config_args (@var{an}, @var{dcf}, @var{@
-## cf1}, @var{ori1}, @var{locked}, ...)
+## cf1}, @var{ori1}, @var{locked}, @var{config_param_name_1}, @var{@
+## config_param_value_1}, @var{config_param_name_2}, @var{@
+## config_param_value_2}, ...)
+## @deftypefnx {Function File} {@
+## [@var{cf}, @var{ori}] =} apply_config_args (@var{an}, @var{dcf}, @var{@
+## cf1}, @var{ori1}, @var{locked}, @var{s})
 ##
 ## Apply application configuration arguments.
 ##
-## @code{apply_config_args} implements one of the mechanics used by
-## applications like @code{hello} and @code{outman}: the application of the
-## configuration arguments.
+## Applications like Mental Sum@footnote{Mental Sum is a simple demonstration
+## application aiming at demonstrating how the applications provided in the
+## Atomm source tree (Toolman, Checkmtree and Outman) are build.  Please issue
+## a @code{help mentalsum} command for all the details.} use
+## @code{apply_config_args} to take the configuration arguments provided by the
+## user into consideration and overwrite the application default configuration.
 ##
-## The first argument (@var{an}) is the application name.
+## The application default configuration must be provided to
+## @code{apply_config_args} via arguments @var{cf1} and @var{ori1}.  These
+## arguments are supposed to have been output by @code{default_config} and thus
+## are supposed to be valid.  No checking is done on them.
 ##
-## The second argument (@var{dcf}) is the kind of structure that is used as
-## argument to @code{default_config} (default values and validation functions
-## for the configuration parameters).  No checking is done on this argument.
-## Please see the help for @code{default_config} for details about this
-## structure.
+## The configuration arguments (if any) must be provided via the 6th argument
+## on.  They can be provided as name-value pairs or as a structure.
 ##
-## The third and fourth arguments (@var{cf1} and @var{ori1}) are supposed to
-## be the output arguments of @code{default_config} called with @var{dcf} as
-## argument.  No checking is done on these arguments.
+## If logical flag @var{locked} is true and some of the values of the
+## configuration parameters provided as argument are different from the default
+## values, then @code{apply_config_args} issues an error.  Otherwise, @var{cf1}
+## and @var{ori1} are output in @var{cf} and @var{ori}, eventually amended
+## depending on the configuration parameter values provided as argument.
 ##
-## The fifth argument (@var{locked}) is a logical flag.  true means that the
-## application has already been configured (i.e.@ that the call to the
-## application M-file that lead to the call of @code{apply_config_args} is not
-## the "startup call" to the application).
+## First and second arguments are the application name (@var{an}) (as returned
+## by the application's private function @code{app_name}) and the application
+## configuration structure (@var{dcf}).  @var{dcf} is documented in the
+## documentation for @code{default_config}.  Please issue a @code{help
+## default_config} command to read it.
 ##
-## @code{apply_config_args} checks that the arguments from the sixth one on are
-## valid application configuration arguments with regard to the validation
-## function provided in @var{dcf}.  The application configuration arguments (if
-## any) must be given as "name-value pairs" (i.e.@ configuration parameter
-## names in arguments 6, 8, 10, etc., corresponding configuration parameter
-## values in arguments 7, 9, 11, etc.) or as a structure (in this case the
-## structure is the sixth and last argument, the names of the fields are the
-## names of the configuration parameters and the values in the structure are
-## the values of the configuration parameters).  If the application
-## configuration arguments are not valid, then an error is raised.
-##
-## @code{apply_config_args} returns @var{cf} and @var{ori} which are
-## @var{cf1} and @var{ori1} with updated values (depending on the configuration
-## arguments that have been provided).
-##
-## If @var{locked} is true and @var{arg} contains configuration parameters
-## values that differ from those in @var{cf1}, then @code{apply_config_args}
-## raises an error.
-##
-## @seealso{default_config, hello, outman}
+## @seealso{default_config, mentalsum}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>

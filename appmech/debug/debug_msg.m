@@ -16,9 +16,9 @@
 ## file name.  The recommended default value for the "debug_log" configuration
 ## parameter is the empty string.
 ##
-## Note that an error is raised if the first argument is neither a string nor a
+## Note that an error is issued if the first argument is neither a string nor a
 ## structure or if the second argument is not a string.  In all other cases, no
-## error is raised.
+## error is issued
 ##
 ## The second argument is a template (a format string) that is passed to
 ## @code{fprintf}, along with the optional arguments.
@@ -28,14 +28,13 @@
 
 ## Author: Thierry Rascle <thierr26@free.fr>
 
-function debug_msg(varargin)
+function debug_msg(f, template, varargin)
 
     validated_mandatory_args(...
-        {@(x) is_string(x) || isstruct(x), @is_string}, varargin{1 : 2});
+        {@(x) is_string(x) || isstruct(x), @is_string}, f, template);
 
     field = 'debug_log';
     fileName = '';
-    f = varargin{1};
     if is_string(f)
         fileName = f;
     elseif isfield(f, field)
@@ -51,7 +50,7 @@ function debug_msg(varargin)
         id = fopen(fileName, 'at');
 
         if id ~= -1
-            fprintf(id, [timestamp ' ' varargin{2} '\n'], varargin{3 : end});
+            fprintf(id, [timestamp ' ' template '\n'], varargin{1 : end});
             fclose(id);
         endif
 

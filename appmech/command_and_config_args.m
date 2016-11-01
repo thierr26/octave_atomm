@@ -2,34 +2,38 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@
-## [@var{cmd_nam}, @var{cmd_arg}, @var{@
+## @deftypefn {Function File} {[@var{cmd_nam}, @var{cmd_arg}, @var{@
 ## config_arg}] =} command_and_config_args (@var{arg}, @var{s})
 ##
-## Get command name, command arguments and configuration arguments.
+## Extract command and configuration arguments from application argument list.
 ##
-## @code{command_and_config_args} implements one of the mechanics used by
-## applications like @code{hello} and @code{outman}: the separation of command
-## arguments and configuration arguments.
+## @code{command_and_config_args} is used by applications like Mental
+## Sum@footnote{Mental Sum is a simple demonstration application aiming at
+## demonstrating how the applications provided in the Atomm source tree
+## (Toolman, Checkmtree and Outman) are build.  Please issue a @code{help
+## mentalsum} command for all the details.} to extract the command name, the
+## command arguments and the configuration arguments from the argument list.
 ##
-## @var{arg} is a cell array containing all the arguments to the application as
-## returned by @code{command_alias_expansion}.  @code{command_and_config_args}
-## assumes that it has been checked beforehand by
+## The argument list is provided as a cell array (@var{arg}).
+## @code{command_and_config_args} assumes @var{arg} is a return value of
+## @code{command_alias_expansion} and has been validated by
 ## @code{check_command_name}.
 ##
-## @var{s} is the "command structure" for the application.
-## @code{command_and_config_args} assumes it has been checked beforehand by
-## @code{check_command_stru_and_default}.  Please see the help for
-## @code{check_command_stru_and_default} for more information on the "command
-## structure".
+## The second argument to @code{command_and_config_args} is the application
+## command structure (@var{s}).  @code{command_and_config_args} assumes it has
+## been validated beforehand by @code{check_command_stru_and_default}.
 ##
 ## @code{command_and_config_args} returns the command name (the first argument
 ## to the application) in @var{cmd_nam}, the command arguments in @var{cmd_arg}
 ## and the configuration arguments in @var{config_arg}.  Both @var{cmd_arg} and
 ## @var{config_arg} are cell arrays.
 ##
+## In the case of a command taking a variable number of arguments, the user
+## must separate explicitly the command arguments and the configuration
+## arguments with a "---" argument.
+##
 ## @seealso{check_command_name, check_command_stru_and_default,
-## command_alias_expansion, hello, outman}
+## command_alias_expansion, mentalsum}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>

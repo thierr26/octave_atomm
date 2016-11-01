@@ -2,31 +2,47 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {@
-## Function File} command_alias_expansion (@var{dflt_cmd}, @var{s}, ...)
+## @deftypefn {Function File} {@var{arg} =} command_alias_expansion (@var{@
+## dflt_cmd}, @var{s}, ...)
 ##
 ## Perform application command alias expansion.
 ##
-## @code{command_alias_expansion} implements one of the mechanics used by
-## applications like @code{hello} and @code{outman}: command alias expansion.
+## @code{command_alias_expansion} processes the arguments from the third one
+## on (if any) and returns a new argument array (@var{arg}).  The first two
+## arguments are mandatory and are the application default command
+## (@var{dflt_cmd}) and the application alias structure (@var{s}).
+## @code{command_alias_expansion} assumes that the first two arguments have
+## been checked beforehand by @code{check_command_stru_and_default} and
+## @code{check_alias_stru} respectively.
 ##
-## The first argument (@var{dflt_cmd}) is the name of the default command for
-## the application.  @code{command_alias_expansion} assumes it has been checked
-## using @code{check_command_stru_and_default}.
+## @enumerate
+## @item Case where only two arguments are provided.
 ##
-## The second argument (@var{s}) is the alias structure for the application.
-## @code{command_alias_expansion} assumes it has been checked using
-## @code{check_aliases}.  Please see the help for @code{check_aliases} for more
-## information on the alias structure.
+## @code{command_alias_expansion} returns a cell array with only one cell
+## containing @var{dflt_cmd} (i.e.@ the name of the application default
+## command).
 ##
-## The arguments from the third one on are the arguments to the application.
-## If there are none, @var{dflt_cmd} is returned as the single output argument.
-## If there is at least one and the first one is not the name of an alias, then
-## the arguments from the third one on are returned as is.  Otherwise, the
-## arguments from the third one on are returned except that the first one is
-## substituted with the elements of the associated cell array in @var{s}.
+## @item Case where three or more arguments are provided but the third argument
+## is not a non empty string.
 ##
-## @seealso{check_aliases, check_command_stru_and_default, hello, outman}
+## @code{command_alias_expansion} issues an error.
+##
+## @item Case where the third argument is the name of a field of @var{s} (i.e.@
+## the application alias structure).
+##
+## @code{command_alias_expansion} returns a cell array containing the arguments
+## from the fourth one on preceded by the elements of the field of @var{s}
+## (which is itself a cell array).
+## @end enumerate
+##
+## Applications like Mental Sum@footnote{Mental Sum is a simple demonstration
+## application aiming at demonstrating how the applications provided in the
+## Atomm source tree (Toolman, Checkmtree and Outman) are build.  Please issue
+## a @code{help mentalsum} command for all the details.} use
+## @code{command_alias_expansion} to apply the application default command when
+## no command name has been given by the user and perform alias expansion.
+##
+## @seealso{check_aliases, check_command_stru_and_default, mentalsum}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>

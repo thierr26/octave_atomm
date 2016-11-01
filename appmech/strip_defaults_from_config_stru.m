@@ -2,11 +2,10 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} strip_defaults_from_config_stru (@var{cf}, @var{@
-## ori})
+## @deftypefn {Function File} {@var{@
+## stripped} =} strip_defaults_from_config_stru (@var{cf}, @var{ori})
 ##
-## Remove configuration parameters that have a value originating from the
-## default field of the configuration structure.
+## Strip "factory defaults" parameters from configuration structure.
 ##
 ## @code{strip_defaults_from_config_stru} takes the kind of arguments
 ## (structures @var{cf} and @var{ori}) that are returned by
@@ -18,12 +17,16 @@
 ## list of @var{ori}.  @var{ori} must be a scalar structure.
 ##
 ## @code{strip_defaults_from_config_stru} is not useful in every application.
-## Checkmtree and Toolman use it to build structure argument to
+## The demonstration application Mental Sum@footnote{Mental Sum is a simple
+## demonstration application aiming at demonstrating how the applications
+## provided in the Atomm source tree (Toolman, Checkmtree and Outman) are
+## build.  Please issue a @code{help mentalsum} command for all the details.}
+## does not use it but Checkmtree and Toolman use it in their
+## @code{run_command} private functions to build the structure argument to
 ## @code{outman_connect_and_config_if_master} containing only the Outman
 ## configuration parameters that must not be set to their default values.
 ##
-## @seealso{apply_config_args, checkmtree, default_config, outman,
-## outman_connect_and_config_if_master, toolman}
+## @seealso{apply_config_args, default_config, mentalsum}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>

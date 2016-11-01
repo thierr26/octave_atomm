@@ -17,7 +17,7 @@
 ## file name.  The recommended default value for the "debug_log" configuration
 ## parameter is the empty string.
 ##
-## Note that an error is raised if the first argument is neither a string nor a
+## Note that an error is issued if the first argument is neither a string nor a
 ## structure or if the second argument is not a string.  In all other cases, no
 ## error is raised.
 ##

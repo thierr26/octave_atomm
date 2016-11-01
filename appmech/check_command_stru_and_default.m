@@ -5,38 +5,52 @@
 ## @deftypefn {@
 ## Function File} check_command_stru_and_default (@var{s}, @var{default})
 ##
-## Check application "command structure" and default command name.
+## Check an application command structure and default command name.
 ##
-## @code{check_command_stru_and_default} implements one of the mechanics used
-## by applications like @code{hello} and @code{outman}: the check of the
-## "command structure" and of the default command name.
+## @code{check_command_stru_and_default} checks the validity of its two
+## arguments @var{s} and @var{default}.  Applications like Mental
+## Sum@footnote{Mental Sum is a simple demonstration application aiming at
+## demonstrating how the applications provided in the Atomm source tree
+## (Toolman, Checkmtree and Outman) are build.  Please issue a @code{help
+## mentalsum} command for all the details.} use this function to check the
+## command structure and default command name returned by their private
+## function @code{command_stru_and_default}.
 ##
-## The command structure @var{s} has one field for each application command.
-## Each field is itself a structure with two fields:
+## The command structure @var{s} is supposed to have one field for every
+## application command. Every field is itself a structure with two fields:
 ##
 ## @table @asis
-## @item "valid"
-## Field "valid" must be a function handle.  The function pointed to by the
-## handle must be a validation function for the command arguments.  It must
-## return a logical scalar.  If the arguments are valid for the command, then
-## the validation function must return true, otherwise it must return false or
-## issue an error.
+## @item @qcode{"valid"}
+## Handle to a validation function for the command arguments.  The function
+## must return a logical scalar and behave as follows:
 ##
-## Note that function nargin must not issue an error when applied to the
+## @itemize @bullet
+## @item
+## Return true if the arguments are valid arguments for the application
+## command.
+##
+## @item
+## Return false or issue an error if the arguments are not valid for the
+## application command.
+## @end itemize
+##
+## It can eventually be an anonymous function.
+##
+## Note that function @code{nargin} must not issue an error when applied to the
 ## validation function.  This may preclude the use of built-in functions as
 ## validation functions.
 ##
-## @item "no_return_value"
-## Field "no_return_value" must be a logical scalar (true if the command is not
-## supposed to return any value, false otherwise).
+## @item @qcode{"no_return_value"}
+## Logical scalar (true if the command is not supposed to return any value,
+## false otherwise).
 ## @end table
 ##
 ## @code{check_command_stru_and_default (@var{s}, @var{default})} checks that
 ## the fields of @var{s} are structures with the expected fields and that
-## @var{default} (the application default command) is the name of a field of
-## @var{s}.  If it not the case, then an error is issued.
+## @var{default} (the name of the application default command) is the name of
+## a field of @var{s}.  If it not the case, then an error is issued.
 ##
-## @seealso{hello, outman}
+## @seealso{mentalsum}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>

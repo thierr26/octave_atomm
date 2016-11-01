@@ -2,32 +2,21 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} check_command_name (@var{s}, ...)
+## @deftypefn {Function File} check_command_name (@var{s}, @var{cmd_name}, ...)
 ##
-## Check that first argument to application is actually the name of a command
-## for the application.
+## Check the command name in the argument list to an application.
 ##
-## @code{check_command_name} implements one of the mechanics used by
-## applications like @code{hello} and @code{outman}: the check of the command
-## name.
+## @code{check_command_name} checks that @var{cmd_name} is a field of structure
+## @var{s}.
 ##
-## The first argument (@var{s}) is the "command structure" for the application.
-## @code{check_command_name} assumes it has been checked beforehand by
-## @code{check_command_stru_and_default}.  Please see the help for
-## @code{check_command_stru_and_default} for more information on the "command
-## structure".
+## Applications like Mental Sum@footnote{Mental Sum is a simple demonstration
+## application aiming at demonstrating how the applications provided in the
+## Atomm source tree (Toolman, Checkmtree and Outman) are build.  Please issue
+## a @code{help mentalsum} command for all the details.} use
+## @code{check_command_name} to validate the command name provided by the user
+## when invoking the application.
 ##
-## The other arguments are the arguments to the application after command alias
-## expansion.  @code{check_command_name} assumes that they have been output by
-## @code{command_alias_expansion} which ensures that the first of these
-## arguments is a non empty string.
-##
-## @code{check_command_name} only checks that its second argument (the first
-## argument to the application) matches the name of a field of @var{s} and thus
-## is a valid command name.  If it is not the case, it raises an error.
-##
-## @seealso{check_command_stru_and_default, command_alias_expansion, hello,
-## outman}
+## @seealso{mentalsum}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>
