@@ -31,11 +31,11 @@
 ## @var{finish_position}, @var{task_description_string})} statement.
 ## @var{start_position} and @var{finish_position} are supposed to be amounts of
 ## bytes to be processed (@var{start_position} is typically 0 and
-## @var{finish_position} the cumulated byte size of files to be processed using
-## @code{m_symbol_list}).
+## @var{finish_position} the cumulative byte size of files to be processed
+## using @code{m_symbol_list}).
 ##
 ## @item @var{progress}
-## Number of bytes already processed.  It is the caller's responsability to
+## Number of bytes already processed.  It is the caller's responsibility to
 ## make sure @var{progress} is up to date before calling @code{m_symbol_list}
 ## to process a particular file.
 ## @end table

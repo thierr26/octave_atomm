@@ -2,10 +2,11 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} m_comment_leaders ()
+## @deftypefn {Function File} {@var{str} =} m_comment_leaders ()
 ##
-## String containing the allowed comment leaders in the Octave M-files.  These
-## are "%" and "#".
+## String containing the allowed comment leaders for the Octave language.
+##
+## @code{@var{str} = m_comment_leaders ()} returns string "%#" in @var{str}.
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>

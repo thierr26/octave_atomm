@@ -15,7 +15,7 @@
 ##
 ## @code{[@var{c}, @var{n}, @var{sloc}]
 ## = strip_comments_from_m (@var{filename})} returns in @var{c} a cell array of
-## strings.  Each string is a line of the @var{filename} M-file with the
+## strings.  Every string is a line of the @var{filename} M-file with the
 ## comments removed.  In this context the comments are "end of line comments"
 ## opened with a "%" or a "#" character or blocks of lines opened with a line
 ## containing "%@{" or "#@{" and closed with a line containing "%@}" or "#@}".
@@ -36,24 +36,24 @@
 ## @var{finish_position}, @var{task_description_string})} statement.
 ## @var{start_position} and @var{finish_position} are supposed to be amounts of
 ## bytes to be processed (@var{start_position} is typically 0 and
-## @var{finish_position} the cumulated byte size of files to be processed using
-## @code{strip_comments_from_m}).
+## @var{finish_position} the cumulative byte size of files to be processed
+## using @code{strip_comments_from_m}).
 ##
 ## @item @var{progress}
-## Number of bytes already processed.  It is the caller's responsability to
+## Number of bytes already processed.  It is the caller's responsibility to
 ## make sure @var{progress} is up to date before calling
 ## @code{strip_comments_from_m} to process a particular file.
 ## @end table
 ##
 ## An additional optional argument (@var{progress_fac}) can be provided to
 ## express that the processing done on the input file by
-## @code{strip_comments_from_m} is not the only one and that other processings
-## are done elsewhere.  For example, if the cost in time of processing done by
-## @code{strip_comments_from_m} is one third of the cost in time of the global
-## processing, set @var{progress_fac} to 1/3.  Use of argument
+## @code{strip_comments_from_m} is not the only one and that other jobs are
+## done in other functions.  For example, if the cost in time of processing
+## done by @code{strip_comments_from_m} is one third of the cost in time of the
+## global processing, set @var{progress_fac} to 1/3.  Use of argument
 ## @var{progress_fac} may imply the need for a more complex computation of
-## argument @var{progress} by the caller to avoid a "stucked progress
-## indicator" effect.
+## argument @var{progress} by the caller to avoid a "stuck progress indicator"
+## effect.
 ##
 ## @seealso{m_comment_leaders, outman, outman_connect_and_config_if_master}
 ## @end deftypefn
