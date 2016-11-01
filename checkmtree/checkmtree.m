@@ -258,8 +258,8 @@
 ## Cumulative number of lines in the analyzed M-files.
 ##
 ## @item cum_sloc_count
-## Cumulative number of lines of code (lines that are not empty and don't
-## contain only a comment) in the analyzed M-files.
+## Cumulative number of SLOC (Software Lines Of Code i.e, lines that are not
+## empty and don't contain only a comment) in the analyzed M-files.
 ## @end table
 ##
 ## Note that Checkmtree has a command called @qcode{"check_all"} that performs
