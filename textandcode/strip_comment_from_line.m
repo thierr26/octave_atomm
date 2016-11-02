@@ -2,19 +2,24 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} strip_comment_from_line (@var{str})
-## @deftypefnx {Function File} strip_comment_from_line (@var{str}, @var{@
-## comment_leaders})
+## @deftypefn {Function File} {@var{@
+## stripped_str} =} strip_comment_from_line (@var{str})
+## @deftypefnx {Function File} {@var{@
+## stripped_str} =} strip_comment_from_line (@var{str}, @var{comment_leaders})
 ##
 ## Remove end of line comment from code line.
 ##
-## @code{strip_comment_from_line(@var{str})} returns @var{str} with end of line
-## comment (if any) removed.
+## @code{@var{stripped_str} = strip_comment_from_line (@var{str})} returns
+## @var{str} with end of line comment (if any) removed.
 ##
-## If @var{comment_leaders} (second argument) is not provided, then the end of
-## line comment leaders are considered to be those of the Octave M-files, as
-## returned by @code{m_comment_leaders}.  A string containing the characters to
-## be used as end of line comment leaders can be provided instead.
+## By default, the end of line comment leaders are considered to be those of
+## the Octave M-files (i.e.@ "#" and "%", as returned by
+## @code{m_comment_leaders}).
+##
+## Other end of line comment leaders can be specified via the optional second
+## input argument.  If you want "#" and "'" to be used as comment leaders, use
+## statement like
+## @code{@var{stripped_str} = strip_comment_from_line (@var{str}, '#''')}.
 ##
 ## @seealso{m_comment_leaders, strip_comments_from_m, uncomment_line}
 ## @end deftypefn

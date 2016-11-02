@@ -2,12 +2,13 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} is_scalar_num_or_log_literal (@var{str})
+## @deftypefn {Function File} {@var{@
+## ret} =} is_scalar_num_or_log_literal (@var{str})
 ##
 ## True for scalar numerical literals and logical literals.
 ##
-## @code{is_scalar_num_or_log_literal} returns true if the string @var{str} is
-## a string like:
+## @code{@var{ret} = is_scalar_num_or_log_literal (@var{str})} returns true in
+## @var{ret} if the string @var{str} is a string like:
 ##
 ## @itemize @bullet
 ## @item
@@ -59,7 +60,7 @@
 ## "false"
 ## @end itemize
 ##
-## Note that @code{is_scalar_num_or_log_literal} raises an error if @var{str}
+## Note that @code{is_scalar_num_or_log_literal} issues an error if @var{str}
 ## is not a string.
 ## @end deftypefn
 

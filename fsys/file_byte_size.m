@@ -4,7 +4,10 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{byte} =} file_byte_size (@var{filename})
 ##
-## Return the byte size of file @var{filename}.
+## Byte size of a file.
+##
+## @code{@var{byte} = file_byte_size (@var{filename})} returns the byte size of
+## file @var{filename}.
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>

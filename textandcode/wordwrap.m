@@ -2,12 +2,14 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} wordwrap (@var{str}, @var{n})
+## @deftypefn {Function File} {@var{c} =} wordwrap (@var{str}, @var{n})
 ##
 ## Word wrap a string.
 ##
-## @code{wordwrap} cuts string @var{str} at spaces.  The resulting slices are
-## returned in a cell array and have a length lower than or equal to @var{n}.
+## @code{@var{c} = wordwrap (@var{str}, @var{n})} cuts string @var{str} at
+## spaces.  The resulting slices are returned in cell array @var{c} and have a
+## length lower than or equal to @var{n}.
+##
 ## In the particular case where @var{str} contains one or more slices of
 ## non-space characters that are longer than @var{n} characters, then one or
 ## more of the elements of the returned cell array will have a length greater

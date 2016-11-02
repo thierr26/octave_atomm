@@ -2,12 +2,13 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} text_file_lines (@var{filename})
+## @deftypefn {Function File} {@var{c} =} text_file_lines (@var{filename})
 ##
 ## Lines of a text file.
 ##
-## @code{text_file_lines} returns a cell array of strings.  Each cell contains
-## a line of the text file @var{filename}.
+## @code{@var{c} = text_file_lines} returns a cell array of strings in @var{c}.
+## Every cell contains a line of the text file @var{filename}.  There is no
+## sorting of any kind.
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>

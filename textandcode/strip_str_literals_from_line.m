@@ -2,10 +2,36 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} strip_str_literals_from_line (@var{str})
+## @deftypefn {Function File} {@var{@
+## stripped_str} =} strip_str_literals_from_line (@var{str})
 ##
-## Remove string literals from code line.  The recognized quote delimiters are
-## those in the return string of @code{quote_delimiters}.
+## Remove string literals from code line.
+##
+## The recognized quote delimiters are those in the return string of
+## @code{quote_delimiters} i.e., single quote (') and double quote (").
+##
+## Examples:
+##
+## @example
+## @group
+## strip_str_literals_from_line ('myFunctionCall ()')
+##    @result{} "myFunctionCall ()"
+## @end group
+## @end example
+##
+## @example
+## @group
+## strip_str_literals_from_line ('myFunctionCall ("abc")')
+##    @result{} "myFunctionCall ()"
+## @end group
+## @end example
+##
+## @example
+## @group
+## strip_str_literals_from_line ('myFunctionCall (["a" b "c"])')
+##    @result{} "myFunctionCall ([ b ])"
+## @end group
+## @end example
 ##
 ## @seealso{quote_delimiters, strip_comment_from_line}
 ## @end deftypefn

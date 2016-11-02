@@ -2,11 +2,15 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} is_lower_str_than (@var{str1}, @var{str2})
+## @deftypefn {Function File} {@var{ret} =} is_lower_str_than (@var{@
+## str1}, @var{str2})
 ##
-## Return true if the strings @var{str1} and @var{str2} are different and
-## @var{str1} comes before @var{str2} if both strings are sorted in ascendant
-## order (using @code{sort(@{@var{str1} @var{str2}@})}).
+## True if sorting places first string argument strictly before the second one.
+##
+## @code{@var{ret} = is_lower_str_than (@var{str1}, @var{str2})} returns true
+## if the strings @var{str1} and @var{str2} are different and @var{str1} comes
+## before @var{str2} if both strings are sorted in ascendant order (using
+## @code{sort(@{@var{str1}, @var{str2}@})}).
 ##
 ## @seealso{sort}
 ## @end deftypefn

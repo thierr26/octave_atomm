@@ -2,12 +2,13 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} strip_dot_suffix (@var{c})
+## @deftypefn {Function File} {@var{ret} =} strip_dot_suffix (@var{c})
 ##
 ## Remove the dot suffix in a cell array of strings.
 ##
-## @code{strip_dot_suffix(@var{c})} returns a cell array of strings similar
-## to @var{c} except that the dot suffixes are removed.
+## @code{@var{ret} = strip_dot_suffix (@var{c})} returns a cell array of
+## strings in @var{ret} similar to @var{c} except that the dot suffixes are
+## removed.
 ##
 ## Example:
 ##
@@ -18,8 +19,8 @@
 ## @end group
 ## @end example
 ##
-## @code{strip_dot_suffix} also accepts a string as argument.  In this case,
-## the return value is a string.
+## @code{strip_dot_suffix} also accepts a simple string as argument.  In this
+## case, the return value also is a simple string.
 ##
 ## @seealso{is_cell_array_of_strings, is_string}
 ## @end deftypefn

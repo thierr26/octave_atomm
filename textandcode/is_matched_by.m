@@ -2,13 +2,17 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} is_matched_by (@var{str}, @var{expr})
+## @deftypefn {Function File} {@var{ret} =} is_matched_by (@var{str}, @var{@
+## expr})
 ##
-## Return true if the string @var{str} is matched by the regular expression
+## True for a string that matches a regular expression.
+##
+## @code{@var{ret} = wordwrap (@var{str}, @var{expr})} returns true in
+## @var{ret} if the string @var{str} is matched by the regular expression
 ## @var{expr}.
 ##
-## @var{str} can be a cell array of strings. In this case, @code{is_matched_by}
-## returns a logical array (same shape as @var{str}).
+## @var{str} can be a cell array of strings.  In this case, @var{ret} is a
+## logical array (same shape as @var{str}).
 ##
 ## @seealso{is_string, is_cell_array_of_strings, is_prefixed_with}
 ## @end deftypefn

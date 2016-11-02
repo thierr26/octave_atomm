@@ -2,14 +2,18 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} is_prefixed_with (@var{str}, @var{prefix})
+## @deftypefn {Function File} {@var{ret} =} is_prefixed_with (@var{str}, @var{@
+## prefix})
 ##
-## Return true if the string @var{str} starts with string @var{prefix}.
+## True for a string that starts with a given prefix.
+##
+## @code{@var{ret} = is_prefixed_with (@var{str}, @var{prefix}} returns true in
+## @var{ret} if string @var{str} starts with @var{prefix}.
 ##
 ## @var{str} can be a cell array of strings. In this case,
 ## @code{is_prefixed_with} returns a logical array (same shape as @var{str}).
 ##
-## @seealso{is_matched_by}
+## @seealso{is_string, is_cell_array_of_strings, is_matched_by}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>

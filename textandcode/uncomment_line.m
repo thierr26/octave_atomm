@@ -2,19 +2,23 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} uncomment_line (@var{str})
-## @deftypefnx {Function File} uncomment_line (@var{str}, @var{@
+## @deftypefn {Function File} {@var{ret} =} uncomment_line (@var{str})
+## @deftypefnx {Function File} {@var{ret} =} uncomment_line (@var{str}, @var{@
 ## comment_leaders})
 ##
 ## Uncomment a line.
 ##
-## @code{uncomment_line(@var{str})} returns @var{str} uncommented (i.e.@ with
-## the leading blanks and end of line comment leaders removed if any).
+## @code{@var{ret} = uncomment_line (@var{str})} returns uncommented @var{str}
+## in @var{ret} (i.e.@ @var{str} with leading blanks and end of line comment
+## leaders removed).
 ##
-## If @var{comment_leaders} (second argument) is not provided, then the end of
-## line comment leaders are considered to be those of the Octave M-files, as
-## returned by @code{m_comment_leaders}.  A string containing the characters to
-## be used as end of line comment leaders can be provided instead.
+## By default, the end of line comment leaders are considered to be those of
+## the Octave M-files (i.e.@ "#" and "%", as returned by
+## @code{m_comment_leaders}).
+##
+## Other end of line comment leaders can be specified via the optional second
+## input argument.  If you want "#" and "'" to be used as comment leaders, use
+## statement like @code{@var{ret} = uncomment_line (@var{str}, '#''')}.
 ##
 ## @seealso{m_comment_leaders, strip_comment_from_line}
 ## @end deftypefn
