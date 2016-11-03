@@ -2,9 +2,9 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} more_is_on ()
+## @deftypefn {Function File} {@var{ret} =} more_is_on ()
 ##
-## Return true if the state of more is "on".
+## True if the state of more is "on".
 ##
 ## @seealso{more}
 ## @end deftypefn

@@ -1,15 +1,17 @@
 ## Copyright (C) 2016 Thierry Rascle <thierr26@free.fr>
 ## MIT license. Please refer to the LICENSE file.
 
-## -- Function File: backspace_supported ()
+## -- Function File: RET = backspace_supported ()
 ##
-##     Return false if 'fprintf' may behave badly when there are
-##     occurrences of backspaces ("\b") in the template string.
+##     True if "\b" supported in 'fprintf' template strings.
 ##
-##     'backspace_supported' returns false if this is not Octave running
-##     the function and the Java Virtual Machine (JVM) is not started,
-##     which means that using FPRINTF with occurrences of backspace
-##     characters ("\b") in the format string may not do what is expected.
+##     'RET = backspace_supported ()' returns false in RET if this is not
+##     Octave running the function and the Java Virtual Machine (JVM) is
+##     not started, which means that using 'fprintf' with occurrences of
+##     backspace characters ("\b") in the format string may not do what is
+##     expected.
+##
+##     See also: fprintf.
 
 ## Author: Thierry Rascle <thierr26@free.fr>
 

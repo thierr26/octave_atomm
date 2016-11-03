@@ -2,9 +2,9 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} is_octave ()
+## @deftypefn {Function File} {@var{ret} =} is_octave ()
 ##
-## Return true if Octave (not Matlab) is running the function.
+## True if Octave (not Matlab) is running the function.
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>
