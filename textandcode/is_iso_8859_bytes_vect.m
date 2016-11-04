@@ -57,6 +57,6 @@ function ret = is_iso_8859_bytes_vect(v, siz)
 
     vv = v;
     vv(v >= 160) = 32;
-    ret = is_iso_8859_bytes_vect(vv, siz);
+    ret = is_ascii_bytes_vect(vv, siz);
 
 endfunction
