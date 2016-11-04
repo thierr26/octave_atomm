@@ -2,20 +2,36 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} timestamp ()
-## @deftypefnx {Function File} timestamp (@var{date})
+## @deftypefn {Function File} {@var{str} =} timestamp ()
+## @deftypefnx {Function File} {@var{str} =} timestamp (@var{date})
 ##
 ## Timestamp string.
 ##
-## @code{timestamp} returns the current date as a string.  The format is like
-## "2016-03-14T19:20:21".
+## @code{@var{str} = timestamp ()} returns the current date as a string in
+## @var{str}.  The format is like "2016-03-14T19:20:21".
 ##
 ## A different date can be provided as an argument.  It can be a scalar serial
 ## date number (see @code{datenum}) or a date vector (a row vector of length 6,
 ## see @code{datevec}).
 ##
-## @seealso{datenum, datestr, datevec, timestamp2datenum, timestamp2filename,
-## now}
+## Examples:
+##
+## @example
+## @group
+## timestamp (735215.508472223)
+##    @result{} "2012-12-12T12:12:12"
+## @end group
+## @end example
+##
+## @example
+## @group
+## timestamp ([2012 12 12 12 12 12])
+##    @result{} "2012-12-12T12:12:12"
+## @end group
+## @end example
+##
+## @seealso{datenum, datestr, datevec, now, timestamp2datenum,
+## timestamp2filename}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>

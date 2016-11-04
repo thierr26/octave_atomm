@@ -2,8 +2,9 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} duration_str (@var{dura_in_days})
-## @deftypefnx {Function File} duration_str (@var{dura_in_days}, @var{s})
+## @deftypefn {Function File} {@var{str} =} duration_str (@var{dura_in_days})
+## @deftypefnx {Function File} {@var{str} =} duration_str (@var{@
+## dura_in_days}, @var{s})
 ##
 ## Convert a duration in days into a human language string.
 ##
@@ -11,9 +12,9 @@
 ## the absolute value of @var{dura_in_days} is used in the computations, so the
 ## returned string is identical for two opposite values of @var{dura_in_days}.
 ##
-## The second (optional) argument is a structure containing the elementary
-## strings used to build the returned string.  It must contain the following
-## fields, which must all contain a non empty string:
+## The second (optional) argument @var{s} is a structure containing the
+## elementary strings used to build the returned string.  It must contain the
+## following fields, which must all contain a non empty string:
 ##
 ## @table @asis
 ## @item days
@@ -46,7 +47,19 @@
 ## By default, the fields in the structure have the values given above as
 ## examples.
 ##
-## @seealso{sprintf}
+## Example usage of @code{duration_str}:
+##
+## @example
+## @group
+## launchDate = datenum ([1969 07 16 9 32 0]);
+## landingDate = datenum ([1969 07 20 16 18 0]);
+## flightDuration = landingDate - launchDate;
+## fprintf ('Apollo 11''s flight to the Moon lasted %s.\n', ...
+##     duration_str (flightDuration));
+## @end group
+## @end example
+##
+## @seealso{fprintf, sprintf}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>
