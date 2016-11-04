@@ -2,13 +2,13 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} merge_struct (@var{s1}, @var{s2})
+## @deftypefn {Function File} {@var{s} =} merge_struct (@var{s1}, @var{s2})
 ##
 ## Merge two structures into one.
 ##
-## @code{merge_struct} returns a structure having the fields of both @var{s1}
-## and @var{s2}.  If one or more fields exist in both structures, then
-## @code{merge_struct} issues an error.
+## @code{@var{s} = merge_struct (@var{s1}, @var{s2})} returns a structure
+## @var{s} having the fields of both @var{s1} and @var{s2}.  If one or more
+## fields exist in both structures, then @code{merge_struct} issues an error.
 ##
 ## @var{s1} and @var{s2} must be scalar or empty structures.
 ## @end deftypefn
@@ -17,7 +17,9 @@
 
 function s = merge_struct(s1, s2)
 
-    validated_mandatory_args({@isstruct, @isstruct}, s1, s2);
+    validated_mandatory_args(...
+        {@is_scalar_or_empty_structure, @is_scalar_or_empty_structure}, ...
+        s1, s2);
 
     if isempty(s1)
         s1V = s2;
@@ -32,7 +34,7 @@ function s = merge_struct(s1, s2)
     for c = fieldnames(s2V)'
         fieldName = c{1};
         if isfield(s1V, fieldName)
-            error('field %s exist in both structures', fieldName);
+            error('field %s exists in both structures', fieldName);
         else
             s.(fieldName) = s2V.(fieldName);
         endif

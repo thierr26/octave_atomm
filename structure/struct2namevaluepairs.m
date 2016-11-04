@@ -2,13 +2,16 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} struct2namevaluepairs (@var{s})
+## @deftypefn {Function File} {@var{c} =} struct2namevaluepairs (@var{s})
 ##
-## Convert structure @var{s} to "name-value pairs" cell array.
+## Convert a structure to a "name-value pairs" cell array.
 ##
-## @code{struct2namevaluepairs} returns a row cell array with the names of the
-## fields of structure @var{s} in the components with an odd index and the
-## field values in the components with an even index.
+## @code{@var{c} = struct2namevaluepairs (@var{s})} returns a row cell array
+## with the names of the fields of structure @var{s} in the components with an
+## odd index and the field values in the components with an even index.
+##
+## @var{s} must be scalar or empty structures.  In the case where @var{s} is
+## empty, then the returned cell array is empty.
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>

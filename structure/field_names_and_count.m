@@ -5,13 +5,13 @@
 ## @deftypefn {Function File} {@
 ## [@var{c}, @var{n}] =} field_names_and_count (@var{s})
 ##
-## Return the list of the field names as well the number of fields for a
-## structure.
+## Field names list and number of fields for a structure.
 ##
-## @var{c} is a cell array of strings containing the field names for structure
-## @var{s}, as returned by @code{fieldnames}.
+## @code{[@var{c}, @var{n}] = field_names_and_count (@var{s})} returns
+## @code{fieldnames (@var{s})} in @var{c} and @code{numel (@var{c})} in
+## @var{n}.
 ##
-## @var{n} is the number of elements in @var{c}, as returned by @code{numel}.
+## @var{s} must be a structure.
 ##
 ## @seealso{fieldnames, numel}
 ## @end deftypefn
