@@ -143,7 +143,12 @@ function s = test_isthisa
         @is_blank_string_fail_wrong_type, ...
         @is_blank_string_empty, ...
         @is_blank_string_false, ...
-        @is_blank_string_true};
+        @is_blank_string_true, ...
+        @is_scalar_or_empty_structure_non_stru, ...
+        @is_scalar_or_empty_structure_empty_1, ...
+        @is_scalar_or_empty_structure_empty_2, ...
+        @is_scalar_or_empty_structure_non_scalar, ...
+        @is_scalar_or_empty_structure_scalar};
 
     # Run the test case.
     s = run_test_case(mfilename, testRoutine);
@@ -1100,5 +1105,47 @@ endfunction
 function ret = is_blank_string_true
 
     ret = is_blank_string(sprintf(' \t '));
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_scalar_or_empty_structure_non_stru
+
+    ret = ~is_scalar_or_empty_structure(true);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_scalar_or_empty_structure_empty_1
+
+    ret = is_scalar_or_empty_structure(struct());
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_scalar_or_empty_structure_empty_2
+
+    ret = is_scalar_or_empty_structure(struct([]));
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_scalar_or_empty_structure_non_scalar
+
+    s = struct('a', 1);
+    s(2).a = 2;
+    ret = ~is_scalar_or_empty_structure(s);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_scalar_or_empty_structure_scalar
+
+    ret = is_scalar_or_empty_structure(struct('a', 1));
 
 endfunction

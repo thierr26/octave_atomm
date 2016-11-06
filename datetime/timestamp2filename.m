@@ -6,7 +6,7 @@
 ##
 ## Transform a timestamp string for use as filename or filename part.
 ##
-## Precisely, @code{@var{filename} = timestamp2filename (@var{str}} returns in
+## Precisely, @code{@var{filename} = timestamp2filename (@var{str})} returns in
 ## @var{filename} string @var{str} with occurrences of "T" substituted with an
 ## underscore ("_") and occurrences of colons (":") substituted with dashes
 ## ("-").

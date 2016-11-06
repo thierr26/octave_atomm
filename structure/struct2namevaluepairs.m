@@ -18,14 +18,12 @@
 
 function c = struct2namevaluepairs(s)
 
-    validated_mandatory_args({@isstruct}, s);
+    validated_mandatory_args({@is_scalar_or_empty_structure}, s);
 
-    if isempty(s) || isempty(fieldnames(s))
+    [fn, n] = field_names_and_count(s);
+    if n == 0
         c = {};
     else
-        validated_mandatory_args({@is_non_empty_scalar_structure}, s);
-
-        [fn, n] = field_names_and_count(s);
         c = cell(1, 2 * n);
         for k = 1 : n
             c{2 * k - 1} = fn{k};

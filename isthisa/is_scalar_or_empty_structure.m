@@ -6,7 +6,7 @@
 ##
 ## True for a scalar or empty structure.
 ##
-## @code{@var{ret} = is_scalar_or_empty_structure (@var{s}} returns true in
+## @code{@var{ret} = is_scalar_or_empty_structure (@var{s})} returns true in
 ## @var{ret} if @var{s} is an empty or scalar structure.
 ##
 ## @seealso{isscalar, isstruct}

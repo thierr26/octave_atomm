@@ -7,8 +7,8 @@
 ##
 ## True for a string that starts with a given prefix.
 ##
-## @code{@var{ret} = is_prefixed_with (@var{str}, @var{prefix}} returns true in
-## @var{ret} if string @var{str} starts with @var{prefix}.
+## @code{@var{ret} = is_prefixed_with (@var{str}, @var{prefix})} returns true
+## in @var{ret} if string @var{str} starts with @var{prefix}.
 ##
 ## @var{str} can be a cell array of strings. In this case,
 ## @code{is_prefixed_with} returns a logical array (same shape as @var{str}).
