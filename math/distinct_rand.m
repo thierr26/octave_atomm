@@ -2,16 +2,20 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} distinct_rand (@var{a})
-## @deftypefnx {Function File} distinct_rand (@var{a}, @var{max_iter})
+## @deftypefn {Function File} {@var{r} =} distinct_rand (@var{a})
+## @deftypefnx {Function File} {@var{r} =} distinct_rand (@var{a}, @var{@
+## max_iter})
 ##
-## Return a random number (as returned by @code{rand(1)}) that is not already
-## in numerical array @var{a}.
+## Draw a random number using @code{rand} and an exclusion list.
 ##
-## @code{distinct_rand} raises an error if it has called @code{rand(1)}
-## @var{max_iter} times and has not obtained a random number that is not
-## already in @var{a}.  If @var{max_iter} is not provided, value 100 is used
-## instead.
+## @code{@var{r} = distinct_rand (@var{a})} calls function @code{rand} until
+## the returned random number is not equal to any number in numeric array
+## @var{a}.  It then returns the number in @var{R}.  An error is issued if
+## @code{distinct_rand} cannot return after 100 calls to @code{rand}.
+##
+## If you need the error to be issued after a number of calls to @code{rand}
+## different than 100, you can provide the desired number as second argument
+## (@var{max_iter}).
 ##
 ## @seealso{rand}
 ## @end deftypefn

@@ -2,12 +2,14 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} same_shape (@var{array1}, @var{array2})
+## @deftypefn {Function File} {@var{ret} =} same_shape (@var{array1}, @var{@
+## array2})
 ##
 ## True if @var{array1} and @var{array2} have the same shape.
 ##
-## Precisely, @code{same_shape(@var{array1}, @var{array2})} returns the value
-## of @code{isequal(size(@var{array1}), size(@var{array2}))}.
+## @code{@var{ret} = same_shape (@var{array1}, @var{array2})} returns in
+## @var{ret} the value of
+## @code{isequal(size(@var{array1}), size(@var{array2}))}.
 ##
 ## @seealso{isequal, size}
 ## @end deftypefn

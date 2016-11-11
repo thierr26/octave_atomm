@@ -3,10 +3,34 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {@
-## Function File} wio_consec_duplicates (@var{x})
+## Function File} {@var{ret} =} wio_consec_duplicates (@var{x})
 ##
-## Return @var{x} (numeric or logical row vector) with consecutive duplicates
-## removed.
+## @code{@var{ret} = wio_consec_duplicates (@var{x})} returns numeric or
+## logical row vector @var{x} in @var{ret} with consecutive duplicates removed.
+##
+##
+## Examples:
+##
+## @example
+## @group
+## wio_consec_duplicates ([1, 2, 3, 2])
+##    @result{} [1, 2, 3, 2]
+## @end group
+## @end example
+##
+## @example
+## @group
+## wio_consec_duplicates ([1, 2, 2, 3, 2])
+##    @result{} [1, 2, 3, 2]
+## @end group
+## @end example
+##
+## @example
+## @group
+## wio_consec_duplicates ([true, false, false, true])
+##    @result{} [true, false, true]
+## @end group
+## @end example
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>
