@@ -2,10 +2,15 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} is_blank_string (@var{str})
+## @deftypefn {Function File} {@var{ret} =} is_blank_string (@var{str})
 ##
-## True for an empty string or a string containing only blank characters (for
-## example spaces and tabulations).
+## True for a blank string.
+##
+## @code{@var{ret} = is_blank_string (@var{str})} returns true in @var{ret} if
+## @var{str} is an empty string or a string containing only blank characters
+## (for example spaces and tabulations).
+##
+## @seealso{is_string}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>

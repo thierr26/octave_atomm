@@ -2,11 +2,16 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} is_cell_array_of_strings (@var{c})
+## @deftypefn {Function File} {@var{ret} =} is_cell_array_of_strings (@var{c})
 ##
-## Return true if @var{c} is a cell array of strings or an empty cell array.
+## True for a cell array of strings.
 ##
-## In this context, a string is a row vector of characters.
+## @code{@var{ret} = is_cell_array_of_strings (@var{c})} returns true in @var{@
+## ret} if @var{c} is a cell array of strings.  In the particular case of an
+## empty cell array, a true value is returned.
+##
+## In this context, a string is a row vector of characters or an empty
+## character array.
 ##
 ## @seealso{is_cell_array_of_non_empty_strings,
 ## is_cell_array_of_unique_non_empty_strings,

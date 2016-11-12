@@ -2,24 +2,24 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} is_integer_vect (@var{x})
-## @deftypefnx {Function File} is_integer_vect (@var{x}, [@var{m} @var{n}])
-## @deftypefnx {Function File} is_integer_vect (@var{x}, @var{n})
+## @deftypefn {Function File} {@var{ret} =} is_integer_vect (@var{x})
+## @deftypefnx {Function File} {@var{ret} =} is_integer_vect (@var{x}, [@var{@
+## m} @var{n}])
+## @deftypefnx {Function File} {@var{ret} =} is_integer_vect (@var{x}, @var{n})
 ##
-## Return true if @var{x} is a vector of integer values.  @var{x} may be of an
-## integer type or of a floating point type.  A constraint on values in @var{x}
-## can also be specified.
+## True for a vector of (possibly limited) integer values.
 ##
-## @code{is_integer_vect([])} returns false.
+## @code{@var{ret} = is_integer_vect (@var{x})} returns true in @var{ret} if
+## @var{x} is a vector of integer values.  @var{x} may be of an integer type or
+## of a floating point type.  In the particular case of an empty vector, a
+## false value is returned.
 ##
-## If a 2-component integer vector [@var{m} @var{n}] is provided as second
-## argument, then @code{is_integer_vect} also performs a check of the values
-## in @var{x}.  @code{is_integer_vect(@var{x}, [@var{m} @var{n}])} returns true
-## if all the values in @var{x} are greater than or equal to @var{m} and lower
-## than or equal to @var{n}.
+## The optional argument can be used to specify a limitation on the values in
+## @var{x}.  @code{is_integer_vect (@var{x}, [@var{m} @var{n}])} returns true
+## only if no value in @var{x} is lower than @var{m} or greater than @var{n}.
 ##
-## @code{is_integer_vect(@var{x}, @var{n})} is equivalent to
-## @code{is_integer_vect(@var{x}, [1 @var{n}])}.
+## @code{is_integer_vect (@var{x}, @var{n})} is equivalent to
+## @code{is_integer_vect (@var{x}, [1 @var{n}])}.
 ##
 ## One use of a call like @code{is_integer_vect(@var{x}, @var{n})} is to check
 ## that @var{x} contain valid indices to an array of @var{n} elements.

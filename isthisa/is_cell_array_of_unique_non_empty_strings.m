@@ -2,15 +2,17 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {@
-## Function File} is_cell_array_of_unique_non_empty_strings (@var{c})
+## @deftypefn {Function File} {@var{@
+## ret} =} is_cell_array_of_unique_non_empty_strings (@var{c})
 ##
-## Return true if @var{c} is a cell array of unique non empty strings.
+## True for a cell array of unique non empty strings.
+##
+## @code{@var{ret} = is_cell_array_of_unique_non_empty_strings (@var{c})}
+## returns true in @var{ret} if @var{c} is a cell array of unique non empty
+## strings.  In the particular case of an empty cell array, a false value is
+## returned.
 ##
 ## In this context, a string is a row vector of characters.
-##
-## If @var{c} is an empty cell array then
-## @code{is_cell_array_of_unique_non_empty_strings} returns false.
 ##
 ## @seealso{is_cell_array_of_non_empty_strings, is_non_empty_string, is_string,
 ## is_string_list}

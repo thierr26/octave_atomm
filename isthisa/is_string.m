@@ -2,9 +2,12 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} is_string (@var{str})
+## @deftypefn {Function File} {@var{ret} =} is_string (@var{str})
 ##
-## Return true if @var{str} is a string (a row vector of characters or an empty
+## True for a simple string.
+##
+## @code{@var{ret} = is_string (@var{str})} returns true in @var{ret} if @var{@
+## str} is a simple string (i.e.@ a row vector of characters or an empty
 ## character array).
 ## @end deftypefn
 

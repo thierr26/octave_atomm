@@ -2,9 +2,14 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} is_logical_scalar (@var{x})
+## @deftypefn {Function File} {@var{ret} =} is_logical_scalar (@var{x})
 ##
-## Return true if @var{x} is logical and scalar.
+## True for a logical scalar.
+##
+## @code{@var{ret} = is_logical_scalar (@var{x})} returns true in @var{ret} if
+## @var{x} is logical and scalar.
+##
+## @seealso{false, islogical, isscalar, true}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>

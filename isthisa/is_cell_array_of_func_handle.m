@@ -2,9 +2,13 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} is_cell_array_of_func_handle (@var{c})
+## @deftypefn {Function File} {@var{@
+## ret} =} is_cell_array_of_func_handle (@var{c})
 ##
-## Return true if @var{c} is a cell array of function handles or an empty cell
+## True for a cell array of function handles or an empty cell array.
+##
+## @code{@var{ret} = is_cell_array_of_func_handle (@var{c})} returns true in
+## @var{ret} if @var{c} is a cell array of function handles or an empty cell
 ## array.
 ##
 ## Examples:

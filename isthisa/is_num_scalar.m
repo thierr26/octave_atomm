@@ -2,9 +2,14 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} is_num_scalar (@var{x})
+## @deftypefn {Function File} {@var{ret} =} is_num_scalar (@var{x})
 ##
-## Return true if @var{x} is numeric and scalar.
+## True for a numeric scalar.
+##
+## @code{@var{ret} = is_num_scalar (@var{x})} returns true in @var{ret} if
+## @var{x} is numeric and scalar.
+##
+## @seealso{isnumeric, isscalar}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>

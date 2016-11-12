@@ -3,10 +3,12 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {@
-## Function File} is_empty_or_row_cell_array_of_strings (@var{c})
+## Function File} {@var{ret} =} is_empty_or_row_cell_array_of_strings (@var{c})
 ##
-## Return true if @var{c} is an empty cell array or a row cell array of
-## strings.
+## True for an empty or row cell array of strings.
+##
+## @code{@var{ret} = is_empty_or_row_cell_array_of_strings (@var{c})} returns
+## true in @var{ret} if @var{c} is an empty or a row cell array of strings.
 ##
 ## In this context, a string is a row vector of characters.
 ##

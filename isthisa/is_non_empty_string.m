@@ -2,9 +2,14 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} is_non_empty_string (@var{str})
+## @deftypefn {Function File} {@var{ret} =} is_non_empty_string (@var{str})
 ##
-## Return true if @var{str} is a non empty string (a row vector of characters).
+## True for a non empty string.
+##
+## @code{@var{ret} = is_non_empty_string (@var{str})} returns true in @var{ret}
+## if @var{str} is a non empty string (a row vector of characters).
+##
+## @seealso{is_blank_string, is_string}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>

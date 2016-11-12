@@ -2,11 +2,13 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} is_natural_integer_scalar (@var{x})
+## @deftypefn {Function File} {@var{ret} =} is_natural_integer_scalar (@var{x})
 ##
-## Return true if @var{x} is an integer value, is a scalar and is greater than
-## or equal to 0.  @var{x} may be of an integer type or of a floating point
-## type.
+## True for a non negative scalar integer value.
+##
+## @code{@var{ret} = is_natural_integer_scalar (@var{x})} returns true in
+## @var{ret} if @var{x} is an integer value, is a scalar and is greater than or
+## equal to 0.  @var{x} may be of an integer type or of a floating point type.
 ##
 ## @seealso{is_integer_scalar, is_positive_integer_scalar}
 ## @end deftypefn
