@@ -2,7 +2,7 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{str} =} quote_delimiters ()
+## @deftypefn {Function File} {@var{str} =} quote_delimiters ()
 ##
 ## String containing the single-quote character and the double-quote character.
 ## @end deftypefn

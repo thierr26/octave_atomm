@@ -2,7 +2,7 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{ret} =} strip_dot_suffix (@var{c})
+## @deftypefn {Function File} {@var{ret} =} strip_dot_suffix (@var{c})
 ##
 ## Remove the dot suffix in a cell array of strings.
 ##

@@ -131,15 +131,15 @@ function s = test_isthisa
         @is_empty_or_row_cell_array_of_strings_numel_1, ...
         @is_empty_or_row_cell_array_of_strings_numel_2, ...
         @is_empty_or_row_cell_array_of_strings_non_row, ...
-        @is_string_list_empty_c, ...
-        @is_string_list_non_cell_c, ...
-        @is_string_list_non_cellstr_c, ...
-        @is_string_list_non_row_char, ...
-        @is_string_list_numel_1, ...
-        @is_string_list_numel_2, ...
-        @is_string_list_non_row, ...
-        @is_string_list_not_non_empty, ...
-        @is_string_list_not_unique, ...
+        @is_set_of_non_empty_strings_empty_c, ...
+        @is_set_of_non_empty_strings_non_cell_c, ...
+        @is_set_of_non_empty_strings_non_cellstr_c, ...
+        @is_set_of_non_empty_strings_non_row_char, ...
+        @is_set_of_non_empty_strings_numel_1, ...
+        @is_set_of_non_empty_strings_numel_2, ...
+        @is_set_of_non_empty_strings_non_row, ...
+        @is_set_of_non_empty_strings_not_non_empty, ...
+        @is_set_of_non_empty_strings_not_unique, ...
         @is_blank_string_fail_wrong_type, ...
         @is_blank_string_empty, ...
         @is_blank_string_false, ...
@@ -1004,75 +1004,75 @@ endfunction
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function ret = is_string_list_empty_c
+function ret = is_set_of_non_empty_strings_empty_c
 
-    ret = is_string_list({});
-
-endfunction
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-function ret = is_string_list_non_cell_c
-
-    ret = ~is_string_list(true);
+    ret = is_set_of_non_empty_strings({});
 
 endfunction
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function ret = is_string_list_non_cellstr_c
+function ret = is_set_of_non_empty_strings_non_cell_c
 
-    ret = ~is_string_list({true});
+    ret = ~is_set_of_non_empty_strings(true);
 
 endfunction
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function ret = is_string_list_non_row_char
+function ret = is_set_of_non_empty_strings_non_cellstr_c
+
+    ret = ~is_set_of_non_empty_strings({true});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_set_of_non_empty_strings_non_row_char
 
     str = 'abc';
     str = str';
-    ret = ~is_string_list({str});
+    ret = ~is_set_of_non_empty_strings({str});
 
 endfunction
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function ret = is_string_list_numel_1
+function ret = is_set_of_non_empty_strings_numel_1
 
-    ret = is_string_list({'abc'});
-
-endfunction
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-function ret = is_string_list_numel_2
-
-    ret = is_string_list({'abc', 'def'});
+    ret = is_set_of_non_empty_strings({'abc'});
 
 endfunction
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function ret = is_string_list_non_row
+function ret = is_set_of_non_empty_strings_numel_2
 
-    ret = ~is_string_list({'abc'; 'def'});
-
-endfunction
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-function ret = is_string_list_not_non_empty
-
-    ret = ~is_string_list({'abc', ''});
+    ret = is_set_of_non_empty_strings({'abc', 'def'});
 
 endfunction
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function ret = is_string_list_not_unique
+function ret = is_set_of_non_empty_strings_non_row
 
-    ret = ~is_string_list({'abc', 'abc'});
+    ret = ~is_set_of_non_empty_strings({'abc'; 'def'});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_set_of_non_empty_strings_not_non_empty
+
+    ret = ~is_set_of_non_empty_strings({'abc', ''});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_set_of_non_empty_strings_not_unique
+
+    ret = ~is_set_of_non_empty_strings({'abc', 'abc'});
 
 endfunction
 

@@ -2,12 +2,14 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{ret} =} is_string_list (@var{c})
+## @deftypefn {Function File} {@var{ret} =} is_set_of_non_empty_strings (@var{@
+## c})
 ##
 ## True for an empty cell array or a cell array of unique non empty strings.
 ##
-## @code{@var{ret} = is_string_list (@var{c})} returns true in @var{ret} if
-## @var{c} is an empty or row cell array of unique non empty strings.
+## @code{@var{ret} = is_set_of_non_empty_strings (@var{c})} returns true in
+## @var{ret} if @var{c} is an empty cell array or row cell array of unique non
+## empty strings.
 ##
 ## In this context, a string is a row vector of characters.
 ##
@@ -18,7 +20,7 @@
 
 ## Author: Thierry Rascle <thierr26@free.fr>
 
-function ret = is_string_list(c)
+function ret = is_set_of_non_empty_strings(c)
 
     ret = is_empty_or_row_cell_array_of_strings(c) ...
         && ~any(cellfun(@isempty, c(:))) ...

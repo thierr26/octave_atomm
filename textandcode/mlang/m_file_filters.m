@@ -2,13 +2,13 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{filter} =} m_file_filters ()
-## @deftypefnx {Function File} {@var{filter} =} m_file_filters ('all')
-## @deftypefnx {Function File} {@var{filter} =} m_file_filters ('m_lang_only')
+## @deftypefn {Function File} {@var{filter} =} m_file_filters ()
+## @deftypefnx {Function File} {@var{filter} =} m_file_filters ('all')
+## @deftypefnx {Function File} {@var{filter} =} m_file_filters ('m_lang_only')
 ##
 ## File filters (like "*.m") for Matlab or Octave function files.
 ##
-## @code{@var{filter} = m_file_filters ()} returns a cell array of strings
+## @code{@var{filter} = m_file_filters ()} returns a cell array of strings
 ## in @var{filter} containing the various file filters for function files.
 ##
 ## If this is Octave running the function, the returned cell array contains:
@@ -30,10 +30,10 @@
 ## depending on the platform)
 ## @end itemize
 ##
-## @code{@var{filter} = m_file_filters ('all')} is equivalent to
-## @code{@var{filter} = m_file_filters ()}
+## @code{@var{filter} = m_file_filters ('all')} is equivalent to
+## @code{@var{filter} = m_file_filters ()}
 ##
-## @code{@var{filter} = m_file_filters('m_lang_only')} returns a cell array
+## @code{@var{filter} = m_file_filters('m_lang_only')} returns a cell array
 ## containing only "*.m".
 ##
 ## @seealso{mexext, pcode}

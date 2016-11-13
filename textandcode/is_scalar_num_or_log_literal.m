@@ -8,7 +8,7 @@
 ## True for scalar numerical literals and logical literals.
 ##
 ## @code{@var{ret} = is_scalar_num_or_log_literal (@var{str})} returns true in
-## @var{ret} if the string @var{str} is a string like:
+## @var{ret} if the string @var{str} is a string like:
 ##
 ## @itemize @bullet
 ## @item

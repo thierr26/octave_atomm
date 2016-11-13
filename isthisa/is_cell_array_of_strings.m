@@ -15,7 +15,8 @@
 ##
 ## @seealso{is_cell_array_of_non_empty_strings,
 ## is_cell_array_of_unique_non_empty_strings,
-## is_empty_or_row_cell_array_of_strings, is_string, is_string_list}
+## is_empty_or_row_cell_array_of_strings, is_set_of_non_empty_strings,
+## is_string}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>

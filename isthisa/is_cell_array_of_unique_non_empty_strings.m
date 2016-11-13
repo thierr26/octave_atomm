@@ -14,8 +14,8 @@
 ##
 ## In this context, a string is a row vector of characters.
 ##
-## @seealso{is_cell_array_of_non_empty_strings, is_non_empty_string, is_string,
-## is_string_list}
+## @seealso{is_cell_array_of_non_empty_strings, is_non_empty_string,
+## is_set_of_non_empty_strings, is_string}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>
