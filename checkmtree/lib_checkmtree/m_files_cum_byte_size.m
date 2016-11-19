@@ -2,9 +2,14 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} m_files_cum_byte_size (@var{s})
+## @deftypefn {Function File} {@var{ret} =} m_files_cum_byte_size (@var{s})
 ##
-## Cumulative byte size of M-files in a 'find_m_toolboxes' structure.
+## Cumulative byte size of the M-files found by 'find_m_toolboxes'.
+##
+## The argument @var{s} is supposed to have been returned by function
+## @code{find_m_toolboxes}.  @code{@var{ret} = m_files_cum_byte_size (@var{s})}
+## returns in @var{ret} the cumulative byte size of the M-files found by
+## 'find_m_toolboxes' and mentioned in @var{s}.
 ##
 ## Only .m text files are taken into account.
 ##

@@ -2,10 +2,9 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} is_find_m_toolboxes_s (@var{s})
+## @deftypefn {Function File} {@var{ret} =} is_find_m_toolboxes_s (@var{s})
 ##
-## Return true if @var{s} looks like a structure returned by
-## @code{find_m_toolboxes}.
+## True for a @code{find_m_toolboxes} return structure.
 ##
 ## @seealso{find_m_toolboxes}
 ## @end deftypefn

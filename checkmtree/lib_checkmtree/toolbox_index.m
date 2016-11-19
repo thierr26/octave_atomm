@@ -10,42 +10,74 @@
 ## s1}, @var{toolbox_designation}, @var{k}, @var{no_absent_of_tree_warning})
 ## @deftypefnx {Function File} {[@var{index}, @var{s}] =} toolbox_index (@var{@
 ## s1}, @var{toolbox_designation}, @var{k}, @var{@
-## no_absent_of_tree_warning}, @var{nocheck})
+## no_absent_of_tree_warning}, @var{no_check})
 ##
-## Find the index of a toolbox in the output structure of
-## @code{find_m_toolboxes}.
+## Locate a toolbox in the output structure of @code{find_m_toolboxes}.
 ##
-## @code{toolbox_index} takes as argument a structure @var{s1} output by
-## @code{find_m_toolboxes} and a toolbox designation (string
-## @var{toolbox_designation}).  A toolbox designation is the kind of
-## information found in dependency files.  Please see the documentation for
-## function @code{checkmtree} for more details.
+## @code{@var{index} = toolbox_index (@var{s1}, @var{toolbox_designation})}
+## returns in @var{index} a vector of indices to the cell array field
+## @qcode{"toolboxpath"} of the @var{s1} structure, which is supposed to have
+## been returned by function @code{find_m_toolboxes}.
 ##
-## The return value @var{index} is the index of the toolbox in the field
-## "toolboxpath" of @var{s1}.
+## @code{@var{s1}.toolboxpath (@var{index})} returns a cell array containing
+## the absolute path to the toolboxes found by @code{find_m_toolboxes} that
+## could have been designated as @var{toolbox_designation} in a dependency
+## file.  Please see the documentation for Toolman (run @code{help toolman})
+## for all the details about the dependency files.
 ##
-## @var{index} is empty if the toolbox is not found in @var{s1}.  In this case,
-## an Outman warning message is issued, unless @var{no_absent_of_tree_warning}
-## is provided and set to true.
+## In the particular case where none of the toolboxes found by
+## @code{find_m_toolboxes} could have been designated as
+## @var{toolbox_designation}, @var{index} is empty and a warning message is
+## issued using Outman.  Please run @code{help outman} for more information
+## about Outman.
 ##
-## @var{index} is a vector with more than one component if
-## @var{toolbox_designation} is ambiguous.  In this case, an Outman error
-## message is issued.
+## In the particular case where more than one of the toolboxes found by
+## @code{find_m_toolboxes} could have been designated as
+## @var{toolbox_designation}, @var{index} contains multiple values and an error
+## message is issued using Outman to tell the user that
+## @var{toolbox_designation} is ambiguous.
 ##
-## Optional argument @var{k} defaults to 0.  If greater than zero, it is
-## considered to be the index in the field "toolboxpath" of @var{s1} of the
-## toolbox declaring @var{toolbox_designation} as a dependency.  Providing
-## @var{k} will cause an Outman error message to be issued if @var{index} is
-## scalar and equals @var{k}.
+## The third argument (@var{k}) is optional and defaults to zero.  If it is
+## provided and is greater than zero, then it is considered to be the index in
+## the cell array field @qcode{"toolboxpath"} of the @var{s1} structure of a
+## toolbox that has a dependency file that mentions @var{toolbox_designation}.
+## This allows @code{toolbox_index} to be used as a dependency locating
+## function.
 ##
-## If @var{nocheck} is provided and is true, then no argument checking is done.
+## @code{@var{index} = toolbox_index (@var{s1}, @var{@
+## toolbox_designation}), @var{k})} (with @var{k} > 0) does the same as
+## @code{@var{index} = toolbox_index (@var{s1}, @var{toolbox_designation})}
+## except that:
 ##
-## The second output argument is identical to @var{s}, except that the field
-## "toolboxdesig" may be created or updated.  The field "toolboxdesig" is used
-## to store the toolbox designation and speed up the function when the same
-## designation is provided again. Of course, the @var{s} output argument must
-## be provided back as the @var{s1} input argument on the next call to benefit
-## from the "toolboxdesig" field.
+## @itemize @bullet
+## @item
+## In the particular case where @var{index} is scalar and equals to @var{k},
+## then an error message is issued using Outman to inform the user that the
+## dependency file of a toolbox should not mention this same toolbox (i.e.@ a
+## toolbox cannot be a dependency of itself).
+##
+## @item
+## In the particular case where @var{index} would have been of a length greater
+## than 1 and would have contain a component equalling @var{k}, then this
+## component is removed from @var{index}.  This a way of not finding a toolbox
+## as a dependency of itself.
+## @end itemize
+##
+## The fourth argument (@var{no_absent_of_tree_warning}) is optional and
+## defaults to false.  If it is provided and set to true, then no warning
+## message is issued when an empty @var{index} is returned.
+##
+## The fifth argument (@var{no_check}) is optional and defaults to false.  If
+## it is provided and set to true, then no argument checking is done.  This
+## speeds up the function.  Of course, this implies that the input arguments
+## must be safe.
+##
+## The second output argument (@var{s}) is identical to @var{s1}, except that
+## the field @qcode{"toolboxdesig"} may be created or updated.  The field
+## @qcode{"toolboxdesig"} is used to store the toolbox designation and speed up
+## the function when the same designation is provided again.  Of course, the
+## @var{s} output argument must be provided back as the @var{s1} input argument
+## on the next call to benefit from the @qcode{"toolboxdesig"} field.
 ##
 ## @seealso{checkmtree, find_m_toolboxes, outman, read_declared_dependencies}
 ## @end deftypefn

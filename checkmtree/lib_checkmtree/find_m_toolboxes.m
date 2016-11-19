@@ -2,64 +2,83 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} find_m_toolboxes ()
-## @deftypefnx {Function File} find_m_toolboxes (@var{top_str})
-## @deftypefnx {Function File} find_m_toolboxes (@var{top_c})
+## @deftypefn {Function File} {@var{s} =} find_m_toolboxes ()
+## @deftypefnx {Function File} {@var{s} =} find_m_toolboxes (@var{top})
+## @deftypefnx {Function File} {@var{s} =} find_m_toolboxes (@var{tops})
 ##
-## Find toolboxes (directories containing at least one M-file) recursively.
+## Find toolboxes recursively.
 ##
-## If no argument is provided, then @code{find_m_toolboxes} searches the
-## toolboxes in the working directory and its subdirectories.
+## @code{@var{s} = find_m_toolboxes ()} searches the current working directory
+## recursively for toolboxes and returns structure @var{s} containing
+## information about the content of the found toolboxes.
 ##
-## If a non empty string argument (@var{top_str}) is provided as first argument
-## then this string is supposed to be a path to a directory and then
-## @code{find_m_toolboxes} searches the toolboxes in this directory and its
-## subdirectories.
+## A toolbox in this context is a directory that is not named "private" and
+## that contains at least one function file.  The directory may contain a
+## subdirectory named "private" containing itself one or more function files.
+## Subdirectories of "private" subdirectories are entirely ignored.
 ##
-## If a cell array of non empty strings (@var{top_c}) is given as first
-## argument, then every string in the cell array is supposed to be a path to a
-## directory and then @code{find_m_toolboxes} searches the toolboxes in these
-## directories and their subdirectories.
+## A function file is one of the following types of file:
 ##
-## @code{find_m_toolboxes} uses Outman for progress indication and messaging.
+## @itemize @bullet
+## @item .m file.
 ##
-## @code{find_m_toolboxes} returns a structure containing the following fields:
+## @item MEX file (the extension of those files differ, depending on whether
+## this is Octave or Matlab running and depending on the platform).
+##
+## @item .oct file (only if this is Octave running).
+##
+## @item .p file (only if this is Matlab running).
+## @end itemize
+##
+## The returned structure @var{s} contains the following fields:
 ##
 ## @table @asis
-## @item toolboxpath
-## Cell array of toolboxes full paths.
+## @item @qcode{"toolboxpath"}
+## Cell array containing the absolute paths to the found toolboxes.
 ##
-## @item depfile
-## Cell array (same shape as toolboxpath field) of dependency file names (an
-## empty cell means that the associated toolbox has no dependency file).
-## Please see the documentation for @code{checkmtree} for more information
-## about dependency files.
+## @item @qcode{"depfile"}
+## Cell array (same shape as @qcode{"toolboxpath"} field) of dependency file
+## names (an empty cell means that the corresponding toolbox has no dependency
+## file).  Please see the documentation for Toolman (run @code{help toolman})
+## for all the details about the dependency files.
 ##
-## @item privateidx
-## Numerical array (same shape as toolboxpath field).  A zero value means that
-## the toolbox has no private directory and a non-zero value gives the index
-## associated with the toolbox in the privatemfiles field.
+## @item @qcode{"privateidx"}
+## Numerical array (same shape as @qcode{"toolboxpath"} field).  A zero value
+## means that the corresponding toolbox has no private directory and a non-zero
+## value gives the index associated with the toolbox in the
+## @qcode{"privatemfiles"} field.
 ##
-## @item mfiles
-## Cell array (same shape as toolboxpath field) of cell arrays of M-file base
-## names (including pcode files (files with .p extension) when no M-files with
-## the same name are present in the toolbox and when run in Matlab).
+## @item @qcode{"mfiles"}
+## Cell array (same shape as @qcode{"toolboxpath"} field) of cell arrays of
+## function files base names.  Note that .p files are not included if there are
+## .m files with the same name in the toolbox.
 ##
-## @item mfilebytes
-## Cell array (same shape as toolboxpath field) of numerical arrays (same shape
-## as the element at the same index in mfiles field) containing the byte sizes
-## of the M-files.
+## @item @qcode{"mfilebytes"}
+## Cell array (same shape as @qcode{"toolboxpath"} field) of numerical arrays
+## (same shape as the element at the same index in @qcode{"mfiles"} field)
+## containing the byte sizes of the function files.
 ##
-## @item privatemfiles
-## Similar to mfiles field, but for private directories.
+## @item @qcode{"privatemfiles"}
+## Similar to @qcode{"mfiles"} field, but for private directories.
 ##
-## @item privatemfilebytes
-## Similar to mfilebytes field, but for private directories.
+## @item @qcode{"privatemfilebytes"}
+## Similar to @qcode{"mfilebytes"} field, but for private directories.
 ##
-## @item privatesubdir
+## @item @qcode{"privatesubdir"}
 ## Always the "private" string, which is the name of the private subdirectory
 ## of a toolbox.
 ## @end table
+##
+## If a string @var{top} is provided as argument to @code{find_m_toolboxes},
+## then @code{find_m_toolboxes} searches in directory @var{top} instead of the
+## current working directory.
+##
+## If a cell array of strings @var{tops} is provided as argument to
+## @code{find_m_toolboxes}, then @code{find_m_toolboxes} searches in all
+## directories given in @var{tops}.
+##
+## @code{find_m_toolboxes} uses outman for messaging and progress indication.
+## Please run @code{help outman} for more information about Outman.
 ##
 ## @seealso{outman}
 ## @end deftypefn

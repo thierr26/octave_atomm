@@ -2,26 +2,28 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} read_declared_dependencies (@var{s})
+## @deftypefn {Function File} {@var{s} =} read_declared_dependencies (@var{s1})
 ##
-## Grow the output of @code{find_m_toolboxes} with declared dependencies.
+## Grow output of @code{find_m_toolboxes} with declared dependencies.
 ##
-## @code{read_declared_dependencies} takes as argument a structure output by
-## @code{find_m_toolboxes} or @code{compute_dependencies} and add the following
-## field:
+## The argument @var{s1} is supposed to have been returned by function
+## @code{find_m_toolboxes} or function @code{compute_dependencies}.
+## @code{@var{s} = read_declared_dependencies (@var{s1})} returns in @var{s}
+## @var{s1} with one field added:
 ##
 ## @table @asis
-## @item decl_dep
-## Cell array (same shape as the toolboxpath field of the input structure) of
-## numerical arrays containing indices to the toolboxpath field of the input
-## structure.  The presence of an index means that the corresponding toolbox is
-## a declared dependency (i.e.@ a dependency read in a dependency file).
-## Please see the documentation for @code{checkmtree} for more information
-## about dependency files.
+## @item @qcode{"decl_dep"}
+## Cell array (same shape as the @qcode{"toolboxpath"} field of the input
+## structure) of numerical arrays containing indices to the
+## @qcode{"toolboxpath"} field of the input structure.  The presence of an
+## index means that the corresponding toolbox is a declared dependency (i.e.@
+## a dependency read in a dependency file).  Please see the documentation for
+## Toolman (run @code{help toolman}) for all the details about the dependency
+## files.
 ## @end table
 ##
 ## @code{read_declared_dependencies} uses Outman for progress indication and
-## messaging.
+## messaging.  Please run @code{help outman} for more information about Outman.
 ##
 ## @seealso{compute_dependencies, find_m_toolboxes, outman}
 ## @end deftypefn

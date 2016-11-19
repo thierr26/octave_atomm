@@ -34,15 +34,15 @@
 ## Checkmtree's default command.
 ## @end table
 ##
-## These two output arguments are the kind of variables to be used as input
-## arguments to @code{check_command_stru_and_default}.  Please see the
+## These two output arguments are the kind of variables that can be used as
+## input arguments to @code{check_command_stru_and_default}.  Please see the
 ## documentation for @code{check_command_stru_and_default} for a more precise
 ## description of @var{s}.
 ##
 ## Called with two arguments, @code{checkmtree_command} returns one logical
-## output argument (@var{ret}).  @var{ret} is true if @var{c} (a string
-## supposed to be the name of a Checkmtree command) is of the "type" provided
-## as second argument.
+## output argument (@var{ret}).  @var{ret} is true if the first argument
+## (@var{c}, a string supposed to be the name of a Checkmtree command) is of
+## the "type" provided as second argument.
 ##
 ## The defined "types" are:
 ##

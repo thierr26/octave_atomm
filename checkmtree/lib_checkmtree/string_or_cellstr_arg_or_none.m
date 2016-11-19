@@ -4,8 +4,7 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} string_or_cellstr_arg_or_none (...)
 ##
-## Return true if there are no argument or one argument which is a non empty
-## string or a cell array of non empty strings.
+## True if none or one (simple or array of) non empty string argument provided.
 ##
 ## @seealso{is_non_empty_string, is_cell_array_of_non_empty_strings}
 ## @end deftypefn

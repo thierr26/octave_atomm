@@ -2,68 +2,70 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} compute_dependencies (@var{s})
+## @deftypefn {Function File} {@var{s} =} compute_dependencies (@var{s1})
 ##
-## Grow the output of @code{find_m_toolboxes} with dependencies, based on code
-## analysis.
+## Grow output of @code{find_m_toolboxes} with computed dependencies.
 ##
-## @code{compute_dependencies} takes as argument a structure output by
-## @code{find_m_toolboxes} or @code{read_declared_dependencies} and adds the
-## following fields:
+## The argument @var{s1} is supposed to have been returned by function
+## @code{find_m_toolboxes} or function @code{read_declared_dependencies}.
+## @code{@var{s} = compute_dependencies (@var{s1})} returns in @var{s}
+## @var{s1} with some fields added:
 ##
 ## @table @asis
-## @item mfilelinecount
-## Cell array (same shape as the toolboxpath field of the input structure) of
-## numerical arrays (same shape as the corresponding element in the mfiles
-## field of the input structure) containing the number of lines of the M-files.
+## @item @qcode{"mfilelinecount"}
+## Cell array (same shape as the @qcode{"toolboxpath"} field of the input
+## structure) of numerical arrays (same shape as the corresponding element in
+## the @qcode{"mfiles"} field of the input structure) containing the number of
+## lines of the function file.
 ##
-## @item mfilesloc
-## Cell array (same shape as the toolboxpath field of the input structure) of
-## numerical arrays (same shape as the corresponding element in the mfiles
-## field of the input structure) containing the number of software lines of
-## code of the M-files (number of lines that are not blank and don't contain
-## only a comment).
+## @item @qcode{"mfilesloc"}
+## Cell array (same shape as the @qcode{"toolboxpath"} field of the input
+## structure) of numerical arrays (same shape as the corresponding element in
+## the @qcode{"mfiles"} field of the input structure) containing the number of
+## software lines of code of the function files (number of lines that are not
+## blank and don't contain only a comment).
 ##
-## @item mfileexternalfuncs
-## Cell array (same shape as the toolboxpath field of the input structure) of
-## cell arrays (same shape as the corresponding element in the mfiles field of
-## the input structure) containing the names of the functions from other
-## toolboxes that are called by the M-file.
+## @item @qcode{"mfileexternalfuncs"}
+## Cell array (same shape as the @qcode{"toolboxpath"} field of the input
+## structure) of cell arrays (same shape as the corresponding element in the
+## @qcode{"mfiles"} field of the input structure) containing the names of the
+## functions from other toolboxes that are called by the function file.
 ##
-## @item privatemfilelinecount
-## Cell array (same shape as the privatemfiles field of the input structure) of
-## numerical arrays (same shape as the corresponding element in the
-## privatemfiles field of the input structure) containing the number of lines
-## of the private M-files.
+## @item @qcode{"privatemfilelinecount"}
+## Cell array (same shape as the @qcode{"privatemfiles"} field of the input
+## structure) of numerical arrays (same shape as the corresponding element in
+## the @qcode{"privatemfiles"} field of the input structure) containing the
+## number of lines of the private function files.
 ##
-## @item privatemfilesloc
-## Cell array (same shape as the privatemfiles field of the input structure) of
-## numerical arrays (same shape as the corresponding element in the
-## privatemfiles field of the input structure) containing the number of
-## software lines of code of the M-files (number of lines that are not blank
-## and don't contain only a comment).
+## @item @qcode{"privatemfilesloc"}
+## Cell array (same shape as the @qcode{"privatemfiles"} field of the input
+## structure) of numerical arrays (same shape as the corresponding element in
+## the @qcode{"privatemfiles"} field of the input structure) containing the
+## number of software lines of code of the function files (number of lines that
+## are not blank and don't contain only a comment).
 ##
-## @item privatemfileexternalfuncs
-## Cell array (same shape as the privatemfiles field of the input structure) of
-## cell arrays (same shape as the corresponding element in the privatemfiles
-## field of the input structure) containing the names of the functions from
-## other toolboxes that are called by the private M-file.
+## @item @qcode{"privatemfileexternalfuncs"}
+## Cell array (same shape as the @qcode{"privatemfiles"} field of the input
+## structure) of cell arrays (same shape as the corresponding element in the
+## @qcode{"privatemfiles"} field of the input structure) containing the names
+## of the functions from other toolboxes that are called by the private
+## function file.
 ##
-## @item externalfuncs
-## Cell array (same shape as the toolboxpath field of the input structure) of
-## cell arrays of strings containing the names of the functions from other
-## toolboxes that are called by the toolbox.
+## @item @qcode{"externalfuncs"}
+## Cell array (same shape as the @qcode{"toolboxpath"} field of the input
+## structure) of cell arrays of strings containing the names of the functions
+## from other toolboxes that are called by the toolbox.
 ##
-## @item comp_dep
-## Cell array (same shape as the toolboxpath field of the input structure) of
-## numerical arrays containing indices to the toolboxpath field of the input
-## structure.  The presence of an index means that the corresponding toolbox
-## seems to be a dependency (i.e.@ a toolbox from which at least one function
-## is used).
+## @item @qcode{"comp_dep"}
+## Cell array (same shape as the @qcode{"toolboxpath"} field of the input
+## structure) of numerical arrays containing indices to the
+## @qcode{"toolboxpath"} field of the input structure.  The presence of an
+## index means that the corresponding toolbox seems to be a dependency (i.e.@
+## a toolbox from which at least one function is used).
 ## @end table
 ##
-## @code{compute_dependencies} uses Outman for progress indication and
-## messaging.
+## @code{read_declared_dependencies} uses Outman for progress indication and
+## messaging.  Please run @code{help outman} for more information about Outman.
 ##
 ## @seealso{find_m_toolboxes, outman, read_declared_dependencies}
 ## @end deftypefn
