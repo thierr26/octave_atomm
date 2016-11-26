@@ -11,32 +11,21 @@
 
 ## Author: Thierry Rascle <thierr26@free.fr>
 
-if exist('atommDir', 'var') == 1
-    error(['Variable "atommDir" exists in base workspace. Script "%s" ' ...
-        'aborts to avoid overwriting and clearing the variable. Clear ' ...
-        'variable "atommDir" from workspace before attempting to run ' ...
-        'script "%s" again'], mfilename, mfilename);
-else
-
-    atommDir = fileparts(fileparts(fileparts(mfilename('fullpath'))));
-
-    addpath(fullfile(atommDir, 'appmech'));
-    addpath(fullfile(atommDir, 'argcheck'));
-    addpath(fullfile(fullfile(atommDir, 'checkmtree'), 'lib_checkmtree'));
-    addpath(fullfile(atommDir, 'datetime'));
-    addpath(fullfile(atommDir, 'env'));
-    addpath(fullfile(atommDir, 'fsys'));
-    addpath(fullfile(atommDir, 'isthisa'));
-    addpath(fullfile(atommDir, 'math'));
-    addpath(fullfile(atommDir, 'outman'));
-    addpath(fullfile(fullfile(atommDir, 'outman'), 'lib_outman'));
-    addpath(fullfile(atommDir, 'structure'));
-    addpath(fullfile(atommDir, 'tester'));
-    addpath(fullfile(atommDir, 'textandcode'));
-    addpath(fullfile(fullfile(atommDir, 'textandcode'), 'mlang'));
-    addpath(fullfile(atommDir, 'toolman'));
-    addpath(fullfile(fullfile(atommDir, 'toolman'), 'lib_toolman'));
-
-    clear atommDir;
-
-endif
+addpath(fullfile(fileparts(fileparts(fileparts(mfilename('fullpath')))), ...
+    'env'));
+addpath(fullfile(atomm_dir(...
+    fileparts(fileparts(fileparts(mfilename('fullpath'))))), 'appmech'));
+addpath(fullfile(atomm_dir, 'argcheck'));
+addpath(fullfile(fullfile(atomm_dir, 'checkmtree'), 'lib_checkmtree'));
+addpath(fullfile(atomm_dir, 'datetime'));
+addpath(fullfile(atomm_dir, 'fsys'));
+addpath(fullfile(atomm_dir, 'isthisa'));
+addpath(fullfile(atomm_dir, 'math'));
+addpath(fullfile(atomm_dir, 'outman'));
+addpath(fullfile(fullfile(atomm_dir, 'outman'), 'lib_outman'));
+addpath(fullfile(atomm_dir, 'structure'));
+addpath(fullfile(atomm_dir, 'tester'));
+addpath(fullfile(atomm_dir, 'textandcode'));
+addpath(fullfile(fullfile(atomm_dir, 'textandcode'), 'mlang'));
+addpath(fullfile(atomm_dir, 'toolman'));
+addpath(fullfile(fullfile(atomm_dir, 'toolman'), 'lib_toolman'));
