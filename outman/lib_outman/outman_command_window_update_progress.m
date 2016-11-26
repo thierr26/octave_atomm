@@ -2,28 +2,13 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} outman_command_window_update_progress (@var{@
-## s1}, @var{cf}, @var{nown})
+## @deftypefn {Function File} {@var{@
+## s} =} outman_command_window_update_progress (@var{s1}, @var{cf}, @var{nown})
 ##
-## Refresh progress indicator display in @code{outman} application structure
-## and in command window.
+## @code{outman_command_window_update_progress} is used by Outman.  It is a
+## very specific function and may not be useful for any other application.
 ##
-## @var{s1} is the state structure for application @code{outman}.  It contains
-## arrays with information related to the progress indicators.
-##
-## @var{cf} is the configuration structure for application @code{outman}.  It
-## contains some parameters used for building the displayed progress indication
-## string.
-##
-## @var{nown} is the serial date number for now, as returned by @code{now}.
-##
-## No check is done on the arguments.
-##
-## @code{outman_command_window_update_progress} returns @var{s1} updated with
-## the new progress percentage value for the progress indicator at array index
-## @var{idx}.
-##
-## @seealso{now, outman}
+## @seealso{outman}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>

@@ -2,22 +2,11 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} outman_command_window_erase_progress (@var{@
-## s1}, @var{idx})
+## @deftypefn {Function File} {@var{@
+## s} =} outman_command_window_erase_progress (@var{s1}, @var{idx})
 ##
-## Erase a progress indicator displayed string in @code{outman} application
-## structure and in command window.
-##
-## @var{s1} is the state structure for application @code{outman}.  It contains
-## arrays with information related to the progress indicators.  @var{idx} is
-## the array index for a progress indicator and @var{pos} is the new progress
-## position for the progress indicator.
-##
-## No check is done on the arguments.
-##
-## @code{outman_command_window_erase_progress} returns @var{s1} with
-## information related to progress indicator with array index @var{idx}
-## removed from displayed string.
+## @code{outman_command_window_update_progress} is used by Outman.  It is a
+## very specific function and may not be useful for any other application.
 ##
 ## @seealso{outman}
 ## @end deftypefn

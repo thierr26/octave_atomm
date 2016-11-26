@@ -2,43 +2,31 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} outman_progress_indicator_length (@var{@
-## msg}, @var{fmt}, @var{ord})
+## @deftypefn {Function File} {@var{@
+## len} =} outman_progress_indicator_length (@var{msg}, @var{fmt}, @var{ord})
 ##
-## Length of displayed string for a progress indicator, used by @code{outman}.
+## Length of displayed string for an Outman progress indicator.
 ##
-## @code{outman_progress_indicator_length} returns a string length.  The
-## arguments are:
+## The first argument (@var{msg}) is supposed to be a simple string.
 ##
-## @table @asis
-## @item @var{msg}
-## A string.
+## The second and third arguments (@var{fmt} and @var{ord}) are supposed to
+## have been returned by function @code{outman_is_valid_progress_format} in
+## its second and third output arguments respectively.
 ##
-## @item @var{fmt}
-## A template string that can be used as argument to @code{fprintf} and
-## @code{sprintf}, supposed to be an output of
-## @code{outman_is_valid_progress_format} (second output argument).
+## No argument checking is done.
 ##
-## @item @var{ord}
-## A parameter order vector, supposed to have been output by
-## @code{outman_is_valid_progress_format} (third argument) along with
-## @var{fmt}.
-## @end table
+## @code{@var{len} = outman_progress_indicator_length (@var{msg}, @var{@
+## fmt}, @var{ord})} returns in @var{len} the length of a string.  This string
+## is @var{fmt} with the "%s" conversion specification (if present) substituted
+## with @var{msg} and the "%3d" conversion specification (if present)
+## substituted with a 3 digit integer.
 ##
-## No check is done on the arguments.
-##
-## The returned length is the length of the string that would returned by
-## @code{sprintf} when called with @var{fmt} as template string, @var{msg} as
-## substitution string for the "%s" conversion specification (if any) and any
-## integer from 0 to 100 as substitution value for the "%3d" conversion
-## specification (if any).
-##
-## @seealso{fprintf, outman, outman_is_valid_progress_format, sprintf}
+## @seealso{outman, outman_is_valid_progress_format}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>
 
-function ret = outman_progress_indicator_length(msg, fmt, ord)
+function len = outman_progress_indicator_length(msg, fmt, ord)
 
     s1 = '%s';
     s1Len = length(s1);
@@ -54,6 +42,6 @@ function ret = outman_progress_indicator_length(msg, fmt, ord)
         d2 = 0;
     endif
     c = {blanks(s1Len), 0};
-    ret = length(sprintf(fmt, c{ord})) + d1 + d2;
+    len = length(sprintf(fmt, c{ord})) + d1 + d2;
 
 endfunction

@@ -2,19 +2,23 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} outman_config_stru ()
+## @deftypefn {Function File} {@var{s} =} outman_config_stru ()
 ##
 ## Outman's configuration structure.
 ##
-## Please see the documentation for @code{outman_connect_and_config_if_master}
-## for more details about Outman's configuration parameters.
+## @code{@var{s} = outman_config_stru ()} returns the configuration structure
+## for the Outman application.  Please see the documentation for
+## @code{mentalsum} for details about how such applications are built.  See
+## also the documentation for @code{outman} and
+## @code{outman_connect_and_config_if_master} for more information about Outman
+## and its configuration parameters.
 ##
-## @seealso{outman, outman_connect_and_config_if_master}
+## @seealso{mentalsum, outman, outman_connect_and_config_if_master}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>
 
-function stru = outman_config_stru
+function s = outman_config_stru
 
     hmi_cmd_win = 'command_window';
     hmi_cmd_win_no_prog = 'command_window_no_progress';
@@ -25,7 +29,7 @@ function stru = outman_config_stru
         default_hmi_variant = hmi_cmd_win;
     endif
 
-    stru = struct(...
+    s = struct(...
         'hmi_variant', struct(...
             'default', default_hmi_variant, ...
             'valid', @(x) is_string(x) && ismember(x, {hmi_cmd_win, ...

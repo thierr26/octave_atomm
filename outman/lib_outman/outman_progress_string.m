@@ -2,12 +2,14 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} outman_progress_string (@var{msg}, @var{@
-## pc}, @var{fmt}, @var{ord}, @var{dura_str})
+## @deftypefn {Function File} {@var{str} =} outman_progress_string (@var{@
+## msg}, @var{pc}, @var{fmt}, @var{ord}, @var{dura_str})
 ##
-## String to be displayed for progress indication, used by @code{outman}.
+## String to be displayed by Outman for progress indication.
 ##
-## @code{outman_progress_string} returns a string.  The arguments are:
+## @code{@var{str} = outman_progress_string (@var{msg}, @var{pc}, @var{@
+## fmt}, @var{ord}, @var{dura_str})} builds a string (@var{str}) that Outman
+## displays for progress indication.  The arguments are:
 ##
 ## @table @asis
 ## @item @var{msg}
@@ -31,7 +33,7 @@
 ## an output of @code{duration_str} or an empty string.
 ## @end table
 ##
-## No check is done on the arguments.
+## No argument checking is done.
 ##
 ## @seealso{datenum, duration_str, fprintf, now, outman,
 ## outman_is_valid_progress_format}

@@ -2,10 +2,12 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} outman_init_prog_args (...)
+## @deftypefn {Function File} {@var{ret} =} outman_init_prog_args (...)
 ##
-## Return true if the arguments look like valid arguments for the
-## "init_progress" command of @code{outman} application.
+## True for valid arguments for Outman's @qcode{"init_progress"} command.
+##
+## @code{outman_init_prog_args} is used by Outman.  It is a very specific
+## function and may not be useful for any other application.
 ##
 ## @seealso{outman}
 ## @end deftypefn

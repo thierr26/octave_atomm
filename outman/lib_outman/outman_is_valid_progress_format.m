@@ -3,16 +3,18 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@
-## [@var{ret}] =} outman_is_valid_progress_format (@var{str})
-## @deftypefnx {Function File} {@
 ## [@var{ret}, @var{fmt}, @var{ord}] =} outman_is_valid_progress_format (@var{@
 ## str})
 ##
-## Validate an @code{outman} progress indicator format string.
+## Validate an Outman progress indicator format string.
 ##
-## @code{outman_is_valid_progress_format} returns true in @var{ret} if
-## @var{str} is a valid progress indicator format string.  A progress indicator
-## format string is valid if the following conditions are fulfilled:
+## @code{[@var{ret}, @var{fmt}, @var{@
+## ord}] = outman_is_valid_progress_format (@var{str})} returns true in
+## @var{ret} if @var{str} is a valid Outman progress indicator format string.
+## If it is not the case, it returns false in @var{ret}.
+##
+## @var{str} is a valid Outman progress indicator format string if the
+## following conditions are all fulfilled:
 ##
 ## @itemize @bullet
 ## @item
@@ -23,13 +25,25 @@
 ## "%msg" and "%percent" appear at most once in @var{str}.
 ## @end itemize
 ##
-## @code{outman_is_valid_progress_format} returns in @var{fmt} a template
-## string that can be used with @code{fprintf} and in @var{ord} a vector having
-## one of the following values:
+## The second output argument (@var{fmt}) is a template string that can be used
+## with @code{fprintf}.  It is identical to @var{str} except that:
 ##
 ## @itemize @bullet
 ## @item
-## [] (empty vector): @var{fmt} contains no conversion specification.
+## The occurrence of "%msg" (if present) is substituted with a "%s" conversion
+## specification.
+##
+## @item
+## The occurrence of "%percent" (if present) is substituted with a "%3d"
+## conversion specification.
+## @end itemize
+##
+## The third output argument (@var{ord}) is a numerical vector having one of
+## the following values:
+##
+## @itemize @bullet
+## @item
+## [] (empty vector): @var{fmt} does not contains any conversion specification.
 ##
 ## @item
 ## [1]: @var{fmt} contains contains only a "%s" conversion specification.
@@ -38,12 +52,12 @@
 ## [2]: @var{fmt} contains contains only a "%3d" conversion specification.
 ##
 ## @item
-## [1 2]: @var{fmt} contains contains only a "%s" conversion specification and
-## a "%3d" conversion specification in that order.
+## [1 2]: @var{fmt} contains contains a "%s" conversion specification and a
+## "%3d" conversion specification in that order.
 ##
 ## @item
-## [2 1]: @var{fmt} contains contains only a "%3d" conversion specification and
-## a "%s" conversion specification in that order.
+## [2 1]: @var{fmt} contains contains a "%3d" conversion specification and a
+## "%s" conversion specification in that order.
 ## @end itemize
 ##
 ## @seealso{fprintf, outman}

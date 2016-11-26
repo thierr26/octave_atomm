@@ -2,13 +2,13 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} first_str_arg_pos (...)
+## @deftypefn {Function File} {@var{ret} =} first_str_arg_pos (...)
 ##
-## Return the position of the first argument that is a string, or 0 if none of
-## the arguments is a string.
+## Position of the first string argument.
 ##
-## Function @code{is_string} is used to determine whether an argument is a
-## string or not.
+## @code{first_str_arg_pos} returns the position of the first argument that is
+## a string.  If no string argument is provided, then @code{first_str_arg_pos}
+## returns 0.
 ##
 ## @seealso{is_string}
 ## @end deftypefn

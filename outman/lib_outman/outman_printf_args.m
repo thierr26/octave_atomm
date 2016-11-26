@@ -2,10 +2,12 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} outman_printf_args (...)
+## @deftypefn {Function File} {@var{ret} =} outman_printf_args (...)
 ##
-## Return true if the arguments look like valid arguments for the "printf"
-## command of @code{outman} application.
+## True for arguments that look valid for Outman's @qcode{"printf"} command.
+##
+## @code{outman_printf_args} is used by Outman.  It is a very specific
+## function and may not be useful for any other application.
 ##
 ## @seealso{outman}
 ## @end deftypefn

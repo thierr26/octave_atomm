@@ -2,9 +2,11 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} scalar_num_arg_or_none (...)
+## @deftypefn {Function File} {@var{ret} =} scalar_num_arg_or_none (...)
 ##
-## Return true if there are no argument or one numerical scalar argument.
+## True if zero or one numerical scalar argument is provided.
+##
+## @seealso{is_num_scalar}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>
