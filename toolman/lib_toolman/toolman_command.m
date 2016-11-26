@@ -20,7 +20,9 @@
 ##
 ## @table @asis
 ## @item @var{s}
-## Toolman's command structure.
+## Toolman's command structure.  Please see the documentation for
+## @code{mentalsum} for details about how applications like Toolman are built
+## and what is the command structure.
 ##
 ## @item @var{default}
 ## Toolman's default command.
@@ -57,7 +59,7 @@
 ## Note that some commands may be of no "types", whereas other commands are of
 ## one or more "types".
 ##
-## @seealso{check_command_stru_and_default, toolman}
+## @seealso{check_command_stru_and_default, toolman, mentalsum}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>

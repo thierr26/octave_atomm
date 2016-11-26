@@ -2,10 +2,9 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} string_arg_or_none (...)
+## @deftypefn {Function File} {@var{ret} =} string_arg_or_none (...)
 ##
-## Return true if there are no argument or one argument which is a non empty
-## string.
+## True if zero or one non empty string argument is provided.
 ##
 ## @seealso{is_non_empty_string}
 ## @end deftypefn

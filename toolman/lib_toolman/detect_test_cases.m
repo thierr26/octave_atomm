@@ -2,26 +2,28 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} detect_test_cases (@var{s}, @var{@
+## @deftypefn {Function File} {@var{s} =} detect_test_cases (@var{s1}, @var{@
 ## tctbregexp}, @var{tcregexp})
 ##
-## Grow the output of @code{find_m_toolboxes} with test case information.
+## Grow output of @code{find_m_toolboxes} with test case information.
 ##
-## @code{detect_test_cases} takes as argument a structure output by
-## @code{find_m_toolboxes} or @code{read_declared_dependencies} and add the
-## following fields:
+## The argument @var{s1} is supposed to have been returned by function
+## @code{find_m_toolboxes} or function @code{read_declared_dependencies}.
+## @code{@var{s} = detect_test_cases (@var{s1}, @var{tctbregexp}, @var{@
+## tcregexp})} returns in @var{s} @var{s1} with two fields added:
 ##
 ## @table @asis
-## @item testcases
-## Cell array (same shape as the toolboxpath field of the input structure) of
-## numerical arrays containing indices to the mfiles field of the input
-## structure.  The presence of an index means that the corresponding M-file is
-## a test case M-file.
+## @item @qcode{"testcases"}
+## Cell array (same shape as the @qcode{"toolboxpath"} field of the input
+## structure) of numerical arrays containing indices to the mfiles field of the
+## input structure.  The presence of an index means that the corresponding
+## M-file is a test case M-file.
 ##
-## @item testcasetb
-## Numerical array (same shape as the toolboxpath field of the input structure)
-## of zero values or indices to the toolboxpath field. A non zero value means
-## that the corresponding toolbox is the test case toolbox.
+## @item @qcode{"testcasetb"}
+## Numerical array (same shape as the @qcode{"toolboxpath"} field of the input
+## structure) of zero values or indices to the @qcode{"toolboxpath"} field. A
+## non zero value means that the corresponding toolbox is the test case
+## toolbox.
 ## @end table
 ##
 ## @var{tctbregexp} is a regular expression used to check whether a toolbox
