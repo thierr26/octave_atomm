@@ -17,13 +17,15 @@
 ##
 ## @example
 ## @group
-## demo_outman('logname', 'demo_outman.log', 'progress_max_count', 1);
+## demo_outman(...
+##     'logname', 'demo_outman.log', 'progress_max_count', 1);
 ## @end group
 ## @end example
 ##
 ## @example
 ## @group
-## demo_outman(struct('logname', 'demo_outman.log', 'progress_max_count', 1));
+## demo_outman(struct(...
+##     'logname', 'demo_outman.log', 'progress_max_count', 1));
 ## @end group
 ## @end example
 ##

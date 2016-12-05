@@ -5,7 +5,7 @@
 ## @deftypefn {Function File} mentalsum ('play')
 ## @deftypefnx {Function File} mentalsum ('play', @var{iter})
 ## @deftypefnx {Function File} {[@var{right_ans}, @var{@
-## mean_delay}] =} mentalsum ('results', @var{iter})
+## mean_delay}] =} mentalsum ('result')
 ## @deftypefnx {Function File} {@var{config} =} mentalsum ('get_config')
 ## @deftypefnx {Function File} {@
 ## @var{config_origin} =} mentalsum ('get_config_origin')

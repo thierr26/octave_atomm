@@ -26,11 +26,10 @@
 ## @code{find_files}.  Please run @code{help find_files} to read it.
 ##
 ## @code{absolute_path} performs by default a check of the input structure.  If
-## you know that your input is safe (e.g.@ if is the input is a direct output
-## of @code{find_files}), you can instruct @code{absolute_path} to skip the
-## check by providing a supplementary argument (a logical flag).  A true value
-## for this supplementary argument causes @code{absolute_path} to skip the
-## check.
+## you know that your input is safe (e.g.@ if the input is a direct output of
+## @code{find_files}), you can instruct @code{absolute_path} to skip the check
+## by providing a supplementary argument (a logical flag).  A true value for
+## this supplementary argument causes @code{absolute_path} to skip the check.
 ## @end enumerate
 ##
 ## @seealso{find_files}

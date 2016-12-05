@@ -2,11 +2,11 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{s} =} outman_config_stru ()
+## @deftypefn {Function File} {@var{s} =} outman_config_stru ()
 ##
 ## Outman's configuration structure.
 ##
-## @code{@var{s} = outman_config_stru ()} returns the configuration structure
+## @code{@var{s} = outman_config_stru ()} returns the configuration structure
 ## for the Outman application.  Please see the documentation for
 ## @code{mentalsum} for details about how such applications are built.  See
 ## also the documentation for @code{outman} and

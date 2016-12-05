@@ -30,7 +30,7 @@
 
 function ret = atomm_dir(varargin)
 
-    persistent d
+    persistent d;
 
     if isempty(d)
         if nargin == 0

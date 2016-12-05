@@ -45,7 +45,7 @@
 ## valid with regard to the validation functions.
 ##
 ## In applications like Mental Sum, @var{dcf} is actually the return value of
-## the application'dcf private function @code{config_stru}.
+## the application's private function @code{config_stru}.
 ##
 ## The return structure @var{cf} has the same field list as @var{dcf}.  If the
 ## optional argument @var{appname} is not provided, then the field values in
