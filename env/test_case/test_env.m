@@ -34,7 +34,8 @@ function s = test_env
         @home_dir_non_empty_string, ...
         @more_is_on_no_error, ...
         @command_window_width_no_error, ...
-        @is_octave_no_error};
+        @is_octave_no_error, ...
+        @host_name_no_error};
 
     # Run the test case.
     s = run_test_case(mfilename, testRoutine);
@@ -103,3 +104,13 @@ function ret = is_octave_no_error
     ret = is_octave || true;
 
 endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = host_name_no_error
+
+    host_name;
+    ret = true;
+
+endfunction
+
