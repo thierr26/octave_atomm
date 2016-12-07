@@ -13,19 +13,19 @@
 
 addpath(fullfile(fileparts(fileparts(fileparts(mfilename('fullpath')))), ...
     'env'));
-addpath(fullfile(atomm_dir(...
+addpath(fullfile(atomm_root(...
     fileparts(fileparts(fileparts(mfilename('fullpath'))))), 'appmech'));
-addpath(fullfile(atomm_dir, 'argcheck'));
-addpath(fullfile(fullfile(atomm_dir, 'checkmtree'), 'lib_checkmtree'));
-addpath(fullfile(atomm_dir, 'datetime'));
-addpath(fullfile(atomm_dir, 'fsys'));
-addpath(fullfile(atomm_dir, 'isthisa'));
-addpath(fullfile(atomm_dir, 'math'));
-addpath(fullfile(atomm_dir, 'outman'));
-addpath(fullfile(fullfile(atomm_dir, 'outman'), 'lib_outman'));
-addpath(fullfile(atomm_dir, 'structure'));
-addpath(fullfile(atomm_dir, 'tester'));
-addpath(fullfile(atomm_dir, 'textandcode'));
-addpath(fullfile(fullfile(atomm_dir, 'textandcode'), 'mlang'));
-addpath(fullfile(atomm_dir, 'toolman'));
-addpath(fullfile(fullfile(atomm_dir, 'toolman'), 'lib_toolman'));
+addpath(fullfile(atomm_root, 'argcheck'));
+addpath(fullfile(fullfile(atomm_root, 'checkmtree'), 'lib_checkmtree'));
+addpath(fullfile(atomm_root, 'datetime'));
+addpath(fullfile(atomm_root, 'fsys'));
+addpath(fullfile(atomm_root, 'isthisa'));
+addpath(fullfile(atomm_root, 'math'));
+addpath(fullfile(atomm_root, 'outman'));
+addpath(fullfile(fullfile(atomm_root, 'outman'), 'lib_outman'));
+addpath(fullfile(atomm_root, 'structure'));
+addpath(fullfile(atomm_root, 'tester'));
+addpath(fullfile(atomm_root, 'textandcode'));
+addpath(fullfile(fullfile(atomm_root, 'textandcode'), 'mlang'));
+addpath(fullfile(atomm_root, 'toolman'));
+addpath(fullfile(fullfile(atomm_root, 'toolman'), 'lib_toolman'));

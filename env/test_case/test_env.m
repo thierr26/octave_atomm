@@ -44,23 +44,10 @@ endfunction
 
 # -----------------------------------------------------------------------------
 
-function str = atomm_dir
-
-    str = mfilename('fullpath');
-    name = '';
-    while ~strcmp(name, 'atomm')
-        [str, name] = fileparts(str);
-    endwhile
-    str = fullfile(str, name);
-
-endfunction
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 function ret = fullmfilename_ok
 
     ret = isequal(fullmfilename, ...
-        [atomm_dir filesep 'env' filesep 'test_case' filesep 'test_env.m']);
+        [atomm_root filesep 'env' filesep 'test_case' filesep 'test_env.m']);
 
 endfunction
 

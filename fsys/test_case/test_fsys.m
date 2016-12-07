@@ -58,19 +58,6 @@ endfunction
 
 # -----------------------------------------------------------------------------
 
-function str = atomm_dir
-
-    str = fullmfilename;
-    name = '';
-    while ~strcmp(name, 'atomm')
-        [str, name] = fileparts(str);
-    endwhile
-    str = fullfile(str, name);
-
-endfunction
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 function ret = root
 
     c = regexp(pwd, ['^(.:)?\' filesep], 'match');
@@ -176,7 +163,7 @@ endfunction
 
 function ret = find_files_no_error_1
 
-    find_files(atomm_dir);
+    find_files(atomm_root);
     ret = true;
 
 endfunction
@@ -186,8 +173,8 @@ endfunction
 function ret = find_files_no_error_2
 
     s = find_files_empty_s;
-    s = find_files(s, atomm_dir, '*.m');
-    find_files(s, atomm_dir, 'dependencies');
+    s = find_files(s, atomm_root, '*.m');
+    find_files(s, atomm_root, 'dependencies');
     ret = true;
 
 endfunction

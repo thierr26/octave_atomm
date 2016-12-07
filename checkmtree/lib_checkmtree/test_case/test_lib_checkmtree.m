@@ -42,22 +42,9 @@ endfunction
 
 # -----------------------------------------------------------------------------
 
-function str = atomm_dir
-
-    str = fullmfilename;
-    name = '';
-    while ~strcmp(name, 'atomm')
-        [str, name] = fileparts(str);
-    endwhile
-    str = fullfile(str, name);
-
-endfunction
-
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 function ret = find_m_toolboxes_no_error
 
-    find_m_toolboxes(atomm_dir);
+    find_m_toolboxes(atomm_root);
     ret = true;
 
 endfunction
