@@ -1,4 +1,211 @@
-This repository contains Octave M-files.
+GENERAL INFORMATION
+-------------------
 
-Matlab compatible version is available here:
-http://thierr26.free.fr/zip/matlab_atomm.zip
+This repository contains a collection of Octave function files (M-files).
+
+It is not usable as is with Matlab, but a Matlab compatible version is
+available (see below).
+
+The name of this collection is Atomm. Atomm means "Application Template,
+Output Manager and More". The author hopes that it will be useful to other
+people. Feel free to contact the author at thierr26@free.fr for any question
+or comment.
+
+INSTALLATION
+------------
+
+Nothing complicated. Just copy Atomm's sources to the directory of your
+choice. Octave users can get the sources from GitHub:
+
+        https://github.com/thierr26/octave_atomm
+
+Matlab users should get the Matlab compatible version of the sources which is
+available as a ZIP archive from this URL:
+
+        http://thierr26.free.fr/zip/matlab_atomm.zip
+
+One of the application provided in Atomm is called Toolman and one of its
+functionality is to add function files to the Octave or Matlab function search
+path. To take benefit of it, Toolman and its dependencies must have been added
+to the Octave or Matlab function search path. A script called
+"enable_toolman.m" is provided in Atomm for this purpose. It is located in the
+toolman/enable_toolman subdirectory. You can run it in Octave or Matlab with a
+command like:
+
+        run('path/to/atomm/toolman/enable_toolman/enable_toolman.m');
+
+Of course, you can add the command to a startup file so that you don't have
+to type it every time you launch Octave or Matlab.
+
+MAIN FUNCTIONALITIES
+--------------------
+
+Let's shed some light on the main functionalities provided in Atomm. This is a
+short presentation. Much more details are available for every function via the
+help command in Octave or Matlab.
+
+                Toolman
+                - - - -
+
+As already mentioned, one the functionalities of Toolman is to to add function
+files to the Octave or Matlab function search path. Example:
+
+        toolman('add_to_path', 'a_function');
+
+Toolman needs two things to work properly:
+
+1. The list of your M-file directory trees. This is a configuration parameter
+   for Toolman. One way to set this parameter is to issue a statement like:
+
+        setappdata(0, 'toolman', struct('top', ...
+            {{'path/to/your/sources', 'path/to/atomm'}}));
+
+   Of course, you can add this statement to a startup file so that you don't
+   have to type it every time you launch Octave or Matlab.
+
+2. Dependency files in your source trees to keep track of the dependencies.
+   They are called "dependencies" or "dependencies.txt". There are many
+   examples of such files in the Atomm source tree.
+
+Another functionality of Toolman is to run the test cases for a toolbox (i.e.
+a particular directory containing functions) and its dependencies using only
+one statement like:
+
+        toolman('run_test', 'a_toolbox');
+
+The test cases are the functions having a name starting with "test_" in the
+"test_cases" subdirectories of the toolboxes. There are multiple examples of
+test cases in the Atomm source tree.
+
+                Checkmtree
+                - - - - - -
+
+Checkmtree can among other things analyze your M-files and the dependency
+files and report the missing or superfluous dependency declarations. Use a
+statement like:
+
+        s = checkmtree('check_dependencies', ...
+            {'path/to/your/sources', 'path/to/atomm'});
+
+Notes:
+
+*  Make sure you have added checkmtree to the path beforehand, using Toolman:
+
+        toolman('add_to_path', 'checkmtree');
+
+*  Checking dependencies with Checkmtree is slow. The author will do his best
+   to speed up things in a future release.
+
+Matlab users may appreciate being able to run the checkcode command all their
+M-files with one statement like:
+
+        checkmtree('check_code', 'path/to/your/sources');
+
+                Outman
+                - - - -
+
+Outman is intended to be used as a unique messaging and logging channel and
+progress indicator manager. All the functions in Atomm that output something
+to the command window or to a log file or manage a progress indicator use it.
+
+You can of course use it in your own functions. The main benefits of using
+Outman are:
+
+*  Having any function inheriting some parameters and behaviors (e.g. logging
+   to a file or not) automatically from the "top level program" (referred to
+   as Outman's master caller in Outman documentation).
+
+*  Having nested progress indicators managed automatically.
+
+You may want to run and look at the code of the demonstration program for
+Outman which is called demo_outman.
+
+Notes:
+
+*  Make sure you have added demo_outman to the path beforehand, using Toolman:
+
+        toolman('add_to_path', 'demo_outman');
+
+*  For some reasons, the author chose to disable by default the display of
+   Outman's progress indicators when running in Matlab for Windows. To enable
+   it, launch demo_outman with the following command:
+
+        demo_outman('hmi_variant', 'command_window');
+
+Outman's messaging currently can only go to the command window (or of course
+to the log file for the log messages). The author will do his best to extend
+Outman and make it able to send its messages to a graphical interface.
+
+                Mentalsum
+                (Demonstration for the use of the application template)
+                - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+The application template provided in Atomm allow to build easily singleton
+applications endowed with:
+
+*  Configurability i.e., the ability to be started up with
+   default or customized and validated configuration parameters
+   (the application templates ensures that the configuration
+   parameters don't change until the application is shut down by
+   the user and restarted).
+
+*  Protected internal state i.e., there is no other way than
+   invoking the application itself through the defined commands
+   to update the application internal state, as the state is
+   stored in an internal persistent variable structure.
+
+*  Command arguments checking.
+
+*  Command aliasing.
+
+Mentalsum is a demonstration application using the application template.
+Mentalsum's documentation gives step by step details on how to build an
+application. Type:
+
+        help mentalsum
+
+Note: Make sure you have added mentalsum to the path beforehand, using
+Toolman:
+
+        toolman('add_to_path', 'mentalsum');
+
+                The find_files function
+                - - - - - - - - - - - -
+
+The find_files function extends the functionality of the dir function
+available in Octave and Matlab. find_files allows to explore recursively a
+directory tree. A file filter can be provided (e.g. "*", "*.m", "my_file.txt")
+as well as a maximum exploration depth. By default, find_files automatically
+ignores the directories created by the version control systems (e.g. Git,
+Subversion) but this behavior is parametrizable.
+
+find_files can be used iteratively to get in a single output structure the
+result of the exploration of multiple directories with various file filters
+and exploration depths.
+
+Please read the documentation for find_files for all the details:
+
+        help find_files
+
+                The argcheck and isthisa toolboxes
+                - - - - - - - - - - - - - - - - - -
+
+The argcheck toolbox provides two functions (validated_mandatory_args and
+validated_opt_args) which are intended to be used to check the validity of the
+mandatory and optional input arguments to a function. They basically use
+handles to validation functions. The functions provided in the isthisa toolbox
+(e.g. is_non_empty_string, is_positive_integer_scalar) are intended to be used
+as validation functions. Of course, when having to validate structurally
+complex input arguments, the programmer needs to write specific validation
+functions.
+
+Please read the documentations for validated_mandatory_args and
+validated_opt_args for details and examples:
+
+        help validated_mandatory_args
+        help validated_opt_args
+
+==============================================================================
+Author: Thierry Rascle (thierr26@free.fr)
+
+MIT license. Please refer to the LICENSE file.
