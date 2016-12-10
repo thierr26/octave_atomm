@@ -223,7 +223,7 @@ function s = compute_dependencies(s1)
                 outman('errorf', oId, ...
                     'Multiple toolboxes have a function "%s":', symb{1});
                 for kk = tBIdx
-                    outman('printf', oId, '\t%s', s.toolboxpath{kk});
+                    outman('printf', oId, '  %s', s.toolboxpath{kk});
                 endfor
             endif
         endif

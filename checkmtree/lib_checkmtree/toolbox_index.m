@@ -143,7 +143,7 @@ function [index, s] = toolbox_index(s1, toolbox_designation, varargin)
                         'one of:'], toolbox_designation);
                 endif
                 for kk = index
-                    outman('printf', oId, '\t%s', s.toolboxpath{kk});
+                    outman('printf', oId, '  %s', s.toolboxpath{kk});
                 endfor
                 outman('disconnect', oId);
             elseif matchCount == 0 && ~no_absent_of_tree_warning

@@ -136,7 +136,7 @@ Outman's messaging currently can only go to the command window (or of course
 to the log file for the log messages). The author will do his best to extend
 Outman and make it able to send its messages to a graphical interface.
 
-                Mentalsum
+                Mental Sum
                 (Demonstration for the use of the application template)
                 - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -158,8 +158,8 @@ applications endowed with:
 
 *  Command aliasing.
 
-Mentalsum is a demonstration application using the application template.
-Mentalsum's documentation gives step by step details on how to build an
+Mental Sum is a demonstration application using the application template.
+Mental Sum's documentation gives step by step details on how to build an
 application. Type:
 
         help mentalsum

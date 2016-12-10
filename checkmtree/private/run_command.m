@@ -298,10 +298,10 @@ function c = toolbox_deps(o_id, s, cargs)
                         '%s depends on:', s.toolboxpath{kTB});
                 endif
                 depName = c{2, k};
-                outman('printf', o_id, '\t%s', depName);
+                outman('printf', o_id, '  %s', depName);
                 for kk = k : n
                     if ~flag(kk) && strcmp(depName, c{2, kk})
-                        outman('printf', o_id, '\t\tfunction %s', c{1, kk});
+                        outman('printf', o_id, '    function %s', c{1, kk});
                         flag(kk) = true;
                     endif
                 endfor
@@ -391,14 +391,14 @@ function [c, h] = print_deps_list(...
             if ~flag(k)
                 if ~any(flag)
                     f = strip_dot_suffix(m_f{kM});
-                    outman('printf', o_id, '\t%s function %s depends on:', ...
+                    outman('printf', o_id, '  %s function %s depends on:', ...
                         kw, f);
                 endif
                 depName = cc{2, k};
-                outman('printf', o_id, '\t\t%s', depName);
+                outman('printf', o_id, '    %s', depName);
                 for kk = k : n
                     if ~flag(kk) && strcmp(depName, cc{2, kk})
-                        outman('printf', o_id, '\t\t\tfunction %s', ...
+                        outman('printf', o_id, '      function %s', ...
                             cc{1, kk});
                         flag(kk) = true;
                         c{level, 1} = f;

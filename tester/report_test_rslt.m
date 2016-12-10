@@ -104,7 +104,7 @@ function passed_failed = report_test_rslt(s, varargin)
                 tCN, passedCount + failedCount, passedCount, failedCount);
             for r = failedIdx
                 rName = routine{r};
-                outman(oCmd, oId, '\tTest routine %s failed: %s', ...
+                outman(oCmd, oId, '  Test routine %s failed: %s', ...
                     rName, s.(tCN).test.(rName).failure_cause);
             endfor
         endif
