@@ -689,9 +689,9 @@
 ##
 ## @strong{Step 6: Define command aliases.}
 ##
-## This is the final step in the writing of Mental Sum: defining some command
-## aliases.  This is not mandatory and it won't make the application capable of
-## doing anything new but it might make the life of the users easier.
+## This step consists in defining some command aliases.  This is not mandatory
+## and it won't make the application capable of doing anything new but it might
+## make the life of the users easier.
 ##
 ## For example, command aliases allow to define shorter names for the commands.
 ## Users may appreciate to be allowed to type @code{mentalsum ('p', 10);}
@@ -718,6 +718,25 @@
 ##         'p1', @{@{'play', 1@}@});
 ##
 ## end
+## @end group
+## @end example
+##
+## @strong{Step 7: Ignore unused arguments in @code{run_command}.}
+##
+## This is the final step in the writing of Mental Sum: ignoring the input
+## arguments of the @code{run_command} private function that are unused.
+##
+## @var{nout} (i.e.@ the number of output arguments specified by the user when
+## invoking the application) is not used.  It can be substituted with the tilde
+## (~) symbol.  This will avoid code analyzers like Matlab's @code{checkcode}
+## to complain about an unused argument.
+##
+## So here is the new signature of @code{run_command}:
+##
+## @example
+## @group
+## function [clear_req, s, varargout] = run_command(...
+##     c, cargs, cf, o, s1, ~, a)
 ## @end group
 ## @end example
 ##
