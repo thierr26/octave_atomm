@@ -728,8 +728,8 @@
 ##
 ## @var{nout} (i.e.@ the number of output arguments specified by the user when
 ## invoking the application) is not used.  It can be substituted with the tilde
-## (~) symbol.  This will avoid code analyzers like Matlab's @code{checkcode}
-## to complain about an unused argument.
+## (~) symbol.  This prevents code analyzers like Matlab's @code{checkcode}
+## from complaining about an unused argument.
 ##
 ## So here is the new signature of @code{run_command}:
 ##

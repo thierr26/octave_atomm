@@ -37,8 +37,8 @@ function ret = atomm_root(varargin)
             d = fileparts(fileparts(mfilename('fullpath')));
         else
             d = varargin{1};
-        end
-    end
+        endif
+    endif
 
     ret = d;
 
