@@ -111,7 +111,8 @@ function passed_failed = report_test_rslt(s, varargin)
     endfor
 
     if testCaseCount > 1
-        outman(oCmd, oId, 'Total: %d test routines (%d passed, %d failed)', ...
+        outman(oCmd, oId, ...
+            'Total: %d test routines run (%d passed, %d failed)', ...
             sum(passed_failed), passed_failed(1), passed_failed(2));
     endif
 
