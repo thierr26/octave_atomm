@@ -3,16 +3,24 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} toolman ('add_to_path', ...)
+## @deftypefnx {Function File} toolman ('a', ...)
 ## @deftypefnx {Function File} {@var{@
 ## added_to_path} =} toolman ('add_to_path', ...)
+## @deftypefnx {Function File} {@var{added_to_path} =} toolman ('a', ...)
 ## @deftypefnx {Function File} {[~] =} toolman ('add_to_path', ...)
+## @deftypefnx {Function File} {[~] =} toolman ('a', ...)
 ## @deftypefnx {Function File} toolman ('refresh_cache')
+## @deftypefnx {Function File} toolman ('f')
 ## @deftypefnx {Function File} {@var{@
 ## list} =} toolman ('list_declared_deps', ...)
+## @deftypefnx {Function File} {@var{list} =} toolman ('l', ...)
 ## @deftypefnx {Function File} toolman ('run_test', ...)
+## @deftypefnx {Function File} toolman ('t', ...)
 ## @deftypefnx {Function File} {@var{@
 ## added_to_path} =} toolman ('run_test', ...)
+## @deftypefnx {Function File} {@var{added_to_path} =} toolman ('t', ...)
 ## @deftypefnx {Function File} {[~] =} toolman ('run_test', ...)
+## @deftypefnx {Function File} {[~] =} toolman ('t', ...)
 ## @deftypefnx {Function File} {@var{config} =} toolman ('configure', @var{@
 ## config_param_1_name}, @var{config_param_1_value}, @var{@
 ## config_param_2_name}, @var{config_param_2_value}, ...)
@@ -244,7 +252,8 @@
 ## Let's say now that you want to run @code{demo_outman} (a function that
 ## serves as a demonstration program for Outman and is provided in the Atomm
 ## source tree).  Have Toolman add it and its dependencies to the function
-## search path using Toolman's command @qcode{"add_to_path"} and run it.
+## search path using Toolman's command @qcode{"add_to_path"} (or the alias
+## @qcode{"a"}) and run it.
 ##
 ## @example
 ## @group
@@ -263,7 +272,7 @@
 ## are executed only once after Toolman starts.  Toolman caches the resulting
 ## information to speed up the execution of subsequent commands.  You can force
 ## Toolman to redo the tree exploration and dependency files reading stages
-## using Toolman's command @qcode{"refresh_cache"}.
+## using Toolman's command @qcode{"refresh_cache"} (or the alias @qcode{"f"}).
 ##
 ## @example
 ## @group
@@ -314,10 +323,10 @@
 ## argument.
 ##
 ## Beside the @qcode{"add_to_path"} command, Toolman provides a similar command
-## called @qcode{"list_declared_deps"}.  The difference is that it does not add
-## the dependencies to the function search path but only displays them.
-## Command @qcode{"list_declared_deps"} displays its output even if an output
-## argument is used.  Example:
+## called @qcode{"list_declared_deps"} (and the alias @qcode{"l"}).  The
+## difference is that it does not add the dependencies to the function search
+## path but only displays them.  Command @qcode{"list_declared_deps"} displays
+## its output even if an output argument is used.  Example:
 ##
 ## @example
 ## @group
@@ -348,6 +357,8 @@
 ## @var{added_to_path} = toolman ('run_test', 'home_dir');
 ## @end group
 ## @end example
+##
+## @qcode{"t"} is an alias for the @qcode{"run_test"} command.
 ##
 ## @strong{Configure Toolman, especially regarding sources locations.}
 ##
