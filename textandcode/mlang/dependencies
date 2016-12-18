@@ -2,5 +2,5 @@ atomm/argcheck
 atomm/env
 atomm/isthisa
 atomm/math
-atomm/outman
+atomm/outman/outman_helpers
 atomm/textandcode

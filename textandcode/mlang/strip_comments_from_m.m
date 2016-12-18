@@ -63,20 +63,18 @@
 function [c, n, sloc] = strip_comments_from_m(filename, varargin)
 
     validated_mandatory_args({@is_non_empty_string}, filename);
+    [progress_id, progress, progress_fac] = validated_opt_args(...
+        {@is_num_scalar, -1; @is_num_scalar, 0; @is_num_scalar, 1}, ...
+        varargin{:});
     mustUpdateProgress = nargin > 1;
-    if mustUpdateProgress
-        progress_id = varargin{1};
-        progress = varargin{2};
-        if nargin > 3
-            progress_fac = varargin{3};
-        else
-            progress_fac = 1;
-        endif
-        oId = outman_connect_and_config_if_master;
-    endif
+    oId = outman_connect_and_config_if_master_c(mustUpdateProgress);
 
     # Read the file.
-    cc = text_file_lines(filename);
+    try
+        cc = text_file_lines(filename);
+    catch err
+        outman_disconnect_and_rethrow(mustUpdateProgress, err);
+    end_try_catch
 
     n = numel(cc);
     c = cell(n, min([1 n]));
@@ -114,16 +112,13 @@ function [c, n, sloc] = strip_comments_from_m(filename, varargin)
             endif
         endif
 
-        if mustUpdateProgress && mod(k, 15) == 0
-            outman('update_progress', oId, progress_id, progress);
-        endif
+        outman_c(mustUpdateProgress && mod(k, 15) == 0, ...
+            'update_progress', oId, progress_id, progress);
 
     endfor
 
     sloc = sum(cellfun(@(x) ~isempty(x) && ~is_matched_by(x, '^\s*$'), c));
 
-    if mustUpdateProgress
-        outman('disconnect', oId);
-    endif
+    outman_c(mustUpdateProgress, 'disconnect', oId);
 
 endfunction
