@@ -1,3 +1,18 @@
+v1.1.0
+
+* New toolbox "outman_helpers".
+
+* Aliases defined for Toolman's command:
+  - "a" is now an alias for the "add_to_path" command.
+  - "t" is now an alias for the "run_test" command.
+  - "f" is now an alias for the "refresh_cache" command.
+  - "l" is now an alias for the "list_declared_deps" command.
+
+* Modification of the validation functions for numerical values: complex
+  numbers are not validated as numeric any more. Only real numbers are
+  validated as numeric.
+
+==============================================================================
 v1.0.0
 
 * Initial release.
