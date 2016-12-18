@@ -51,12 +51,11 @@
 
 function [c, n, sloc] = m_symbol_list(filename, varargin)
 
+    validated_mandatory_args({@is_non_empty_string}, filename);
+    [progress_id, progress] = validated_opt_args(...
+            {@is_num_scalar, -1; @is_num_scalar, 0}, varargin{:});
     mustUpdateProgress = nargin > 1;
-    if mustUpdateProgress
-        progress_id = varargin{1};
-        progress = varargin{2};
-        oId = outman_connect_and_config_if_master;
-    endif
+    oId = outman_connect_and_config_if_master_c(mustUpdateProgress);
 
     if mustUpdateProgress
         stripCommentTimeFraction = 0.53;
@@ -68,8 +67,12 @@ function [c, n, sloc] = m_symbol_list(filename, varargin)
     else
         stripCommentsFromMOptArgs = {};
     endif
-    [l, n, sloc] = strip_comments_from_m(filename, ...
-        stripCommentsFromMOptArgs{:});
+    try
+        [l, n, sloc] = strip_comments_from_m(filename, ...
+            stripCommentsFromMOptArgs{:});
+    catch err
+        outman_disconnect_and_rethrow(mustUpdateProgress, err);
+    end_try_catch
     if mustUpdateProgress
         remainingBytes = cell_cum_numel(l) + n;
         progress = progress + stripCommentTimeFraction * (remainingBytes ...
@@ -93,9 +96,8 @@ function [c, n, sloc] = m_symbol_list(filename, varargin)
 
         l{k} = strip_str_literals_from_line(l{k});
 
-        if mustUpdateProgress && mod(k, 15) == 0
-            outman('update_progress', oId, progress_id, progress);
-        endif
+        outman_c(mustUpdateProgress && mod(k, 15) == 0, ...
+            'update_progress', oId, progress_id, progress);
 
     endfor
 
@@ -147,9 +149,8 @@ function [c, n, sloc] = m_symbol_list(filename, varargin)
             endif
         endfor
 
-        if mustUpdateProgress && mod(k, 15) == 0
-            outman('update_progress', oId, progress_id, progress);
-        endif
+        outman_c(mustUpdateProgress && mod(k, 15) == 0, ...
+            'update_progress', oId, progress_id, progress);
 
     endfor
 
@@ -158,8 +159,6 @@ function [c, n, sloc] = m_symbol_list(filename, varargin)
         c = {};
     endif
 
-    if mustUpdateProgress
-        outman('disconnect', oId);
-    endif
+    outman_c(mustUpdateProgress, 'disconnect', oId);
 
 endfunction

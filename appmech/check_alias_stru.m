@@ -41,16 +41,19 @@ function check_alias_stru(s, aliasstru)
     validated_mandatory_args({@is_non_empty_scalar_structure, @isstruct}, ...
         s, aliasstru);
 
-    cname = fieldnames(s);
-    [aname, na] = field_names_and_count(aliasstru);
-    for ka = 1 : na
-        if ~iscell(aliasstru.(aname{ka})) || isempty(aliasstru.(aname{ka}))
+    cName = fieldnames(s);
+    [aName, nA] = field_names_and_count(aliasstru);
+    for k = 1 : nA
+        if ~iscell(aliasstru.(aName{k})) || isempty(aliasstru.(aName{k}))
             error('Second argument must must contain non empty cell arrays');
-        elseif ~is_non_empty_string(aliasstru.(aname{ka}){1})
+        elseif ~is_non_empty_string(aliasstru.(aName{k}){1})
             error(['Cell arrays in second argument must have a non empty ' ...
                 'string as first element']);
-        elseif ~ismember(aliasstru.(aname{ka}){1}, cname)
-            error('Invalid alias: %s', aliasstru.(aname{ka}){1});
+        elseif ismember(aName{k}, cName)
+            error('Invalid alias name (already a command name): %s', ...
+                aName{k});
+        elseif ~ismember(aliasstru.(aName{k}){1}, cName)
+            error('Invalid alias: %s', aliasstru.(aName{k}){1});
         endif
     endfor
 

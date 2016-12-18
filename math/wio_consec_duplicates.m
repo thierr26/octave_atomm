@@ -38,7 +38,8 @@
 function ret = wio_consec_duplicates(x)
 
     validated_mandatory_args(...
-        {@(x) (isnumeric(x) || islogical(x)) && (isrow(x) || isempty(x))}, x);
+        {@(x) ((isnumeric(x) && isreal(x)) || islogical(x)) ...
+            && (isrow(x) || isempty(x))}, x);
 
     if numel(x) > 1
         ret = x([true diff(x) ~= 0]);

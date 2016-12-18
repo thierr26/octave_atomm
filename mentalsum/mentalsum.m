@@ -6,9 +6,6 @@
 ## @deftypefnx {Function File} mentalsum ('play', @var{iter})
 ## @deftypefnx {Function File} {[@var{right_ans}, @var{@
 ## mean_delay}] =} mentalsum ('result')
-## @deftypefnx {Function File} {@var{config} =} mentalsum ('get_config')
-## @deftypefnx {Function File} {@
-## @var{config_origin} =} mentalsum ('get_config_origin')
 ## @deftypefnx {Function File} mentalsum ('quit')
 ##
 ## Play a mental sum game (sample use of Atomm's application template).

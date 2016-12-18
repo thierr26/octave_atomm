@@ -9,13 +9,13 @@
 ## @code{@var{ret} = is_num_scalar (@var{x})} returns true in @var{ret} if
 ## @var{x} is numeric and scalar.
 ##
-## @seealso{isnumeric, isscalar}
+## @seealso{isnumeric, isreal, isscalar}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>
 
 function ret = is_num_scalar(x)
 
-    ret = isnumeric(x) && isscalar(x);
+    ret = isnumeric(x) && isreal(x) && isscalar(x);
 
 endfunction
