@@ -23,6 +23,7 @@ addpath(fullfile(atomm_root, 'isthisa'));
 addpath(fullfile(atomm_root, 'math'));
 addpath(fullfile(atomm_root, 'outman'));
 addpath(fullfile(fullfile(atomm_root, 'outman'), 'lib_outman'));
+addpath(fullfile(fullfile(atomm_root, 'outman'), 'outman_helpers'));
 addpath(fullfile(atomm_root, 'structure'));
 addpath(fullfile(atomm_root, 'tester'));
 addpath(fullfile(atomm_root, 'textandcode'));

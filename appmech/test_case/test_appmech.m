@@ -44,6 +44,7 @@ function s = test_appmech
         @check_alias_stru_empty_2, ...
         @check_alias_stru_alias, ...
         @check_alias_stru_fail_wrong_command_name, ...
+        @check_alias_stru_fail_already_command_name, ...
         @check_alias_stru_fail_empty_command_stru_1, ...
         @check_alias_stru_fail_empty_command_stru_2, ...
         @check_command_args_fail_wrong_commmand_name, ...
@@ -93,7 +94,16 @@ function s = test_appmech
         @strip_defaults_from_config_stru_fail_wrong_ori_field_type, ...
         @strip_defaults_from_config_stru_fail_missing_ori_field, ...
         @strip_defaults_from_config_stru_ok_1, ...
-        @strip_defaults_from_config_stru_ok_2};
+        @strip_defaults_from_config_stru_ok_2, ...
+        @no_ret_val_commands_fail_wrong_type, ...
+        @no_ret_val_commands_empty_1, ...
+        @no_ret_val_commands_empty_2, ...
+        @no_ret_val_commands_non_empty, ...
+        @no_ret_val_commands_fail_wrong_alias_stru_type, ...
+        @no_ret_val_commands_empty_alias_stru_1, ...
+        @no_ret_val_commands_empty_alias_stru_2, ...
+        @no_ret_val_commands_no_no_ret_val_alias, ...
+        @no_ret_val_commands_no_ret_val_aliases};
 
     # Run the test case.
     s = run_test_case(mfilename, testRoutine);
@@ -144,6 +154,20 @@ endfunction
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+function s = cmdstru4
+
+    s = struct(...
+        'cmd1', struct(...
+            'valid', @(x) islogical(x), 'no_return_value', true), ...
+        'cmd2', struct(...
+            'valid', @(x) isnumeric(x), 'no_return_value', false), ...
+        'cmd3', struct(...
+            'valid', @(varargin) nargin, 'no_return_value', true));
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 function [dflt, cf, ori] = cfstrus
 
     dflt = struct(...
@@ -180,6 +204,32 @@ function s = aliasstru
 
     s = struct('alias1', {{'cmd1'}});
     s.alias2 = {'cmd2', 1};
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function s = aliasstru2
+
+    s = struct('alias1', {{'cmd2'}});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function s = aliasstru3
+
+    s = struct('alias1', {{'cmd1'}});
+    s.alias3 = {'cmd3', 1};
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function s = aliasstru4
+
+    s = struct('alias1', {{'cmd1'}});
+    s.cmd2 = {'cmd3', 1};
 
 endfunction
 
@@ -348,6 +398,14 @@ function check_alias_stru_fail_wrong_command_name
 
     s = struct('alias1', {{'cmd11'}});
     check_alias_stru(cmdstru, s);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function check_alias_stru_fail_already_command_name
+
+    check_alias_stru(cmdstru4, aliasstru4);
 
 endfunction
 
@@ -845,5 +903,78 @@ function ret = strip_defaults_from_config_stru_ok_2
     [~, cf, ori] = cfstrus_2;
     ret = isequal(rmfield(cf, 'arg2num'), ...
         strip_defaults_from_config_stru(cf, ori));
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function no_ret_val_commands_fail_wrong_type
+
+    no_ret_val_commands(true);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = no_ret_val_commands_empty_1
+
+    ret = isequal(no_ret_val_commands(struct()), {});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = no_ret_val_commands_empty_2
+
+    ret = isequal(no_ret_val_commands(struct([])), {});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = no_ret_val_commands_non_empty
+
+    ret = isequal(no_ret_val_commands(cmdstru4), {'cmd1', 'cmd3'});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function no_ret_val_commands_fail_wrong_alias_stru_type
+
+    no_ret_val_commands(cmdstru4, true);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = no_ret_val_commands_empty_alias_stru_1
+
+    ret = isequal(no_ret_val_commands(cmdstru4, struct()), {'cmd1', 'cmd3'});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = no_ret_val_commands_empty_alias_stru_2
+
+    ret = isequal(no_ret_val_commands(cmdstru4, struct([])), {'cmd1', 'cmd3'});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = no_ret_val_commands_no_no_ret_val_alias
+
+    ret = isequal(no_ret_val_commands(cmdstru4, aliasstru2), {'cmd1', 'cmd3'});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = no_ret_val_commands_no_ret_val_aliases
+
+    ret = isequal(no_ret_val_commands(cmdstru4, aliasstru3), ...
+        {'alias1', 'alias3', 'cmd1', 'cmd3'});
 
 endfunction
