@@ -49,7 +49,7 @@ endfunction
 
 function ret = is_valid_arg(date)
 
-    ret = isnumeric(date) ...
+    ret = isnumeric(date) && isreal(date) ...
         && (isscalar(date) || (isrow(date) && numel(date) == 6));
 
 endfunction

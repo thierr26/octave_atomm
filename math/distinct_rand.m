@@ -10,7 +10,7 @@
 ##
 ## @code{@var{r} = distinct_rand (@var{a})} calls function @code{rand} until
 ## the returned random number is not equal to any number in numeric array
-## @var{a}.  It then returns the number in @var{R}.  An error is issued if
+## @var{a}.  It then returns the number in @var{r}.  An error is issued if
 ## @code{distinct_rand} cannot return after 100 calls to @code{rand}.
 ##
 ## If you need the error to be issued after a number of calls to @code{rand}
@@ -24,7 +24,7 @@
 
 function r = distinct_rand(a, varargin)
 
-    validated_mandatory_args({@isnumeric}, a);
+    validated_mandatory_args({@(x) isnumeric(x) && isreal(x)}, a);
     max_iter = validated_opt_args({@is_positive_integer_scalar, 100}, ...
         varargin{:});
 
