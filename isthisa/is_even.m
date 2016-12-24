@@ -18,7 +18,8 @@
 
 function ret = is_even(x)
 
-    validated_mandatory_args({@(x) isnumeric(x) && isreal(x)}, x);
+    validated_mandatory_args(...
+        {@(x) isnumeric(x) && isreal(x) && all(~isnan(x) & ~isinf(x))}, x);
     ret = mod(x, 2) == 0;
 
 endfunction
