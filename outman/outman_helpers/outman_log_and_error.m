@@ -4,6 +4,8 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} outman_log_and_error (@var{caller_id}, @var{@
 ## task_name}, @var{template}, ...)
+## @deftypefnx {Function File} outman_log_and_error (@var{condition}, @var{@
+## caller_id}, @var{task_name}, @var{template}, ...)
 ##
 ## Log with time stamp, then issue a, error.
 ##
