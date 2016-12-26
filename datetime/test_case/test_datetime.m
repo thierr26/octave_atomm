@@ -54,6 +54,9 @@ function s = test_datetime
         @duration_str_s, ...
         @duration_str_1p98s, ...
         @timestamp_fail_wrong_type, ...
+        @timestamp_fail_nan, ...
+        @timestamp_fail_inf, ...
+        @timestamp_fail_complex, ...
         @timestamp_fail_column, ...
         @timestamp_fail_numel, ...
         @timestamp_no_arg_no_error, ...
@@ -332,6 +335,30 @@ endfunction
 function timestamp_fail_wrong_type
 
     timestamp(true);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function timestamp_fail_nan
+
+    timestamp(NaN);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function timestamp_fail_inf
+
+    timestamp(Inf);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function timestamp_fail_complex
+
+    timestamp(1 + 2i);
 
 endfunction
 

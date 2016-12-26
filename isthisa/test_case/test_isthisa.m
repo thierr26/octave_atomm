@@ -59,6 +59,9 @@ function s = test_isthisa
         @is_cell_array_of_unique_non_empty_strings_numel_6_3x2_false_1, ...
         @is_cell_array_of_unique_non_empty_strings_numel_6_3x2_false_2, ...
         @is_even_fail_wrong_type, ...
+        @is_even_fail_nan, ...
+        @is_even_fail_inf, ...
+        @is_even_fail_complex, ...
         @is_even_true_m2, ...
         @is_even_false_m1, ...
         @is_even_true_0, ...
@@ -69,6 +72,9 @@ function s = test_isthisa
         @is_num_scalar_non_num, ...
         @is_num_scalar_non_scalar, ...
         @is_num_scalar_true, ...
+        @is_num_scalar_nan, ...
+        @is_num_scalar_inf, ...
+        @is_num_scalar_complex, ...
         @is_integer_scalar_non_num, ...
         @is_integer_scalar_non_scalar, ...
         @is_integer_scalar_false, ...
@@ -105,6 +111,9 @@ function s = test_isthisa
         @is_integer_vect_col, ...
         @is_integer_vect_fail_too_many_args, ...
         @is_integer_vect_fail_wrong_2nd_arg, ...
+        @is_integer_vect_nan, ...
+        @is_integer_vect_inf, ...
+        @is_integer_vect_complex, ...
         @is_integer_vect_value_check_false_n, ...
         @is_integer_vect_value_check_true_n, ...
         @is_integer_vect_value_check_true_m_n, ...
@@ -417,6 +426,30 @@ endfunction
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+function is_even_fail_nan
+
+    is_even(NaN);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function is_even_fail_inf
+
+    is_even(inf);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function is_even_fail_complex
+
+    is_even(1 + 2i);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 function ret = is_even_true_m2
 
     ret = is_even(-2);
@@ -492,6 +525,30 @@ endfunction
 function ret = is_num_scalar_true
 
     ret = is_num_scalar(1.1);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_num_scalar_nan
+
+    ret = ~is_num_scalar(NaN);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_num_scalar_inf
+
+    ret = ~is_num_scalar(Inf);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_num_scalar_complex
+
+    ret = ~is_num_scalar(1 + 2i);
 
 endfunction
 
@@ -780,6 +837,30 @@ endfunction
 function is_integer_vect_fail_wrong_2nd_arg
 
     is_integer_vect(1, true);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_integer_vect_nan
+
+    ret = ~is_integer_vect([1 NaN 3]);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_integer_vect_inf
+
+    ret = ~is_integer_vect([1 Inf 3]);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_integer_vect_complex
+
+    ret = ~is_integer_vect([1 1 + 2i 3]);
 
 endfunction
 
