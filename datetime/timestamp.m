@@ -50,6 +50,7 @@ endfunction
 function ret = is_valid_arg(date)
 
     ret = isnumeric(date) && isreal(date) ...
+        && all(~isnan(date) & ~isinf(date)) ...
         && (isscalar(date) || (isrow(date) && numel(date) == 6));
 
 endfunction

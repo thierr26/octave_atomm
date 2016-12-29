@@ -14,7 +14,11 @@ function nameRet = host_name
     persistent nameRetMem;
 
     if isempty(nameRetMem)
-        if is_octave
+        if is_octave && ~ispc
+            # The ~ispc condition has been added because gethostname does not
+            # seem to work on Octave for Windows (tested on Octave 4.2.0,
+            # Windows 7) whereas getenv('COMPUTERNAME') yields the expected
+            # result.
             nameRetMem = gethostname;
         elseif ispc
             nameRetMem = getenv('COMPUTERNAME');

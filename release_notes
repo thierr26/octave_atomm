@@ -1,3 +1,13 @@
+v1.2.0
+
+* New function outman_o in toolbox "outman_helpers".
+
+* Functions host_name and command_window_width now work in Octave for Windows.
+
+* Modification of the validation functions for numerical values: "Not a
+  Number" and infinite values are not validated as numeric any more.
+
+==============================================================================
 v1.1.0
 
 * New toolbox "outman_helpers".

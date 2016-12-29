@@ -7,9 +7,7 @@
 ## True if the argument is divisible by two.
 ##
 ## @code{@var{ret} = is_even (@var{x})} returns true in @var{ret} if @var{x} is
-## divisible by two (i.e.@ if @code{mod(x, 2) == 0}).  No argument checking is
-## done.  If @var{x} is not of a type that is supported by @code{mod}, then an
-## error is issued.
+## divisible by two (i.e.@ if @code{mod(x, 2) == 0}).
 ##
 ## @seealso{mod}
 ## @end deftypefn
@@ -18,7 +16,8 @@
 
 function ret = is_even(x)
 
-    validated_mandatory_args({@(x) isnumeric(x) && isreal(x)}, x);
+    validated_mandatory_args(...
+        {@(x) isnumeric(x) && all(~isnan(x) & ~isinf(x))}, x);
     ret = mod(x, 2) == 0;
 
 endfunction

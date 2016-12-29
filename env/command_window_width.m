@@ -15,18 +15,12 @@
 
 function width = command_window_width
 
-    if is_octave && isunix
-        [exitStatus, output] = system('tput cols');
-        if exitStatus ~= 0
-            width = -1;
-        else
-            width = str2double(output);
-        endif
-    elseif ~is_octave
+    if is_octave
+        terminalSize = terminal_size;
+        width = terminalSize(2);
+    else
         commWinSize = get(0, 'CommandWindowSize');
         width = commWinSize(1);
-    else
-        width = -1;
     endif
 
 endfunction

@@ -7,7 +7,8 @@
 ## True for a numeric scalar.
 ##
 ## @code{@var{ret} = is_num_scalar (@var{x})} returns true in @var{ret} if
-## @var{x} is numeric and scalar.
+## @var{x} is numeric and scalar. Note that @code{is_num_scalar} returns false
+## for @var{x} values that are complex, infinite or NaN.
 ##
 ## @seealso{isnumeric, isreal, isscalar}
 ## @end deftypefn
@@ -16,6 +17,6 @@
 
 function ret = is_num_scalar(x)
 
-    ret = isnumeric(x) && isreal(x) && isscalar(x);
+    ret = isnumeric(x) && isreal(x) && isscalar(x) && ~isinf(x) && ~isnan(x);
 
 endfunction

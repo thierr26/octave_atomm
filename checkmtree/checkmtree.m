@@ -125,7 +125,7 @@
 ##
 ## For example, if your M-files are encoded in Windows-1252, set the
 ## @qcode{"m_file_char_set"} configuration parameter to "win1252" in the
-## command used for the first invocation of Toolman, like in the following
+## command used for the first invocation of Checkmtree, like in the following
 ## examples:
 ##
 ## @example
@@ -166,7 +166,7 @@
 ##
 ## @item
 ## What the first invocation is and how to shut down (for Checkmtree, the shut
-## down can be done using @code{checkmtree ('quit')};
+## down can be done using @code{checkmtree ('quit')});
 ##
 ## @item
 ## What the "---" argument is;
