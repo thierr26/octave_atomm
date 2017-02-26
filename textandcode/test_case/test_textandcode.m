@@ -36,6 +36,8 @@ function s = test_textandcode
         @is_matched_by_false, ...
         @is_matched_by_true, ...
         @is_matched_by_cellstr, ...
+        @is_matched_by_fail_invalid_case_sensitive_flag, ...
+        @is_matched_by_case_insensitive, ...
         @is_prefixed_with_fail_invalid_str, ...
         @is_prefixed_with_fail_invalid_prefix, ...
         @is_prefixed_with_fail_empty_prefix, ...
@@ -233,7 +235,7 @@ endfunction
 
 function ret = is_matched_by_false
 
-    ret = ~is_matched_by('abcd', 'xyz');
+    ret = ~is_matched_by('xYz', 'xyz');
 
 endfunction
 
@@ -252,6 +254,22 @@ function ret = is_matched_by_cellstr
     ret = isequal(is_matched_by(...
         {'one', 'two', 'three'; 'four', 'five', 'six'}, '^[tf]'), ...
         [false true true; true true false]);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function is_matched_by_fail_invalid_case_sensitive_flag
+
+    ret = is_matched_by('xyz', 'xyz', 0);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_matched_by_case_insensitive
+
+    ret = is_matched_by('xYz', 'xyz', false);
 
 endfunction
 
