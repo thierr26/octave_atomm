@@ -4,7 +4,7 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{ret} =} is_matched_by (@var{str}, @var{@
 ## expr})
-## @deftypefn {Function File} {@var{ret} =} is_matched_by (@var{str}, @var{@
+## @deftypefnx {Function File} {@var{ret} =} is_matched_by (@var{str}, @var{@
 ## expr}, @var{case_sensitive})
 ##
 ## True for a string that matches a regular expression.
@@ -14,7 +14,7 @@
 ## expression @var{expr}.
 ##
 ## @code{@var{ret} = is_matched_by (@var{str}, @var{expr}, true)} is equivalent
-## to @code{@var{ret} = is_matched_by (@var{str}, @var{expr}).
+## to @code{@var{ret} = is_matched_by (@var{str}, @var{expr})}.
 ##
 ## @code{@var{ret} = is_matched_by (@var{str}, @var{expr}, false)} performs a
 ## case insensitive match.
@@ -36,7 +36,7 @@ function ret = is_matched_by(str, expr, varargin)
     opt = {'once', 'ignorecase'};
     if validated_opt_args({@is_logical_scalar, true}, varargin{:})
         opt = opt(1 : end - 1);
-    end
+    endif
 
     if iscell(str)
         ret = cellfun(@(x) ~isempty(x), regexp(str, expr, opt{:}));
