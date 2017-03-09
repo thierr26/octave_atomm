@@ -261,7 +261,7 @@ endfunction
 
 function is_matched_by_fail_invalid_case_sensitive_flag
 
-    ret = is_matched_by('xyz', 'xyz', 0);
+    is_matched_by('xyz', 'xyz', 0);
 
 endfunction
 
