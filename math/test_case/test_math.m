@@ -39,9 +39,10 @@ function s = test_math
         @distinct_rand_empty_a_numel_2_col, ...
         @distinct_rand_empty_a_numel_6_3x2, ...
         @wio_consec_duplicates_fail_invalid_x_type, ...
-        @wio_consec_duplicates_fail_x_non_row, ...
+        @wio_consec_duplicates_fail_x_non_vector, ...
         @wio_consec_duplicates_fail_x_empty, ...
         @wio_consec_duplicates_fail_x_numeric, ...
+        @wio_consec_duplicates_fail_x_numeric_column, ...
         @wio_consec_duplicates_fail_x_logical, ...
         @cell_cum_numel_wrong_arg, ...
         @cell_cum_numel_empty, ...
@@ -147,9 +148,9 @@ endfunction
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function wio_consec_duplicates_fail_x_non_row
+function wio_consec_duplicates_fail_x_non_vector
 
-    wio_consec_duplicates([0 0]');
+    wio_consec_duplicates([0 0; 0 0]');
 
 endfunction
 
@@ -167,6 +168,16 @@ function ret = wio_consec_duplicates_fail_x_numeric
 
     x = [2.2 2.2 2.5 2.4 2.4 2.3];
     expected = [2.2 2.5 2.4 2.3];
+    ret = isequal(expected, wio_consec_duplicates(x));
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = wio_consec_duplicates_fail_x_numeric_column
+
+    x = [2.2 2.2 2.5 2.4 2.4 2.3]';
+    expected = [2.2 2.5 2.4 2.3]';
     ret = isequal(expected, wio_consec_duplicates(x));
 
 endfunction
