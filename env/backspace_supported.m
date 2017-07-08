@@ -1,17 +1,18 @@
 ## Copyright (C) 2016 Thierry Rascle <thierr26@free.fr>
 ## MIT license. Please refer to the LICENSE file.
 
-## -- Function File: RET = backspace_supported ()
+## -*- texinfo -*-
+## @deftypefn {Function File} {@var{ret} =} backspace_supported ()
 ##
-##     True if "\b" supported in 'fprintf' template strings.
+## True if "\b" sequences are supported in 'fprintf' template strings.
 ##
-##     'RET = backspace_supported ()' returns false in RET if this is not
-##     Octave running the function and the Java Virtual Machine (JVM) is
-##     not started, which means that using 'fprintf' with occurrences of
-##     backspace characters ("\b") in the format string may not do what is
-##     expected.
+## @code{@var{ret} = backspace_supported ()} returns false in @var{ret} if this
+## is not Octave running the function and the Java Virtual Machine (JVM) is not
+## started, which means that using @code{fprintf} with occurrences of
+## @qcode{"\b"} in the template string may lead to unexpected results.
 ##
-##     See also: fprintf.
+## @seealso{fprintf}
+## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>
 
