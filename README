@@ -143,16 +143,15 @@ Outman and make it able to send its messages to a graphical interface.
 The application template provided in Atomm allow to build easily singleton
 applications endowed with:
 
-*  Configurability i.e., the ability to be started up with
-   default or customized and validated configuration parameters
-   (the application templates ensures that the configuration
-   parameters don't change until the application is shut down by
-   the user and restarted).
+*  Configurability i.e., the ability to be started up with default or
+   customized and validated configuration parameters (the application template
+   ensures that the configuration parameters don't change until the
+   application is shut down by the user and restarted).
 
-*  Protected internal state i.e., there is no other way than
-   invoking the application itself through the defined commands
-   to update the application internal state, as the state is
-   stored in an internal persistent variable structure.
+*  Protected internal state i.e., there is no other way than invoking the
+   application itself through the defined commands to update the application
+   internal state, as the state is stored in an internal persistent variable
+   structure.
 
 *  Command arguments checking.
 
@@ -204,6 +203,23 @@ validated_opt_args for details and examples:
 
         help validated_mandatory_args
         help validated_opt_args
+
+                The physunits toolbox
+                - - - - - - - - - - -
+
+The physunits toolbox provides functions to handle physical units and perform
+conversions.  The functions are quite flexible.  By default, they are aware of
+the most common physical units, but you can also define your own units systems
+if you need to work with more specific physical units or even non physical
+units (e.g. currency units).
+
+Please read the documentations for the following functions for all the
+details:
+
+        help phys_units_system
+        help common_phys_units_system
+        help is_known_phys_unit
+        help phys_units_conv
 
 ==============================================================================
 Author: Thierry Rascle (thierr26@free.fr)

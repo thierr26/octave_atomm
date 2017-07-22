@@ -80,6 +80,16 @@ function s = test_isthisa
         @is_integer_scalar_false, ...
         @is_integer_scalar_true_positive, ...
         @is_integer_scalar_true_negative, ...
+        @is_integer_scalar_true_integer, ...
+        @is_integer_scalar_true_positive_tol_zero, ...
+        @is_integer_scalar_true_negative_tol_zero, ...
+        @is_integer_scalar_false_positive_tol_zero, ...
+        @is_integer_scalar_false_negative_tol_zero, ...
+        @is_integer_scalar_true_positive_tol_non_zero, ...
+        @is_integer_scalar_true_negative_tol_non_zero, ...
+        @is_integer_scalar_false_positive_tol_non_zero, ...
+        @is_integer_scalar_false_negative_tol_non_zero, ...
+        @is_integer_scalar_fail_wrong_tolerance_type, ...
         @is_positive_integer_scalar_non_num, ...
         @is_positive_integer_scalar_non_scalar, ...
         @is_positive_integer_scalar_non_int, ...
@@ -589,6 +599,86 @@ endfunction
 function ret = is_integer_scalar_true_negative
 
     ret = is_integer_scalar(-3);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_integer_scalar_true_integer
+
+    ret = is_integer_scalar(int16(-3));
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_integer_scalar_true_positive_tol_zero
+
+    ret = is_integer_scalar(3, 0);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_integer_scalar_true_negative_tol_zero
+
+    ret = is_integer_scalar(-3, 0);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_integer_scalar_false_positive_tol_zero
+
+    ret = ~is_integer_scalar(3.001, 0);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_integer_scalar_false_negative_tol_zero
+
+    ret = ~is_integer_scalar(-3.001, 0);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_integer_scalar_true_positive_tol_non_zero
+
+    ret = is_integer_scalar(3.00001, 1e-4);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_integer_scalar_true_negative_tol_non_zero
+
+    ret = is_integer_scalar(-3.00001, 1e-4);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_integer_scalar_false_positive_tol_non_zero
+
+    ret = ~is_integer_scalar(3.001, 1e-4);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_integer_scalar_false_negative_tol_non_zero
+
+    ret = ~is_integer_scalar(-3.001, 1e-4);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function is_integer_scalar_fail_wrong_tolerance_type
+
+    is_integer_scalar(-3.001, true);
 
 endfunction
 
