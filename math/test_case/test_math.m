@@ -39,15 +39,23 @@ function s = test_math
         @distinct_rand_empty_a_numel_2_col, ...
         @distinct_rand_empty_a_numel_6_3x2, ...
         @wio_consec_duplicates_fail_invalid_x_type, ...
-        @wio_consec_duplicates_fail_x_non_row, ...
+        @wio_consec_duplicates_fail_x_non_vector, ...
         @wio_consec_duplicates_fail_x_empty, ...
         @wio_consec_duplicates_fail_x_numeric, ...
+        @wio_consec_duplicates_fail_x_numeric_column, ...
         @wio_consec_duplicates_fail_x_logical, ...
         @cell_cum_numel_wrong_arg, ...
         @cell_cum_numel_empty, ...
         @cell_cum_numel_not_empty, ...
         @same_shape_true, ...
-        @same_shape_false};
+        @same_shape_false, ...
+        @prod_exact_for_10_pow_fail_wrong_tolerance_type, ...
+        @prod_exact_for_10_pow_10_pow, ...
+        @prod_exact_for_10_pow_10_pow_tol_a, ...
+        @prod_exact_for_10_pow_10_pow_tol_b, ...
+        @prod_exact_for_10_pow_a_not_10_pow, ...
+        @prod_exact_for_10_pow_b_not_10_pow, ...
+        @prod_exact_for_10_pow_b_not_10_pow_tol};
 
     # Run the test case.
     s = run_test_case(mfilename, testRoutine);
@@ -147,9 +155,9 @@ endfunction
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-function wio_consec_duplicates_fail_x_non_row
+function wio_consec_duplicates_fail_x_non_vector
 
-    wio_consec_duplicates([0 0]');
+    wio_consec_duplicates([0 0; 0 0]');
 
 endfunction
 
@@ -167,6 +175,16 @@ function ret = wio_consec_duplicates_fail_x_numeric
 
     x = [2.2 2.2 2.5 2.4 2.4 2.3];
     expected = [2.2 2.5 2.4 2.3];
+    ret = isequal(expected, wio_consec_duplicates(x));
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = wio_consec_duplicates_fail_x_numeric_column
+
+    x = [2.2 2.2 2.5 2.4 2.4 2.3]';
+    expected = [2.2 2.5 2.4 2.3]';
     ret = isequal(expected, wio_consec_duplicates(x));
 
 endfunction
@@ -218,5 +236,63 @@ endfunction
 function ret = same_shape_false
 
     ret = ~same_shape([1 2], [3; 4]);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function prod_exact_for_10_pow_fail_wrong_tolerance_type
+
+    prod_exact_for_10_pow_fail_wrong_tolerance_type(1e-9, 1e-3, true);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = prod_exact_for_10_pow_10_pow
+
+    ret = isequal(prod_exact_for_10_pow(1e-9, 1e-3), 1e-12);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = prod_exact_for_10_pow_10_pow_tol_a
+
+    ret = isequal(prod_exact_for_10_pow(1e-9 + 1e-15, 1e-3), 1e-12);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = prod_exact_for_10_pow_10_pow_tol_b
+
+    ret = isequal(prod_exact_for_10_pow(1e-9, 1e-3 + 1e-9), 1e-12);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = prod_exact_for_10_pow_a_not_10_pow
+
+    ret = isequal(prod_exact_for_10_pow(1e-9 + 1e-13, 1e-3), ...
+        (1e-9 + 1e-13) * 1e-3);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = prod_exact_for_10_pow_b_not_10_pow
+
+    ret = isequal(prod_exact_for_10_pow(1e-9, 1e-3 + 1e-7), ...
+        1e-9 * (1e-3 + 1e-7));
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = prod_exact_for_10_pow_b_not_10_pow_tol
+
+    ret = isequal(prod_exact_for_10_pow(1e-9, 1e-3 + 1e-7, 1e-4), 1e-12);
 
 endfunction
