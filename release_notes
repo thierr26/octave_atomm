@@ -1,3 +1,17 @@
+v1.3.0
+
+* New toolbox "physunits".
+
+* Function is_matched_by now has an optional argument for case sensitivity.
+
+* Function wio_consec_duplicates now accepts a column vector as argument (it
+  used to accept only a row vector).
+
+* Function is_integer_scalar now has an optional tolerance argument.
+
+* New function prod_exact_for_10_pow in toolbox "math".
+
+==============================================================================
 v1.2.0
 
 * New function outman_o in toolbox "outman_helpers".
