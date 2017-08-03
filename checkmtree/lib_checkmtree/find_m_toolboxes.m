@@ -120,7 +120,7 @@ function s = find_m_toolboxes(varargin)
             kk = 1;
             while kk <= nP && isToolbox(k)
                 if strncmp(sFF.dir{pI(kk)}, sFF.dir{k}, ...
-                        length(sFF.dir{pI(kk)}));
+                        length(sFF.dir{pI(kk)}))
                     isToolbox(k) = false;
                 endif
                 kk = kk + 1;
@@ -130,7 +130,7 @@ function s = find_m_toolboxes(varargin)
             kk = 1;
             while kk <= nP && isPrivate(k)
                 if pI(kk) ~= k && strncmp(sFF.dir{pI(kk)}, sFF.dir{k}, ...
-                        length(sFF.dir{pI(kk)}));
+                        length(sFF.dir{pI(kk)}))
                     isPrivate(k) = false;
                 endif
                 kk = kk + 1;

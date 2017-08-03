@@ -36,7 +36,7 @@ function s = outman_command_window_erase_progress(s1, idx)
             ord = s.progress_fmt.order;
             fmt = s.progress_fmt.fmt;
             fi = 0;
-            for k = 1 : idx,
+            for k = 1 : idx
                 st = fi + 1;
                 fi = fi + outman_progress_indicator_length(...
                     s.progress.message{k}, fmt, ord);

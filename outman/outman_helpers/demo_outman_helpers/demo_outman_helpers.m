@@ -80,7 +80,7 @@ function demo_outman_helpers(verbosity, err, varargin)
         try
             pause(0.8);
             outman_c(verbosity > 1, 'dispf', oId, 'Iteration #%d', k);
-            if err && k == round(n * 0.66);
+            if err && k == round(n * 0.66)
                 outman_log_and_error(verbosity > 0, oId, mfilename, ...
                     'Error issued by %s as required by user', mfilename);
             endif

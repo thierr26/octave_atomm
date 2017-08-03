@@ -7,7 +7,9 @@ function varargout = deal_args(varargin)
     if is_logical_scalar(varargin{1})
         varargout = varargin;
     else
-        varargout = [true varargin];
+        varargout = cell(1, nargin + 1);
+        varargout{1} = true;
+        varargout(2 : end) = varargin;
     endif
 
 endfunction

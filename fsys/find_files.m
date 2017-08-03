@@ -505,7 +505,7 @@ function [s1, top, f, mx, ign] = check_args(varargin)
     if nargin == 0
         s1 = find_files_empty_s;
         needToCheckS1 = false;
-    elseif isstruct(varargin{1});
+    elseif isstruct(varargin{1})
         topPos = 2;
         s1 = varargin{1};
     else

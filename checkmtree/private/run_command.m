@@ -255,9 +255,9 @@ endfunction
 function check_encoding(filename, o_id, s, cf)
 
     try
-        if ~is_ascii_file(filename, s.encoding_check_func, cf.max_read_bytes);
-        outman('errorf', o_id, '%s is no %s encoded file', ...
-            filename, cf.m_file_char_set);
+        if ~is_ascii_file(filename, s.encoding_check_func, cf.max_read_bytes)
+            outman('errorf', o_id, '%s is no %s encoded file', ...
+                filename, cf.m_file_char_set);
         endif
     catch
         outman('errorf', o_id, 'Could not check the encoding of %s', ...

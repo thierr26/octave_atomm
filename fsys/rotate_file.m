@@ -58,7 +58,7 @@ function rotate_file(name, byte_size_threshold)
 
     if byteSize >= byte_size_threshold
         k = 1;
-        while ismember([absName '.' num2str(k)], s.file);
+        while ismember([absName '.' num2str(k)], s.file)
             k = k + 1;
         endwhile
         for kk = k : -1 : 1

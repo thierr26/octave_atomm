@@ -98,7 +98,7 @@ function ret = toolbox_argument_index(s, cargs)
         if isempty(ret)
             error(['Current directory (%s) is not a toolbox in the source ' ...
                 'tree. Perhaps you have forgotten to provide a toolbox ' ...
-                'designation.'], curDir);
+                'designation as argument.'], curDir);
         endif
     else
         oId = outman_connect_and_config_if_master(s.outman_config_stru);
