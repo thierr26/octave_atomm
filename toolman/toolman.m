@@ -608,9 +608,9 @@ function varargout = toolman(varargin)
         check_command_args(cmd, cmdName, cmdArg{:});
     catch e
         if ~cfLocked
-            # Reset application persistent variables, which will allow the next
-            # configuration attempt to be successful.
-            clear(mfilename);
+            # Emptying cfLocked makes it possible for the next configuration
+            # attempt to be successful.
+            cfLocked = [];
         endif
         rethrow(e);
     end_try_catch
@@ -635,7 +635,7 @@ function varargout = toolman(varargin)
 
     if clearAppRequested
         munlock;
-        clear(mfilename);
+        cfLocked = [];
     else
         mlock;
     endif
