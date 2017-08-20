@@ -1,4 +1,4 @@
-## Copyright (C) 2016 Thierry Rascle <thierr26@free.fr>
+## Copyright (C) 2016-2017 Thierry Rascle <thierr26@free.fr>
 ## MIT license. Please refer to the LICENSE file.
 ## Author: Thierry Rascle <thierr26@free.fr>
 
@@ -125,9 +125,16 @@ function s_c = check_tree(o_id, s, cf, s_m, c, start_time, appname)
         s_c.cum_line_count ...
             = sum(cellfun(@sum, s_m.mfilelinecount)) ...
             + sum(cellfun(@sum, s_m.privatemfilelinecount));
-        s_c.cum_sloc_count ...
-            = sum(cellfun(@sum, s_m.mfilesloc)) ...
-            + sum(cellfun(@sum, s_m.privatemfilesloc));
+        perTBSLOCCount = zeros(1, numel(s_m.toolboxpath));
+        for tBIdx = 1 : numel(s_m.toolboxpath)
+            perTBSLOCCount(tBIdx) = perTBSLOCCount(tBIdx) ...
+                + sum(s_m.mfilesloc{tBIdx});
+            if s_m.privateidx(tBIdx) ~= 0
+                perTBSLOCCount(tBIdx) = perTBSLOCCount(tBIdx) ...
+                    + sum(s_m.privatemfilesloc{s_m.privateidx(tBIdx)});
+            endif
+        endfor
+        s_c.cum_sloc_count = sum(perTBSLOCCount);
     endif
 
     checkCodeAvail = true;
