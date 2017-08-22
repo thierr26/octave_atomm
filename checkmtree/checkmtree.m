@@ -1,4 +1,4 @@
-## Copyright (C) 2016 Thierry Rascle <thierr26@free.fr>
+## Copyright (C) 2016-2017 Thierry Rascle <thierr26@free.fr>
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
@@ -64,10 +64,10 @@
 ## @var{stru} is a structure having the following fields:
 ##
 ## @table @asis
-## @item m_file_count
+## @item @qcode{"m_file_count"}
 ## Number of analyzed M-files.
 ##
-## @item max_m_file_byte_size
+## @item @qcode{"max_m_file_byte_size"}
 ## Byte size of the largest analyzed M-files.
 ## @end table
 ##
@@ -248,18 +248,28 @@
 ## @var{stru} is a structure having the following fields:
 ##
 ## @table @asis
-## @item m_file_count
+## @item @qcode{"m_file_count"}
 ## Number of analyzed M-files.
 ##
-## @item max_m_file_byte_size
+## @item @qcode{"max_m_file_byte_size"}
 ## Byte size of the largest analyzed M-files.
 ##
-## @item cum_line_count
+## @item @qcode{"cum_line_count"}
 ## Cumulative number of lines in the analyzed M-files.
 ##
-## @item cum_sloc_count
+## @item @qcode{"cum_sloc_count"}
 ## Cumulative number of SLOC (Software Lines Of Code i.e, lines that are not
 ## empty and don't contain only a comment) in the analyzed M-files.
+##
+## @item @qcode{"cum_test_sloc_count"}
+## Similar to field @qcode{"cum_sloc_count"} except that it gives the number of
+## SLOC in the analyzed M-files of the test case toolboxes only.  The test case
+## toolboxes are identified using Toolman's @qcode{"test_case_tb_reg_exp"}
+## configuration parameter (a regular expression matching the names of the test
+## case toolboxes).  Checkmtree obtains Toolman's
+## @qcode{"test_case_tb_reg_exp"} configuration via a
+## @code{toolman('get_config')} call (followed by a @code{toolman('quit')}
+## statement if toolman was not running).
 ## @end table
 ##
 ## Note that Checkmtree has a command called @qcode{"check_all"} that performs

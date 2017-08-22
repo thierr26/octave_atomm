@@ -28,6 +28,18 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~, aname)
             # Do the dependencies analysis.
             sM = read_declared_dependencies(...
                 compute_dependencies(find_m_toolboxes(top)));
+
+            # Get Toolman's configuration.
+            toolmanAlreadyRunning = mislocked('toolman');
+            toolmanCf = toolman('get_config');
+            if ~toolmanAlreadyRunning
+                toolman('quit');
+            endif
+
+            # Find test cases and test case toolboxes.
+            sM = detect_test_cases(sM, ...
+                toolmanCf.test_case_tb_reg_exp, toolmanCf.test_case_reg_exp);
+
             s.deps = sM;
         else
 
@@ -126,12 +138,17 @@ function s_c = check_tree(o_id, s, cf, s_m, c, start_time, appname)
             = sum(cellfun(@sum, s_m.mfilelinecount)) ...
             + sum(cellfun(@sum, s_m.privatemfilelinecount));
         perTBSLOCCount = zeros(1, numel(s_m.toolboxpath));
+        s_c.cum_test_sloc_count = 0;
         for tBIdx = 1 : numel(s_m.toolboxpath)
             perTBSLOCCount(tBIdx) = perTBSLOCCount(tBIdx) ...
                 + sum(s_m.mfilesloc{tBIdx});
             if s_m.privateidx(tBIdx) ~= 0
                 perTBSLOCCount(tBIdx) = perTBSLOCCount(tBIdx) ...
                     + sum(s_m.privatemfilesloc{s_m.privateidx(tBIdx)});
+            endif
+            if any(s_m.testcasetb == tBIdx)
+                s_c.cum_test_sloc_count = s_c.cum_test_sloc_count ...
+                    + perTBSLOCCount(tBIdx);
             endif
         endfor
         s_c.cum_sloc_count = sum(perTBSLOCCount);
