@@ -137,21 +137,20 @@ function s_c = check_tree(o_id, s, cf, s_m, c, start_time, appname)
         s_c.cum_line_count ...
             = sum(cellfun(@sum, s_m.mfilelinecount)) ...
             + sum(cellfun(@sum, s_m.privatemfilelinecount));
-        perTBSLOCCount = zeros(1, numel(s_m.toolboxpath));
+        s_c.cum_sloc_count = 0;
         s_c.cum_test_sloc_count = 0;
         for tBIdx = 1 : numel(s_m.toolboxpath)
-            perTBSLOCCount(tBIdx) = perTBSLOCCount(tBIdx) ...
-                + sum(s_m.mfilesloc{tBIdx});
+            tBSLOCCount = sum(s_m.mfilesloc{tBIdx});
             if s_m.privateidx(tBIdx) ~= 0
-                perTBSLOCCount(tBIdx) = perTBSLOCCount(tBIdx) ...
+                tBSLOCCount = tBSLOCCount ...
                     + sum(s_m.privatemfilesloc{s_m.privateidx(tBIdx)});
             endif
+            s_c.cum_sloc_count = s_c.cum_sloc_count + tBSLOCCount;
             if any(s_m.testcasetb == tBIdx)
                 s_c.cum_test_sloc_count = s_c.cum_test_sloc_count ...
-                    + perTBSLOCCount(tBIdx);
+                    + tBSLOCCount;
             endif
         endfor
-        s_c.cum_sloc_count = sum(perTBSLOCCount);
     endif
 
     checkCodeAvail = true;
