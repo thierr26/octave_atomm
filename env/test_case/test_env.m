@@ -100,4 +100,3 @@ function ret = host_name_no_error
     ret = true;
 
 endfunction
-

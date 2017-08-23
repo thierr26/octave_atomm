@@ -591,4 +591,3 @@ function ret = timestamp2datenum_zero
         datenum([-1 12 31 0 0 0]));
 
 endfunction
-

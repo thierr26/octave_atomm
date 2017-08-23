@@ -111,4 +111,3 @@ function [idx, parent_tb_idx] = test_cases_indices(...
     endif
 
 endfunction
-
