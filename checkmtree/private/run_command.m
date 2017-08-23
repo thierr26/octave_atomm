@@ -13,7 +13,15 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~, aname)
 
     if checkmtree_command(c, 'tree_checking_command')
 
-        if numel(cargs) == 0
+        if checkmtree_command(c, 'dependencies_checking_command')
+
+            # Get Toolman's configuration.
+            toolmanCf = toolman_config;
+        endif
+
+        if strcmp(c, 'check_toolman_top')
+            top = toolmanCf.top;
+        elseif numel(cargs) == 0
             top = pwd;
         else
             top = cargs{1};
@@ -28,13 +36,6 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~, aname)
             # Do the dependencies analysis.
             sM = read_declared_dependencies(...
                 compute_dependencies(find_m_toolboxes(top)));
-
-            # Get Toolman's configuration.
-            toolmanAlreadyRunning = mislocked('toolman');
-            toolmanCf = toolman('get_config');
-            if ~toolmanAlreadyRunning
-                toolman('quit');
-            endif
 
             # Find test cases and test case toolboxes.
             sM = detect_test_cases(sM, ...

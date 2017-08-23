@@ -8,6 +8,7 @@
 ## @deftypefnx {Function File} {@var{@
 ## stru} =} checkmtree ('check_dependencies', ...)
 ## @deftypefnx {Function File} {@var{stru} =} checkmtree ('check_all', ...)
+## @deftypefnx {Function File} {@var{stru} =} checkmtree ('check_toolman_top')
 ## @deftypefnx {Function File} checkmtree {@var{@
 ## tb_deps} =} ('list_toolbox_deps', @var{toolbox_relative_or_absolute_path})
 ## @deftypefnx {Function File} {@var{deps} =} checkmtree ('list_deps')
@@ -275,9 +276,14 @@
 ## Note that Checkmtree has a command called @qcode{"check_all"} that performs
 ## all the checks at once: @code{checkcode}, encoding and dependencies.
 ##
-## After having executed a Checkmtree's @qcode{"check_dependencies"} or
-## @qcode{"check_all"} command, you can use two complementary commands:
-## @qcode{"list_toolbox_deps"} and @qcode{"list_deps"}.
+## Checkmtree also has a @qcode{"check_toolman_top"} command that does the same
+## thing as the @qcode{"check_all"} command, but on the source tree (or source
+## trees) defined as Toolman's "top" directories.  This command does not take
+## any argument.
+##
+## After having executed a Checkmtree's @qcode{"check_dependencies"},
+## @qcode{"check_all"} or @qcode{"check_toolman_top"} command, you can use two
+## complementary commands: @qcode{"list_toolbox_deps"} and @qcode{"list_deps"}.
 ##
 ## @table @asis
 ## @item @qcode{"list_toolbox_deps"}
