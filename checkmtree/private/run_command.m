@@ -1,4 +1,4 @@
-## Copyright (C) 2016 Thierry Rascle <thierr26@free.fr>
+## Copyright (C) 2016-2017 Thierry Rascle <thierr26@free.fr>
 ## MIT license. Please refer to the LICENSE file.
 ## Author: Thierry Rascle <thierr26@free.fr>
 
@@ -28,6 +28,18 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~, aname)
             # Do the dependencies analysis.
             sM = read_declared_dependencies(...
                 compute_dependencies(find_m_toolboxes(top)));
+
+            # Get Toolman's configuration.
+            toolmanAlreadyRunning = mislocked('toolman');
+            toolmanCf = toolman('get_config');
+            if ~toolmanAlreadyRunning
+                toolman('quit');
+            endif
+
+            # Find test cases and test case toolboxes.
+            sM = detect_test_cases(sM, ...
+                toolmanCf.test_case_tb_reg_exp, toolmanCf.test_case_reg_exp);
+
             s.deps = sM;
         else
 
@@ -125,9 +137,20 @@ function s_c = check_tree(o_id, s, cf, s_m, c, start_time, appname)
         s_c.cum_line_count ...
             = sum(cellfun(@sum, s_m.mfilelinecount)) ...
             + sum(cellfun(@sum, s_m.privatemfilelinecount));
-        s_c.cum_sloc_count ...
-            = sum(cellfun(@sum, s_m.mfilesloc)) ...
-            + sum(cellfun(@sum, s_m.privatemfilesloc));
+        s_c.cum_sloc_count = 0;
+        s_c.cum_test_sloc_count = 0;
+        for tBIdx = 1 : numel(s_m.toolboxpath)
+            tBSLOCCount = sum(s_m.mfilesloc{tBIdx});
+            if s_m.privateidx(tBIdx) ~= 0
+                tBSLOCCount = tBSLOCCount ...
+                    + sum(s_m.privatemfilesloc{s_m.privateidx(tBIdx)});
+            endif
+            s_c.cum_sloc_count = s_c.cum_sloc_count + tBSLOCCount;
+            if any(s_m.testcasetb == tBIdx)
+                s_c.cum_test_sloc_count = s_c.cum_test_sloc_count ...
+                    + tBSLOCCount;
+            endif
+        endfor
     endif
 
     checkCodeAvail = true;

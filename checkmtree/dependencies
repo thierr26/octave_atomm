@@ -9,3 +9,5 @@ atomm/textandcode/mlang
 atomm/outman
 atomm/structure
 atomm/textandcode
+atomm/toolman
+atomm/toolman/lib_toolman
