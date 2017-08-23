@@ -71,7 +71,7 @@ function [c, n, sloc] = m_symbol_list(filename, varargin)
         [l, n, sloc] = strip_comments_from_m(filename, ...
             stripCommentsFromMOptArgs{:});
     catch err
-        outman_disconnect_and_rethrow(mustUpdateProgress, err);
+        outman_disconnect_and_rethrow(mustUpdateProgress, oId, err);
     end_try_catch
     if mustUpdateProgress
         remainingBytes = cell_cum_numel(l) + n;

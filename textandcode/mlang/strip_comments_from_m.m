@@ -73,7 +73,7 @@ function [c, n, sloc] = strip_comments_from_m(filename, varargin)
     try
         cc = text_file_lines(filename);
     catch err
-        outman_disconnect_and_rethrow(mustUpdateProgress, err);
+        outman_disconnect_and_rethrow(mustUpdateProgress, oId, err);
     end_try_catch
 
     n = numel(cc);
