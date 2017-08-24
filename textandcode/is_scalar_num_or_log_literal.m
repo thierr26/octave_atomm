@@ -1,4 +1,4 @@
-## Copyright (C) 2016 Thierry Rascle <thierr26@free.fr>
+## Copyright (C) 2016-2017 Thierry Rascle <thierr26@free.fr>
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
@@ -68,7 +68,7 @@
 
 function ret = is_scalar_num_or_log_literal(str)
 
-    validated_mandatory_args({@is_string}, str);
+    assert(is_string(str), 'Exactly one string argument expected');
 
     ret = false;
     if strcmp(str, 'true') || strcmp(str, 'false')
