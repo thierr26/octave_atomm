@@ -40,6 +40,8 @@
 
 function stripped_str = strip_str_literals_from_line(str)
 
+    assert(is_string(str), 'Exactly one string argument expected');
+
     quot = quote_delimiters;
     PrevNonBlankChar = ';';
     PrevCharIsBlank = false;
