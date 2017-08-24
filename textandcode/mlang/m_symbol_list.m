@@ -64,7 +64,9 @@ function [c, n, sloc] = m_symbol_list(filename, varargin)
     else
         validated_mandatory_args({@is_non_empty_string}, filename);
         [progress_id, progress] = validated_opt_args(...
-                {@is_num_scalar, -1; @is_num_scalar, 0}, varargin{:});
+            {@is_num_scalar, -1; ...
+            @is_num_scalar, 0; ...
+            @is_logical_scalar, false}, varargin{:});
         mustUpdateProgress = nargin > 1;
     endif
     oId = outman_connect_and_config_if_master_c(mustUpdateProgress);

@@ -39,7 +39,8 @@ function stripped_str = strip_comment_from_line(str, varargin)
     else
         validated_mandatory_args({@is_string}, str);
         commentLeaders = validated_opt_args(...
-            {@is_string, m_comment_leaders}, varargin{:});
+            {@is_string, m_comment_leaders; ...
+            @is_logical_scalar, false}, varargin{:});
     endif
 
     quot = quote_delimiters;
