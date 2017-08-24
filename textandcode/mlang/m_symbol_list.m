@@ -1,4 +1,4 @@
-## Copyright (C) 2016 Thierry Rascle <thierr26@free.fr>
+## Copyright (C) 2016-2017 Thierry Rascle <thierr26@free.fr>
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
@@ -7,6 +7,9 @@
 ## @deftypefnx {Function File} {@
 ## [@var{c}, @var{n}, @var{sloc}] =} m_symbol_list (@var{filename}, @var{@
 ## progress_id}, @var{progress})
+## @deftypefnx {Function File} {@
+## [@var{c}, @var{n}, @var{sloc}] =} m_symbol_list (@var{filename}, @var{@
+## progress_id}, @var{progress}, @var{nocheck})
 ##
 ## List of symbols (identifiers) appearing in an M-file.
 ##
@@ -40,6 +43,9 @@
 ## to process a particular file.
 ## @end table
 ##
+## The user can also provide a fourth argument (@var{nocheck}), which must be a
+## logical scalar. If it is true, then no argument checking is done.
+##
 ## Function @code{compute_dependencies} is an example of a use of
 ## @code{m_symbol_list} with the optional arguments.
 ##
@@ -51,28 +57,37 @@
 
 function [c, n, sloc] = m_symbol_list(filename, varargin)
 
-    validated_mandatory_args({@is_non_empty_string}, filename);
-    [progress_id, progress] = validated_opt_args(...
-            {@is_num_scalar, -1; @is_num_scalar, 0}, varargin{:});
-    mustUpdateProgress = nargin > 1;
+    if nargin == 4 && is_logical_scalar(varargin{3}) && varargin{3}
+        progress_id = varargin{1};
+        progress = varargin{2};
+        mustUpdateProgress = true;
+    else
+        validated_mandatory_args({@is_non_empty_string}, filename);
+        [progress_id, progress] = validated_opt_args(...
+            {@is_num_scalar, -1; ...
+            @is_num_scalar, 0; ...
+            @is_logical_scalar, false}, varargin{:});
+        mustUpdateProgress = nargin > 1;
+    endif
     oId = outman_connect_and_config_if_master_c(mustUpdateProgress);
 
     if mustUpdateProgress
         stripCommentTimeFraction = 0.53;
-        MeanCharCountInComments = 15; % Mean character count in comment or
-                                      % empty lines (arbitrary estimation).
+        MeanCharCountInComments = 3; % Mean character count in comment or
+                                     % empty lines (arbitrary estimation).
         stripStrLiteralTimeFraction = 0.43;
         stripCommentsFromMOptArgs ...
-            = {progress_id, progress, stripCommentTimeFraction};
+            = {progress_id, progress, stripCommentTimeFraction, true};
     else
         stripCommentsFromMOptArgs = {};
     endif
     try
-        [l, n, sloc] = strip_comments_from_m(filename, ...
+        [l, n, slocIdx] = strip_comments_from_m(filename, ...
             stripCommentsFromMOptArgs{:});
     catch err
         outman_disconnect_and_rethrow(mustUpdateProgress, oId, err);
     end_try_catch
+    sloc = numel(slocIdx);
     if mustUpdateProgress
         remainingBytes = cell_cum_numel(l) + n;
         progress = progress + stripCommentTimeFraction * (remainingBytes ...
@@ -81,20 +96,14 @@ function [c, n, sloc] = m_symbol_list(filename, varargin)
                                                      % comments process.
     endif
 
-    for k = 1 : n
+    for k = 1 : sloc
 
+        ks = slocIdx(k);
         if mustUpdateProgress
-            if numel(l{k}) ~= 0
-                progress = progress ...
-                    + stripStrLiteralTimeFraction * numel(l{k});
-            else
-                # l{k} is empty possibly because it was a comment line.
-                progress = progress ...
-                    + stripStrLiteralTimeFraction * MeanCharCountInComments;
-            endif
+            progress = progress + stripStrLiteralTimeFraction * numel(l{ks});
         endif
 
-        l{k} = strip_str_literals_from_line(l{k});
+        l{ks} = strip_str_literals_from_line(l{ks});
 
         outman_c(mustUpdateProgress && mod(k, 15) == 0, ...
             'update_progress', oId, progress_id, progress);
@@ -107,43 +116,37 @@ function [c, n, sloc] = m_symbol_list(filename, varargin)
     c = cell(1, ceil(cell_cum_numel(l) / 2));
 
     level = 0;
-    for k = 1 : n
+    for k = 1 : sloc
 
+        ks = slocIdx(k);
         if mustUpdateProgress
-            if numel(l{k}) ~= 0
-                progress = progress ...
-                    + stripStrLiteralTimeFraction * numel(l{k});
-            else
-                # l{k} is empty possibly because it was a comment line.
-                progress = progress ...
-                    + stripStrLiteralTimeFraction * MeanCharCountInComments;
-            endif
+            progress = progress + stripStrLiteralTimeFraction * numel(l{ks});
         endif
 
         # Remove the trailing triple dots.
-        if numel(l{k} >= 3) && strcmp(l{k}(end - 2 : end), '...')
-            l{k} = l{k}(1 : end - 3);
+        if numel(l{ks} >= 3) && strcmp(l{ks}(end - 2 : end), '...')
+            l{ks} = l{ks}(1 : end - 3);
         endif
 
         # Remove the decimal marks with preceding digits.
-        precedingDigitsPos = regexp(l{k}, '\W[0-9]+\.');
+        precedingDigitsPos = regexp(l{ks}, '\W[0-9]+\.');
         for kk = numel(precedingDigitsPos) : -1 : 1
-            decimalMarkPos = strfind(l{k}(precedingDigitsPos(kk) : end), '.');
-            l{k} = [l{k}(1 : precedingDigitsPos(kk) - 1) ...
-                l{k}(precedingDigitsPos(kk) + decimalMarkPos(1) : end)];
+            decimalMarkPos = strfind(l{ks}(precedingDigitsPos(kk) : end), '.');
+            l{ks} = [l{ks}(1 : precedingDigitsPos(kk) - 1) ...
+                l{ks}(precedingDigitsPos(kk) + decimalMarkPos(1) : end)];
         endfor
 
         # The remaining dots are very likely to be from "dot notations".
 
         # Remove the field names.
-        l{k} = strjoin(regexp(l{k}, '\. *\w+', 'split'));
+        l{ks} = strjoin(regexp(l{ks}, '\. *\w+', 'split'));
 
-        lineSymbols = regexp(l{k}, '\W', 'split');
+        lineSymbols = regexp(l{ks}, '\W', 'split');
         lineSymbols = lineSymbols(~cellfun(@isempty, lineSymbols));
         for kSymb = 1 : numel(lineSymbols)
             symb = lineSymbols{kSymb};
             if ~is_scalar_num_or_log_literal(symb) ...
-                    && ~iskeyword(symb) && ~ismember(symb, c(1 : level))
+                    && ~iskeyword(symb) && ~any(strcmp(symb, c(1 : level)))
                 level = level + 1;
                 c{level} = symb;
             endif

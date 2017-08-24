@@ -1,4 +1,4 @@
-## Copyright (C) 2016 Thierry Rascle <thierr26@free.fr>
+## Copyright (C) 2016-2017 Thierry Rascle <thierr26@free.fr>
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
@@ -10,6 +10,10 @@
 ## @deftypefnx {Function File} {@
 ## [@var{c}, @var{n}, @var{sloc}] =} strip_comments_from_m (@var{@
 ## filename}, @var{progress_id}, @var{progress}, @var{progress_fac})
+## @deftypefnx {Function File} {@
+## [@var{c}, @var{n}, @var{sloc}] =} strip_comments_from_m (@var{@
+## filename}, @var{progress_id}, @var{progress}, @var{progress_fac}, @var{@
+## nocheck})
 ##
 ## Lines of an M-file with comments removed.
 ##
@@ -22,8 +26,8 @@
 ##
 ## The number of lines in the file is returned in @var{n}.
 ##
-## The number of lines in the file that are not empty and don't contain only a
-## comment is returned in @var{sloc}.
+## The indices of lines in the file that are not empty and don't contain only a
+## comment are returned in array @var{sloc}.
 ##
 ## Provide the optional arguments @var{progress_id} and @var{progress} if you
 ## want @code{strip_comments_from_m} to update an Outman progress indicator
@@ -55,6 +59,9 @@
 ## argument @var{progress} by the caller to avoid a "stuck progress indicator"
 ## effect.
 ##
+## The user can also provide a fifth argument (@var{nocheck}), which must be a
+## logical scalar. If it is true, then no argument checking is done.
+##
 ## @seealso{m_comment_leaders, outman, outman_connect_and_config_if_master}
 ## @end deftypefn
 
@@ -62,11 +69,20 @@
 
 function [c, n, sloc] = strip_comments_from_m(filename, varargin)
 
-    validated_mandatory_args({@is_non_empty_string}, filename);
-    [progress_id, progress, progress_fac] = validated_opt_args(...
-        {@is_num_scalar, -1; @is_num_scalar, 0; @is_num_scalar, 1}, ...
-        varargin{:});
-    mustUpdateProgress = nargin > 1;
+    if nargin == 5 && is_logical_scalar(varargin{4}) && varargin{4}
+        progress_id = varargin{1};
+        progress = varargin{2};
+        progress_fac = varargin{3};
+        mustUpdateProgress = true;
+    else
+        validated_mandatory_args({@is_non_empty_string}, filename);
+        [progress_id, progress, progress_fac] = validated_opt_args(...
+            {@is_num_scalar, -1; ...
+            @is_num_scalar, 0; ...
+            @is_num_scalar, 1; ...
+            @is_logical_scalar, false}, varargin{:});
+        mustUpdateProgress = nargin > 1;
+    endif
     oId = outman_connect_and_config_if_master_c(mustUpdateProgress);
 
     # Read the file.
@@ -79,6 +95,8 @@ function [c, n, sloc] = strip_comments_from_m(filename, varargin)
     n = numel(cc);
     c = cell(n, min([1 n]));
     c(:) = {''};
+    sloc = zeros(n, min([1 n]));
+    slocCount = 0;
 
     isInBlockComment = false;
     for k = 1 : n
@@ -88,21 +106,29 @@ function [c, n, sloc] = strip_comments_from_m(filename, varargin)
                                                   # +1 is for the EOL sequence.
         endif
 
+        isSLOC = false;
         if ~isempty(cc{k})
             if ~isInBlockComment
-                if is_matched_by(cc{k}, ['^\s*[' m_comment_leaders ']{\s*$'])
+                if ~isempty(regexp(...
+                        cc{k}, ['^\s*[' m_comment_leaders ']{\s*$'], 'once'))
                     # Current line is the beginning of a block comment.
 
                     isInBlockComment = true;
                 else
                     # Current line is not in a block comment.
 
-                    c{k} = strip_comment_from_line(cc{k}, m_comment_leaders);
+                    [c{k}, isSLOC] = strip_comment_from_line(...
+                        cc{k}, m_comment_leaders, true);
+                    if isSLOC
+                        slocCount = slocCount + 1;
+                        sloc(slocCount) = k;
+                    endif
                 endif
             endif
 
             if isInBlockComment
-                if is_matched_by(c{k}, ['^\s*[' m_comment_leaders ']}\s*$'])
+                if ~isempty(regexp(...
+                        c{k}, ['^\s*[' m_comment_leaders ']}\s*$'], 'once'))
                     # Current line is the end of a block comment.
 
                     isInBlockComment = false;
@@ -117,7 +143,7 @@ function [c, n, sloc] = strip_comments_from_m(filename, varargin)
 
     endfor
 
-    sloc = sum(cellfun(@(x) ~isempty(x) && ~is_matched_by(x, '^\s*$'), c));
+    sloc = sloc(1 : slocCount);
 
     outman_c(mustUpdateProgress, 'disconnect', oId);
 
