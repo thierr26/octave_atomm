@@ -65,11 +65,12 @@ function [stripped_str, is_sloc] = strip_comment_from_line(str, varargin)
             commentLeaderFound = true;
         elseif ~isInStringLiteral ...
                 && any(str(k) == quot) ...
-                && (~is_matched_by(PrevNonBlankChar, '[\w})\]]') ...
+                && (isempty(regexp(PrevNonBlankChar, '[\w})\]]', 'once')) ...
                 || PrevCharIsBlank)
             # Current character is the opening quote delimiter for a string
-            # literal. The ~is_matched_by(PrevNonBlankChar, '[\w})\]]') test
-            # avoids (hopefully) that the Matlab programming language
+            # literal. The
+            # isempty(regexp(PrevNonBlankChar, '[\w})\]]', 'once'))
+            # test avoids (hopefully) that the Matlab programming language
             # transposition operator ("'") is taken for a string literal
             # opening.
 
@@ -88,7 +89,7 @@ function [stripped_str, is_sloc] = strip_comment_from_line(str, varargin)
             qCount = qCount + 1;
         endif
 
-        if ~is_matched_by(str(k), '\s')
+        if isempty(regexp(str(k), '\s', 'once'))
             PrevNonBlankChar = str(k);
             PrevCharIsBlank = false;
             if ~commentLeaderFound

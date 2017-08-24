@@ -50,12 +50,14 @@ function stripped_str = strip_str_literals_from_line(str)
 
         if strStart == 0 ...
                 && any(str(k) == quot) ...
-                && (~is_matched_by(PrevNonBlankChar, '[\w})\]]') ...
+                && (isempty(regexp(PrevNonBlankChar, '[\w})\]]', 'once')) ...
                 || PrevCharIsBlank)
-            # Current character is the opening quote for a string literal.
-            # The ~is_matched_by(PrevNonBlankChar, '[\w})\]]') test avoids
-            # (hopefully) that the Matlab programming language transposition
-            # operator ("'") is taken for a string literal opening.
+            # Current character is the opening quote delimiter for a string
+            # literal. The
+            # isempty(regexp(PrevNonBlankChar, '[\w})\]]', 'once'))
+            # test avoids (hopefully) that the Matlab programming language
+            # transposition operator ("'") is taken for a string literal
+            # opening.
 
             q = str(k);
             qCount = 1;
@@ -73,7 +75,7 @@ function stripped_str = strip_str_literals_from_line(str)
             qCount = qCount + 1;
         endif
 
-        if ~is_matched_by(str(k), '\s')
+        if isempty(regexp(str(k), '\s', 'once'))
             PrevNonBlankChar = str(k);
             PrevCharIsBlank = false;
         else

@@ -109,7 +109,8 @@ function [c, n, sloc] = strip_comments_from_m(filename, varargin)
         isSLOC = false;
         if ~isempty(cc{k})
             if ~isInBlockComment
-                if is_matched_by(cc{k}, ['^\s*[' m_comment_leaders ']{\s*$'])
+                if ~isempty(regexp(...
+                        cc{k}, ['^\s*[' m_comment_leaders ']{\s*$'], 'once'))
                     # Current line is the beginning of a block comment.
 
                     isInBlockComment = true;
@@ -126,7 +127,8 @@ function [c, n, sloc] = strip_comments_from_m(filename, varargin)
             endif
 
             if isInBlockComment
-                if is_matched_by(c{k}, ['^\s*[' m_comment_leaders ']}\s*$'])
+                if ~isempty(regexp(...
+                        c{k}, ['^\s*[' m_comment_leaders ']}\s*$'], 'once'))
                     # Current line is the end of a block comment.
 
                     isInBlockComment = false;
