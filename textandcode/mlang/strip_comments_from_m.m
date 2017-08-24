@@ -26,8 +26,8 @@
 ##
 ## The number of lines in the file is returned in @var{n}.
 ##
-## The number of lines in the file that are not empty and don't contain only a
-## comment is returned in @var{sloc}.
+## The indices of lines in the file that are not empty and don't contain only a
+## comment are returned in array @var{sloc}.
 ##
 ## Provide the optional arguments @var{progress_id} and @var{progress} if you
 ## want @code{strip_comments_from_m} to update an Outman progress indicator
@@ -95,6 +95,8 @@ function [c, n, sloc] = strip_comments_from_m(filename, varargin)
     n = numel(cc);
     c = cell(n, min([1 n]));
     c(:) = {''};
+    sloc = zeros(n, min([1 n]));
+    slocCount = 0;
 
     isInBlockComment = false;
     for k = 1 : n
@@ -104,6 +106,7 @@ function [c, n, sloc] = strip_comments_from_m(filename, varargin)
                                                   # +1 is for the EOL sequence.
         endif
 
+        isSLOC = false;
         if ~isempty(cc{k})
             if ~isInBlockComment
                 if is_matched_by(cc{k}, ['^\s*[' m_comment_leaders ']{\s*$'])
@@ -113,8 +116,12 @@ function [c, n, sloc] = strip_comments_from_m(filename, varargin)
                 else
                     # Current line is not in a block comment.
 
-                    c{k} = strip_comment_from_line(...
+                    [c{k}, isSLOC] = strip_comment_from_line(...
                         cc{k}, m_comment_leaders, true);
+                    if isSLOC
+                        slocCount = slocCount + 1;
+                        sloc(slocCount) = k;
+                    endif
                 endif
             endif
 
@@ -134,7 +141,7 @@ function [c, n, sloc] = strip_comments_from_m(filename, varargin)
 
     endfor
 
-    sloc = sum(cellfun(@(x) ~isempty(x) && ~is_matched_by(x, '^\s*$'), c));
+    sloc = sloc(1 : slocCount);
 
     outman_c(mustUpdateProgress, 'disconnect', oId);
 

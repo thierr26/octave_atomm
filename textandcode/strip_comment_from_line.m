@@ -2,18 +2,22 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {@var{@
-## stripped_str} =} strip_comment_from_line (@var{str})
-## @deftypefnx {Function File} {@var{@
-## stripped_str} =} strip_comment_from_line (@var{str}, @var{comment_leaders})
-## @deftypefnx {Function File} {@var{@
-## stripped_str} =} strip_comment_from_line (@var{str}, @var{@
+## @deftypefn {Function File} {[@var{@
+## stripped_str}, @var{is_sloc}] =} strip_comment_from_line (@var{str})
+## @deftypefnx {Function File} {[@var{@
+## stripped_str}, @var{is_sloc}] =} strip_comment_from_line (@var{str}, @var{@
+## comment_leaders})
+## @deftypefnx {Function File} {[@var{@
+## stripped_str}, @var{is_sloc}] =} strip_comment_from_line (@var{str}, @var{@
 ## comment_leaders}, @var{nocheck})
 ##
 ## Remove end of line comment from code line.
 ##
-## @code{@var{stripped_str} = strip_comment_from_line (@var{str})} returns
-## @var{str} with end of line comment (if any) removed.
+## @code{[@var{stripped_str}, @var{is_sloc}]
+## = strip_comment_from_line (@var{str})} returns @var{str} with end of line
+## comment (if any) removed.  @var{is_sloc} is a logical scalar set to true if
+## @var{str} contains actual code (i.e.@ if @var{str} does not contain only
+## white spaces characters and / or end of line comment).
 ##
 ## By default, the end of line comment leaders are considered to be those of
 ## the Octave M-files (i.e.@ "#" and "%", as returned by
@@ -22,7 +26,8 @@
 ## Other end of line comment leaders can be specified via the optional second
 ## input argument.  If you want "#" and "'" to be used as comment leaders, use
 ## statement like
-## @code{@var{stripped_str} = strip_comment_from_line (@var{str}, '#''')}.
+## @code{[@var{stripped_str}, @var{is_sloc}]
+## = strip_comment_from_line (@var{str}, '#''')}.
 ##
 ## The user can also provide a third argument (@var{nocheck}), which must be a
 ## logical scalar. If it is true, then no argument checking is done.
@@ -32,7 +37,7 @@
 
 ## Author: Thierry Rascle <thierr26@free.fr>
 
-function stripped_str = strip_comment_from_line(str, varargin)
+function [stripped_str, is_sloc] = strip_comment_from_line(str, varargin)
 
     if nargin == 3 && is_logical_scalar(varargin{2}) && varargin{2}
         commentLeaders = varargin{1};
@@ -48,6 +53,7 @@ function stripped_str = strip_comment_from_line(str, varargin)
     PrevNonBlankChar = ';';
     PrevCharIsBlank = false;
     isInStringLiteral = false;
+    is_sloc = false;
     n = length(str);
     k = 0;
     while k < n && ~commentLeaderFound
@@ -85,6 +91,9 @@ function stripped_str = strip_comment_from_line(str, varargin)
         if ~is_matched_by(str(k), '\s')
             PrevNonBlankChar = str(k);
             PrevCharIsBlank = false;
+            if ~commentLeaderFound
+                is_sloc = true;
+            endif
         else
             PrevCharIsBlank = true;
         endif

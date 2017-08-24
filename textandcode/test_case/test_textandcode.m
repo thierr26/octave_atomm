@@ -1,4 +1,4 @@
-## Copyright (C) 2016 Thierry Rascle <thierr26@free.fr>
+## Copyright (C) 2016-2017 Thierry Rascle <thierr26@free.fr>
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
@@ -664,7 +664,8 @@ endfunction
 
 function ret = strip_comment_from_line_empty
 
-    ret = isequal(strip_comment_from_line(''), '');
+    [str, isSLOC] = strip_comment_from_line('');
+    ret = isequal(str, '') && ~isSLOC;
 
 endfunction
 
@@ -672,7 +673,8 @@ endfunction
 
 function ret = strip_comment_from_line_no_comment_1
 
-    ret = isequal(strip_comment_from_line('abc'), 'abc');
+    [str, isSLOC] = strip_comment_from_line('abc');
+    ret = isequal(str, 'abc') && isSLOC;
 
 endfunction
 
@@ -680,8 +682,8 @@ endfunction
 
 function ret = strip_comment_from_line_no_comment_2
 
-    ret = isequal(strip_comment_from_line('abc ''def % ghi'' def'), ...
-        'abc ''def % ghi'' def');
+    [str, isSLOC] = strip_comment_from_line('abc ''def % ghi'' def');
+    ret = isequal(str, 'abc ''def % ghi'' def') && isSLOC;
 
 endfunction
 
@@ -689,8 +691,8 @@ endfunction
 
 function ret = strip_comment_from_line_no_comment_3
 
-    ret = isequal(strip_comment_from_line('abc + [1 2 3]'''), ...
-        'abc + [1 2 3]''');
+    [str, isSLOC] = strip_comment_from_line('abc + [1 2 3]''');
+    ret = isequal(str, 'abc + [1 2 3]''') && isSLOC;
 
 endfunction
 
@@ -698,7 +700,8 @@ endfunction
 
 function ret = strip_comment_from_line_no_comment_4
 
-    ret = isequal(strip_comment_from_line('''abc'''), '''abc''');
+    [str, isSLOC] = strip_comment_from_line('''abc''');
+    ret = isequal(str, '''abc''') && isSLOC;
 
 endfunction
 
@@ -706,7 +709,8 @@ endfunction
 
 function ret = strip_comment_from_line_comment_1
 
-    ret = isequal(strip_comment_from_line('# abc'), '');
+    [str, isSLOC] = strip_comment_from_line('# abc');
+    ret = isequal(str, '') && ~isSLOC;
 
 endfunction
 
@@ -714,7 +718,8 @@ endfunction
 
 function ret = strip_comment_from_line_comment_2
 
-    ret = isequal(strip_comment_from_line('## abc'), '');
+    [str, isSLOC] = strip_comment_from_line('## abc');
+    ret = isequal(str, '') && ~isSLOC;
 
 endfunction
 
@@ -722,7 +727,8 @@ endfunction
 
 function ret = strip_comment_from_line_comment_3
 
-    ret = isequal(strip_comment_from_line('    # abc'), '    ');
+    [str, isSLOC] = strip_comment_from_line('    ## abc');
+    ret = isequal(str, '    ') && ~isSLOC;
 
 endfunction
 
@@ -730,7 +736,8 @@ endfunction
 
 function ret = strip_comment_from_line_comment_4
 
-    ret = isequal(strip_comment_from_line('def # abc'), 'def ');
+    [str, isSLOC] = strip_comment_from_line('def # abc');
+    ret = isequal(str, 'def ') && isSLOC;
 
 endfunction
 
@@ -738,8 +745,8 @@ endfunction
 
 function ret = strip_comment_from_line_comment_5
 
-    ret = isequal(strip_comment_from_line('abc ''def % ghi'' def # zzz'), ...
-        'abc ''def % ghi'' def ');
+    [str, isSLOC] = strip_comment_from_line('abc ''def % ghi'' def # zzz');
+    ret = isequal(str, 'abc ''def % ghi'' def ') && isSLOC;
 
 endfunction
 
@@ -747,8 +754,8 @@ endfunction
 
 function ret = strip_comment_from_line_comment_6
 
-    ret = isequal(strip_comment_from_line('abc + [1 2 3]'' # zzz'), ...
-        'abc + [1 2 3]'' ');
+    [str, isSLOC] = strip_comment_from_line('abc + [1 2 3]'' # zzz');
+    ret = isequal(str, 'abc + [1 2 3]'' ') && isSLOC;
 
 endfunction
 
@@ -756,7 +763,8 @@ endfunction
 
 function ret = strip_comment_from_line_comment_7
 
-    ret = isequal(strip_comment_from_line('% abc'), '');
+    [str, isSLOC] = strip_comment_from_line('% abc');
+    ret = isequal(str, '') && ~isSLOC;
 
 endfunction
 
@@ -764,7 +772,8 @@ endfunction
 
 function ret = strip_comment_from_line_comment_8
 
-    ret = isequal(strip_comment_from_line('%% abc'), '');
+    [str, isSLOC] = strip_comment_from_line('%% abc');
+    ret = isequal(str, '') && ~isSLOC;
 
 endfunction
 
@@ -772,7 +781,8 @@ endfunction
 
 function ret = strip_comment_from_line_comment_9
 
-    ret = isequal(strip_comment_from_line('    % abc'), '    ');
+    [str, isSLOC] = strip_comment_from_line('    % abc');
+    ret = isequal(str, '    ') && ~isSLOC;
 
 endfunction
 
@@ -780,7 +790,8 @@ endfunction
 
 function ret = strip_comment_from_line_comment_10
 
-    ret = isequal(strip_comment_from_line('def % abc'), 'def ');
+    [str, isSLOC] = strip_comment_from_line('def % abc');
+    ret = isequal(str, 'def ') && isSLOC;
 
 endfunction
 
@@ -788,8 +799,8 @@ endfunction
 
 function ret = strip_comment_from_line_comment_11
 
-    ret = isequal(strip_comment_from_line('abc ''def # ghi'' def % zzz'), ...
-        'abc ''def # ghi'' def ');
+    [str, isSLOC] = strip_comment_from_line('abc ''def # ghi'' def % zzz');
+    ret = isequal(str, 'abc ''def # ghi'' def ') && isSLOC;
 
 endfunction
 
@@ -797,8 +808,8 @@ endfunction
 
 function ret = strip_comment_from_line_comment_12
 
-    ret = isequal(strip_comment_from_line('abc + [1 2 3]'' % zzz'), ...
-        'abc + [1 2 3]'' ');
+    [str, isSLOC] = strip_comment_from_line('abc + [1 2 3]'' % zzz');
+    ret = isequal(str, 'abc + [1 2 3]'' ') && isSLOC;
 
 endfunction
 
