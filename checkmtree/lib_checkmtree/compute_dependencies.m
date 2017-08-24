@@ -256,7 +256,7 @@ endfunction
 
 function [c, n, sloc] = m_symb_l(filename, p_id, p)
 
-    [c, n, sloc] = m_symbol_list(filename, p_id, p);
+    [c, n, sloc] = m_symbol_list(filename, p_id, p, true);
 
     template = '';
     if n == 0

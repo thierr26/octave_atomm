@@ -1,4 +1,4 @@
-## Copyright (C) 2016 Thierry Rascle <thierr26@free.fr>
+## Copyright (C) 2016-2017 Thierry Rascle <thierr26@free.fr>
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
@@ -7,6 +7,9 @@
 ## @deftypefnx {Function File} {@
 ## [@var{c}, @var{n}, @var{sloc}] =} m_symbol_list (@var{filename}, @var{@
 ## progress_id}, @var{progress})
+## @deftypefnx {Function File} {@
+## [@var{c}, @var{n}, @var{sloc}] =} m_symbol_list (@var{filename}, @var{@
+## progress_id}, @var{progress}, @var{nocheck})
 ##
 ## List of symbols (identifiers) appearing in an M-file.
 ##
@@ -40,6 +43,9 @@
 ## to process a particular file.
 ## @end table
 ##
+## The user can also provide a fourth argument (@var{nocheck}), which must be a
+## logical scalar. If it is true, then no argument checking is done.
+##
 ## Function @code{compute_dependencies} is an example of a use of
 ## @code{m_symbol_list} with the optional arguments.
 ##
@@ -51,10 +57,16 @@
 
 function [c, n, sloc] = m_symbol_list(filename, varargin)
 
-    validated_mandatory_args({@is_non_empty_string}, filename);
-    [progress_id, progress] = validated_opt_args(...
-            {@is_num_scalar, -1; @is_num_scalar, 0}, varargin{:});
-    mustUpdateProgress = nargin > 1;
+    if nargin == 4 && is_logical_scalar(varargin{3}) && varargin{3}
+        progress_id = varargin{1};
+        progress = varargin{2};
+        mustUpdateProgress = true;
+    else
+        validated_mandatory_args({@is_non_empty_string}, filename);
+        [progress_id, progress] = validated_opt_args(...
+                {@is_num_scalar, -1; @is_num_scalar, 0}, varargin{:});
+        mustUpdateProgress = nargin > 1;
+    endif
     oId = outman_connect_and_config_if_master_c(mustUpdateProgress);
 
     if mustUpdateProgress
