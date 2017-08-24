@@ -1,4 +1,4 @@
-## Copyright (C) 2016 Thierry Rascle <thierr26@free.fr>
+## Copyright (C) 2016-2017 Thierry Rascle <thierr26@free.fr>
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
@@ -97,7 +97,8 @@ function [c, n, sloc] = strip_comments_from_m(filename, varargin)
                 else
                     # Current line is not in a block comment.
 
-                    c{k} = strip_comment_from_line(cc{k}, m_comment_leaders);
+                    c{k} = strip_comment_from_line(...
+                        cc{k}, m_comment_leaders, true);
                 endif
             endif
 
