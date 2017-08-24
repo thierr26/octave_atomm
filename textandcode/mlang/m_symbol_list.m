@@ -75,7 +75,7 @@ function [c, n, sloc] = m_symbol_list(filename, varargin)
                                       % empty lines (arbitrary estimation).
         stripStrLiteralTimeFraction = 0.43;
         stripCommentsFromMOptArgs ...
-            = {progress_id, progress, stripCommentTimeFraction};
+            = {progress_id, progress, stripCommentTimeFraction, true};
     else
         stripCommentsFromMOptArgs = {};
     endif

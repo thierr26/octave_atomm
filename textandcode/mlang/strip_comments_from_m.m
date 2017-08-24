@@ -10,6 +10,10 @@
 ## @deftypefnx {Function File} {@
 ## [@var{c}, @var{n}, @var{sloc}] =} strip_comments_from_m (@var{@
 ## filename}, @var{progress_id}, @var{progress}, @var{progress_fac})
+## @deftypefnx {Function File} {@
+## [@var{c}, @var{n}, @var{sloc}] =} strip_comments_from_m (@var{@
+## filename}, @var{progress_id}, @var{progress}, @var{progress_fac}, @var{@
+## nocheck})
 ##
 ## Lines of an M-file with comments removed.
 ##
@@ -55,6 +59,9 @@
 ## argument @var{progress} by the caller to avoid a "stuck progress indicator"
 ## effect.
 ##
+## The user can also provide a fifth argument (@var{nocheck}), which must be a
+## logical scalar. If it is true, then no argument checking is done.
+##
 ## @seealso{m_comment_leaders, outman, outman_connect_and_config_if_master}
 ## @end deftypefn
 
@@ -62,11 +69,18 @@
 
 function [c, n, sloc] = strip_comments_from_m(filename, varargin)
 
-    validated_mandatory_args({@is_non_empty_string}, filename);
-    [progress_id, progress, progress_fac] = validated_opt_args(...
-        {@is_num_scalar, -1; @is_num_scalar, 0; @is_num_scalar, 1}, ...
-        varargin{:});
-    mustUpdateProgress = nargin > 1;
+    if nargin == 5 && is_logical_scalar(varargin{4}) && varargin{4}
+        progress_id = varargin{1};
+        progress = varargin{2};
+        progress_fac = varargin{3};
+        mustUpdateProgress = true;
+    else
+        validated_mandatory_args({@is_non_empty_string}, filename);
+        [progress_id, progress, progress_fac] = validated_opt_args(...
+            {@is_num_scalar, -1; @is_num_scalar, 0; @is_num_scalar, 1}, ...
+            varargin{:});
+        mustUpdateProgress = nargin > 1;
+    endif
     oId = outman_connect_and_config_if_master_c(mustUpdateProgress);
 
     # Read the file.
