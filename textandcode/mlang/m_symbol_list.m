@@ -146,7 +146,7 @@ function [c, n, sloc] = m_symbol_list(filename, varargin)
         for kSymb = 1 : numel(lineSymbols)
             symb = lineSymbols{kSymb};
             if ~is_scalar_num_or_log_literal(symb) ...
-                    && ~iskeyword(symb) && ~ismember(symb, c(1 : level))
+                    && ~iskeyword(symb) && ~any(strcmp(symb, c(1 : level)))
                 level = level + 1;
                 c{level} = symb;
             endif

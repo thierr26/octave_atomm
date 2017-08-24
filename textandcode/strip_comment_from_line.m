@@ -59,12 +59,12 @@ function [stripped_str, is_sloc] = strip_comment_from_line(str, varargin)
     while k < n && ~commentLeaderFound
         k = k + 1;
 
-        if ~isInStringLiteral && ismember(str(k), commentLeaders)
+        if ~isInStringLiteral && any(str(k) == commentLeaders)
             # Current character is the beginning of the end of line comment.
 
             commentLeaderFound = true;
         elseif ~isInStringLiteral ...
-                && ismember(str(k), quot) ...
+                && any(str(k) == quot) ...
                 && (~is_matched_by(PrevNonBlankChar, '[\w})\]]') ...
                 || PrevCharIsBlank)
             # Current character is the opening quote delimiter for a string
