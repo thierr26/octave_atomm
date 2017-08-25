@@ -188,7 +188,7 @@ function c = find_deps(s, cmd_args, test_cases_included)
             w(lvl + 1 : lvl + deltaLvl) = declDep(1 : deltaLvl);
             lvl = lvl + deltaLvl;
         endfor
-        w = unique(w(~ismember(w, v)));
+        w = unique(w(~ismember(w(1 : lvl), v)));
         start = finish + 1;
         finish = finish + numel(w);
         v(start : finish) = w;
