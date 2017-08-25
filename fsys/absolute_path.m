@@ -73,7 +73,13 @@ endfunction
 
 function ret = is_absolute(s)
 
-    if ispc
+    persistent iswin;
+
+    if isempty(iswin)
+        iswin = ispc;
+    endif
+
+    if iswin
         # The system is a Windows system.
 
         driveDesignatorRegExp = '^[A-Za-z]:';

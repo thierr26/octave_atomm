@@ -86,6 +86,12 @@
 
 function [index, s] = toolbox_index(s1, toolbox_designation, varargin)
 
+    persistent iswin;
+
+    if isempty(iswin)
+        iswin = ispc;
+    endif
+
     if arg_check_needed(s1, toolbox_designation, varargin{:})
         [s, ~, k, no_absent_of_tree_warning] ...
             = check_args(s1, toolbox_designation, varargin{:});
@@ -101,7 +107,7 @@ function [index, s] = toolbox_index(s1, toolbox_designation, varargin)
 
     if numel(index) ~= 1
 
-        if ispc
+        if iswin
             wrongFileSep = '/';
         else
             wrongFileSep = '\';
