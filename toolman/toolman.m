@@ -21,6 +21,11 @@
 ## @deftypefnx {Function File} {@var{added_to_path} =} toolman ('t', ...)
 ## @deftypefnx {Function File} {[~] =} toolman ('run_test', ...)
 ## @deftypefnx {Function File} {[~] =} toolman ('t', ...)
+## @deftypefnx {Function File} {@var{@
+## added_to_path} =} toolman ('run_all_tests')
+## @deftypefnx {Function File} {@var{added_to_path} =} toolman ('ta')
+## @deftypefnx {Function File} {[~] =} toolman ('run_all_tests')
+## @deftypefnx {Function File} {[~] =} toolman ('ta')
 ## @deftypefnx {Function File} {@var{config} =} toolman ('configure', @var{@
 ## config_param_1_name}, @var{config_param_1_value}, @var{@
 ## config_param_2_name}, @var{config_param_2_value}, ...)
@@ -365,6 +370,18 @@
 ## @end example
 ##
 ## @qcode{"t"} is an alias for the @qcode{"run_test"} command.
+##
+## Note that there is a command to run all the available test cases, without
+## providing any arguments.  This command is called @qcode{"run_all_tests"} and
+## the alias is @qcode{"ta"}.
+##
+## Example:
+##
+## @example
+## @group
+## @var{added_to_path} = toolman ('run_all_tests');
+## @end group
+## @end example
 ##
 ## @strong{Configure Toolman, especially regarding sources locations.}
 ##
