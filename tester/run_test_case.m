@@ -159,10 +159,11 @@ function s = run_test_case(test_case_name, test_routine)
     pId = outman('init_progress', oId, 0, max([1 n]), ...
         ['Running ' test_case_name '...']);
 
-    routName = cellfun(@func2str, test_routine, 'UniformOutput', false);
+    routName = cell(1, numel(test_routine));
 
     s = struct(test_case_name, struct('duration', -1, 'test', struct()));
     for k = 1 : n
+        routName{k} = func2str(test_routine{k});
         if isfield(s.(test_case_name).test, routName{k})
             error(['Test routine %s appears more than once in the test ' ...
                 'routines list'], routName{k});
