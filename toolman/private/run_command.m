@@ -1,4 +1,4 @@
-## Copyright (C) 2016 Thierry Rascle <thierr26@free.fr>
+## Copyright (C) 2016-2017 Thierry Rascle <thierr26@free.fr>
 ## MIT license. Please refer to the LICENSE file.
 ## Author: Thierry Rascle <thierr26@free.fr>
 
@@ -151,16 +151,26 @@ endfunction
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# Find the dependencies for the toolbox or the M-file provided as first
-# argument.
+# Find the dependencies for the toolboxes or M-files provided in cmd_args cell
+# array (or for the working directory if cmd_args is empty).
 
 function c = find_deps(s, cmd_args, test_cases_included)
 
     v = zeros(1, numel(s.read_dep.toolboxpath));
-    v(1) = toolbox_argument_index(s, cmd_args);
+
+    if numel(cmd_args) == 0 || ischar(cmd_args{1})
+        v(1) = toolbox_argument_index(s, cmd_args);
+        start = 1;
+        finish = 1;
+    else
+        for k = 1 : numel(cmd_args{1})
+            v(k) = toolbox_argument_index(s, cmd_args{1}(k));
+        endfor
+        start = 1;
+        finish = numel(cmd_args{1});
+    endif
+
     w = 0;
-    start = 1;
-    finish = 1;
     while ~isempty(w)
         sliceLen = cell_cum_numel(s.read_dep.decl_dep(v(start : finish))) ...
             + numel(start : finish);
@@ -283,8 +293,16 @@ function report(tb, s, cmd, cmd_args, nout, appname)
         || (nout == 0 ...
         && toolman_command(cmd, 'auto_verbose_command')));
 
+    if numel(cmd_args) == 0
+        ar = sprintf('''%s''', pwd);
+    elseif ischar(cmd_args{1})
+        ar = sprintf('''%s''', cmd_args{1});
+    else
+        ar = list_string(cmd_args{1}, ', ', '''', '''', '{', '}');
+    endif
+
     if toolman_command(cmd, 'add_to_path_command')
-        opening = {'%s(''%s'', ''%s'') %s:', appname, cmd, cmd_args{1}, ...
+        opening = {'%s(''%s'', %s) %s:', appname, cmd, ar, ...
             'has added to the path'};
         closing = {''};
         if cmdWinOutput
@@ -294,10 +312,8 @@ function report(tb, s, cmd, cmd_args, nout, appname)
         endif
         outmanCmdPath = outmanCmdOpenClose;
     else
-        opening = {'%s(''%s'', ''%s'') %s:', appname, cmd, cmd_args{1}, ...
-            'output'};
-        closing = {'End of %s(''%s'', ''%s'') output\n', ...
-            appname, cmd, cmd_args{1}};
+        opening = {'%s(''%s'', %s) %s:', appname, cmd, ar, 'output'};
+        closing = {'End of %s(''%s'', %s) output\n', appname, cmd, ar};
         outmanCmdOpenClose = 'logf';
         outmanCmdPath = outmanCmdOpenClose;
         if cmdWinOutput

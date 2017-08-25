@@ -195,7 +195,19 @@ function s = test_textandcode
         @is_scalar_num_or_log_literal_14, ...
         @is_scalar_num_or_log_literal_15, ...
         @is_scalar_num_or_log_literal_16, ...
-        @is_scalar_num_or_log_literal_not};
+        @is_scalar_num_or_log_literal_not, ...
+        @list_string_fail_wrong_arg, ...
+        @list_string_fail_wrong_opt_arg_1, ...
+        @list_string_fail_wrong_opt_arg_2, ...
+        @list_string_fail_wrong_opt_arg_3, ...
+        @list_string_fail_wrong_opt_arg_4, ...
+        @list_string_fail_wrong_opt_arg_5, ...
+        @list_string_empty_1, ...
+        @list_string_empty_2, ...
+        @list_string_empty_3, ...
+        @list_string_1, ...
+        @list_string_2, ...
+        @list_string_3};
 
     # Run the test case.
     s = run_test_case(mfilename, testRoutine);
@@ -1655,5 +1667,105 @@ endfunction
 function ret = is_scalar_num_or_log_literal_not
 
     ret = ~is_scalar_num_or_log_literal('1e.-4');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function list_string_fail_wrong_arg
+
+    list_string(0);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function list_string_fail_wrong_opt_arg_1
+
+    list_string('abc', 0);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function list_string_fail_wrong_opt_arg_2
+
+    list_string('abc', '; ', 0);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function list_string_fail_wrong_opt_arg_3
+
+    list_string('abc', '; ', 'XY', 0);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function list_string_fail_wrong_opt_arg_4
+
+    list_string('abc', '; ', 'XY', 'YZ', 0);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function list_string_fail_wrong_opt_arg_5
+
+    list_string('abc', '; ', 'XY', 'YZ', '{', 0);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = list_string_empty_1
+
+    ret = isequal(list_string({}), '');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = list_string_empty_2
+
+    ret = isequal(list_string({}, '; ', 'XY', 'YZ', '{', '}'), '{}');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = list_string_empty_3
+
+    ret = isequal(list_string({}, '', 'XY', 'YZ', '{', '}'), '{}');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = list_string_1
+
+    ret = isequal(list_string({'abc', 'defg'}), 'abc, defg');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = list_string_2
+
+    ret = isequal(...
+        list_string({'abc', 'defg', '', 'h'}, '; ', '''', '''', '{', '}'), ...
+        '{''abc''; ''defg''; ''''; ''h''}');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = list_string_3
+
+    ret = isequal(...
+        list_string({'abc', 'defg', '', 'h'}, '', '''', '''', '{', '}'), ...
+        '{''abc''''defg''''''''h''}');
 
 endfunction

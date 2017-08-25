@@ -1,4 +1,4 @@
-## Copyright (C) 2016 Thierry Rascle <thierr26@free.fr>
+## Copyright (C) 2016-2017 Thierry Rascle <thierr26@free.fr>
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
@@ -316,6 +316,9 @@
 ## The path to a toolbox, similar to the toolbox paths used in the dependency
 ## files (examples: "env", "atomm/env").  Please see the dependency file
 ## writing rule #5 above.
+##
+## @item
+## A cell array containing one or more of those things.
 ## @end itemize
 ##
 ## Providing no argument to the @qcode{"add_to_path"} command is equivalent to
@@ -333,6 +336,9 @@
 ## @var{list} = toolman ('list_declared_deps', 'demo_outman');
 ## @end group
 ## @end example
+##
+## Note that the argument must be a simple string. Cell arrays are not allowed
+## here.
 ##
 ## @strong{Run test cases using Toolman's command @qcode{"run_test"}.}
 ##
