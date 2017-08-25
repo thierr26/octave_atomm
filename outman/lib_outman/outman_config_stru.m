@@ -20,10 +20,16 @@
 
 function s = outman_config_stru
 
+    persistent iswin;
+
+    if isempty(iswin)
+        iswin = ispc;
+    endif
+
     hmi_cmd_win = 'command_window';
     hmi_cmd_win_no_prog = 'command_window_no_progress';
 
-    if ispc && ~is_octave
+    if iswin && ~is_octave
         default_hmi_variant = hmi_cmd_win_no_prog;
     else
         default_hmi_variant = hmi_cmd_win;
