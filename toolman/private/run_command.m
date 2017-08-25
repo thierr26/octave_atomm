@@ -293,7 +293,9 @@ function report(tb, s, cmd, cmd_args, nout, appname)
         || (nout == 0 ...
         && toolman_command(cmd, 'auto_verbose_command')));
 
-    if ischar(cmd_args{1})
+    if numel(cmd_args) == 0
+        ar = sprintf('''%s''', pwd);
+    elseif ischar(cmd_args{1})
         ar = sprintf('''%s''', cmd_args{1});
     else
         ar = list_string(cmd_args{1}, ', ', '''', '''', '{', '}');
