@@ -35,7 +35,12 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, nout, a)
                         s.read_dep = detect_test_cases(s.read_dep, ...
                             cf.test_case_tb_reg_exp, cf.test_case_reg_exp);
                     endif
-                    varargout{1} = find_deps(s, cargs, ...
+                    if strcmp(c, 'run_all_tests')
+                        ar = {s.read_dep.toolboxpath};
+                    else
+                        ar = cargs;
+                    endif
+                    varargout{1} = find_deps(s, ar, ...
                         toolman_command(c, 'run_test_command'));
                     if toolman_command(c, 'add_to_path_command')
                         addpath(strjoin(varargout{1}, pathsep));
@@ -302,8 +307,12 @@ function report(tb, s, cmd, cmd_args, nout, appname)
     endif
 
     if toolman_command(cmd, 'add_to_path_command')
-        opening = {'%s(''%s'', %s) %s:', appname, cmd, ar, ...
-            'has added to the path'};
+        if strcmp(cmd, 'run_all_tests')
+            opening = {'%s(''%s'') %s:', appname, cmd};
+        else
+            opening = {'%s(''%s'', %s) %s:', appname, cmd, ar};
+        endif
+        opening = [opening {'has added to the path'}];
         closing = {''};
         if cmdWinOutput
             outmanCmdOpenClose = 'printf';
