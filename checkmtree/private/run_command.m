@@ -29,7 +29,7 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~, aname)
 
         outman('logtimef', oId, '%s(''%s'') launched', aname, c);
         startTime = now;
-        log_dirs_err_if_non_existent('Analysed tree(s):', top)
+        log_dirs_err_if_non_existent('Analysed tree(s):', top);
 
         if checkmtree_command(c, 'dependencies_checking_command')
 
