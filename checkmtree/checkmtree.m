@@ -72,6 +72,24 @@
 ## Byte size of the largest analyzed M-files.
 ## @end table
 ##
+## The @qcode{"check_code"} command may erase some internal data computed by
+## other commands.  In this case, Checkmtree does not run the
+## @qcode{"check_code"} command and issues an error, unless you provide a
+## supplementary argument (a logical flag) and set it to true:
+##
+## @example
+## @group
+## @var{stru} = checkmtree ('check_code', true);
+## @end group
+## @end example
+##
+## @example
+## @group
+## @var{stru} = checkmtree ('check_code', ...
+##     @{'a/source/tree', 'another/tree'@}, true);
+## @end group
+## @end example
+##
 ## @strong{Checkmtree can also check the encoding of your M-files.}
 ##
 ## If your M-files are supposed to be encoded in one of the following, then
@@ -109,9 +127,20 @@
 ## @var{stru} is here similar to the structure returned by Checkmtree's
 ## @qcode{"check_code"} command.
 ##
-## Change the value for  the @qcode{"m_file_char_set"} configuration parameter
+## The @qcode{"check_encoding"} command may erase some internal data computed
+## by other commands.  In this case, Checkmtree does not run the
+## @qcode{"check_encoding"} command and issues an error, unless you provide a
+## supplementary argument (a logical flag) and set it to true:
+##
+## @example
+## @group
+## @var{stru} = checkmtree ('check_encoding', true);
+## @end group
+## @end example
+##
+## Change the value for the @qcode{"m_file_char_set"} configuration parameter
 ## if your M-files are not encoded in ASCII but in one of the other supported
-## character sets. The allowed values for the @qcode{"m_file_char_set"}
+## character sets.  The allowed values for the @qcode{"m_file_char_set"}
 ## configuration parameter are:
 ##
 ## @itemize @bullet

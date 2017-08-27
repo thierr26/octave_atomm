@@ -33,7 +33,15 @@ function s = test_lib_checkmtree
         @string_or_cellstr_arg_or_none_string, ...
         @string_or_cellstr_arg_or_none_cellstr, ...
         @string_or_cellstr_arg_or_none_none, ...
-        @string_or_cellstr_arg_or_none_other};
+        @string_or_cellstr_arg_or_none_other, ...
+        @string_or_cellstr_arg_or_none_opt_logical_string, ...
+        @string_or_cellstr_arg_or_none_opt_logical_cellstr, ...
+        @string_or_cellstr_arg_or_none_opt_logical_none, ...
+        @string_or_cellstr_arg_or_none_opt_logical_other, ...
+        @string_or_cellstr_arg_or_none_opt_logical_string_opt, ...
+        @string_or_cellstr_arg_or_none_opt_logical_cellstr_opt, ...
+        @string_or_cellstr_arg_or_none_opt_logical_none_opt, ...
+        @string_or_cellstr_arg_or_none_opt_logical_string_other};
 
     # Run the test case.
     s = run_test_case(mfilename, testRoutine);
@@ -78,5 +86,69 @@ endfunction
 function ret = string_or_cellstr_arg_or_none_other
 
     ret = ~string_or_cellstr_arg_or_none(true);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = string_or_cellstr_arg_or_none_opt_logical_string
+
+    ret = string_or_cellstr_arg_or_none_opt_logical('abc');
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = string_or_cellstr_arg_or_none_opt_logical_cellstr
+
+    ret = string_or_cellstr_arg_or_none_opt_logical({'abc', 'def'});
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = string_or_cellstr_arg_or_none_opt_logical_none
+
+    ret = string_or_cellstr_arg_or_none_opt_logical;
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = string_or_cellstr_arg_or_none_opt_logical_other
+
+    ret = ~string_or_cellstr_arg_or_none_opt_logical(1);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = string_or_cellstr_arg_or_none_opt_logical_string_opt
+
+    ret = string_or_cellstr_arg_or_none_opt_logical('abc', true);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = string_or_cellstr_arg_or_none_opt_logical_cellstr_opt
+
+    ret = string_or_cellstr_arg_or_none_opt_logical({'abc', 'def'}, true);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = string_or_cellstr_arg_or_none_opt_logical_none_opt
+
+    ret = string_or_cellstr_arg_or_none_opt_logical(true);
+
+endfunction
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = string_or_cellstr_arg_or_none_opt_logical_string_other
+
+    ret = ~string_or_cellstr_arg_or_none_opt_logical('abc', 1);
 
 endfunction
