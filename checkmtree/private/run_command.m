@@ -13,6 +13,16 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~, aname)
 
     if checkmtree_command(c, 'tree_checking_command')
 
+        depDataDeletionConfirmedArgProvided ...
+            = numel(cargs) > 0 && is_logical_scalar(cargs{end});
+        depDataDeletionConfirmed ...
+            = depDataDeletionConfirmedArgProvided && cargs{end};
+        if depDataDeletionConfirmedArgProvided
+            args = cargs(1 : end - 1);
+        else
+            args = cargs;
+        endif
+
         if checkmtree_command(c, 'dependencies_checking_command')
 
             # Get Toolman's configuration.
@@ -21,10 +31,10 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~, aname)
 
         if strcmp(c, 'check_toolman_top')
             top = toolmanCf.top;
-        elseif numel(cargs) == 0
+        elseif numel(args) == 0
             top = pwd;
         else
-            top = cargs{1};
+            top = args{1};
         endif
 
         outman('logtimef', oId, '%s(''%s'') launched', aname, c);
@@ -44,7 +54,23 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~, aname)
             s.deps = sM;
         else
 
-            # Explore the toolboxes only.
+            if isfield(s, 'deps') && depDataDeletionConfirmed
+                s = rmfield(s, 'deps');
+            elseif isfield(s, 'deps')
+                outman('disconnect', oId);
+                if depDataDeletionConfirmedArgProvided
+                    error(['Running a %s(''%s'') command now would erase ' ...
+                        'the dependencies data computed previously. If ' ...
+                        'you really want to run this command, please ' ...
+                        'substitute the trailing logical false argument ' ...
+                        'with a logical true argument.'], aname, c);
+                else
+                    error(['Running a %s(''%s'') command now would erase ' ...
+                        'the dependencies data computed previously. If ' ...
+                        'you really want to run this command, please ' ...
+                        'append a logical true argument.'], aname, c);
+                endif
+            endif
             sM = find_m_toolboxes(top);
         endif
 

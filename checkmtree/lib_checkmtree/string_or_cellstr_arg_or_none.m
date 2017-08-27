@@ -6,7 +6,8 @@
 ##
 ## True if none or one (simple or array of) non empty string argument provided.
 ##
-## @seealso{is_non_empty_string, is_cell_array_of_non_empty_strings}
+## @seealso{is_non_empty_string, is_cell_array_of_non_empty_strings,
+## string_or_cellstr_arg_or_none_opt_logical}
 ## @end deftypefn
 
 ## Author: Thierry Rascle <thierr26@free.fr>
