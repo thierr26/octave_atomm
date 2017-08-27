@@ -2,14 +2,15 @@
 ## MIT license. Please refer to the LICENSE file.
 
 ## -*- texinfo -*-
-## @deftypefn {Function File} {[@var{index}, @var{s}] =} toolbox_index (@var{@
-## s1}, @var{toolbox_designation})
-## @deftypefnx {Function File} {[@var{index}, @var{s}] =} toolbox_index (@var{@
-## s1}, @var{toolbox_designation}, @var{k})
-## @deftypefnx {Function File} {[@var{index}, @var{s}] =} toolbox_index (@var{@
-## s1}, @var{toolbox_designation}, @var{k}, @var{no_absent_of_tree_warning})
-## @deftypefnx {Function File} {[@var{index}, @var{s}] =} toolbox_index (@var{@
-## s1}, @var{toolbox_designation}, @var{k}, @var{@
+## @deftypefn {Function File} {[@var{index}, @var{s}, @var{@
+## a}] =} toolbox_index (@var{s1}, @var{toolbox_designation})
+## @deftypefnx {Function File} {[@var{index}, @var{s}, @var{@
+## a}] =} toolbox_index (@var{s1}, @var{toolbox_designation}, @var{k})
+## @deftypefnx {Function File} {[@var{index}, @var{s}, @var{@
+## a}] =} toolbox_index (@var{s1}, @var{toolbox_designation}, @var{k}, @var{@
+## no_absent_of_tree_warning})
+## @deftypefnx {Function File} {[@var{index}, @var{s}, @var{@
+## a}] =} toolbox_index (@var{s1}, @var{toolbox_designation}, @var{k}, @var{@
 ## no_absent_of_tree_warning}, @var{no_check})
 ##
 ## Locate a toolbox in the output structure of @code{find_m_toolboxes}.
@@ -35,7 +36,8 @@
 ## @code{find_m_toolboxes} could have been designated as
 ## @var{toolbox_designation}, @var{index} contains multiple values and an error
 ## message is issued using Outman to tell the user that
-## @var{toolbox_designation} is ambiguous.
+## @var{toolbox_designation} is ambiguous and the output argument @var{a} is
+## set to true.  In all other cases, @var{a} is set to false.
 ##
 ## The third argument (@var{k}) is optional and defaults to zero.  If it is
 ## provided and is greater than zero, then it is considered to be the index in
@@ -84,7 +86,7 @@
 
 ## Author: Thierry Rascle <thierr26@free.fr>
 
-function [index, s] = toolbox_index(s1, toolbox_designation, varargin)
+function [index, s, a] = toolbox_index(s1, toolbox_designation, varargin)
 
     persistent iswin;
 
@@ -104,6 +106,8 @@ function [index, s] = toolbox_index(s1, toolbox_designation, varargin)
     if isfield(s, 'toolboxdesig')
         index = find(strcmp(toolbox_designation, s.toolboxdesig));
     endif
+
+    a = false;
 
     if numel(index) ~= 1
 
@@ -152,6 +156,7 @@ function [index, s] = toolbox_index(s1, toolbox_designation, varargin)
                     outman('printf', oId, '  %s', s.toolboxpath{kk});
                 endfor
                 outman('disconnect', oId);
+                a = true;
             elseif matchCount == 0 && ~no_absent_of_tree_warning
                 oId = outman_connect_and_config_if_master;
                 if k > 0

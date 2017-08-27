@@ -89,7 +89,11 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~, aname)
         startTime = now;
 
         if checkmtree_command(c, 'toolbox_dependencies_listing')
-            varargout{1} = toolbox_deps(oId, s.deps, cargs);
+            [varargout{1}, ambiguous] = toolbox_deps(oId, s.deps, cargs);
+            if ambiguous
+                outman('disconnect', oId);
+                error('Ambiguous toolbox designation: %s', cargs{1});
+            endif
         else
             varargout{1} = list_deps(oId, s.deps);
         endif
@@ -321,10 +325,10 @@ endfunction
 
 # List calls made to other toolboxes by a toolbox.
 
-function c = toolbox_deps(o_id, s, cargs)
+function [c, ambiguous] = toolbox_deps(o_id, s, cargs)
 
     c = {};
-    kTB = toolbox_index(s, cargs{1});
+    [kTB, ~, ambiguous] = toolbox_index(s, cargs{1});
     nTB = numel(s.toolboxpath);
     if isscalar(kTB)
         c = s.externalfuncs{kTB};
