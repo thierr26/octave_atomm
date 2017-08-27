@@ -79,9 +79,10 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, ~, aname)
     elseif checkmtree_command(c, 'listing_command')
 
         if ~isfield(s, 'deps')
+            outman('disconnect', oId);
             error(['Command %s is unavailable. Please issue a ' ...
-                '%s(''dependencies'', ...) or ' ...
-                '%s(''all'', ...) command'], c, aname, aname);
+                '%s(''check_dependencies'', ...) or ' ...
+                '%s(''check_all'', ...) command'], c, aname, aname);
         endif
 
         outman('logtimef', oId, '%s(''%s'') output:', aname, c);
