@@ -23,10 +23,16 @@ function c = text_file_lines(filename)
     # Move to the end of the file.
     fseek(f, 0, 'eof');
 
-    if ftell(f) == 0
+    # Get the byte size of the file.
+    siz = ftell(f);
+
+    if siz == 0
         # The file has zero bytes.
 
         c = {};
+
+        # Close the file.
+        fclose(f);
     else
         # The file has at least one byte.
 
@@ -34,11 +40,39 @@ function c = text_file_lines(filename)
         fseek(f, 0, 'bof');
 
         # Read the lines of the file.
-        c = textscan(f, '%s', 'Delimiter', '\n', 'whitespace', '');
+        c = textscan(f, '%s', 'Delimiter', '\n', 'Whitespace', '');
         c = c{1};
-    endif
 
-    # Close the file.
-    fclose(f);
+        # Close the file.
+        fclose(f);
+
+        if is_octave
+            # Block added to fix issue #5 ("Function text_file_lines does not
+            # "see" empty lines (with Octave, not with Matlab)").
+
+            maxNumberOfEmptyLines = siz - cell_cum_numel(c) - numel(c);
+            c = [cell(maxNumberOfEmptyLines, 1); c];
+            c(1 : maxNumberOfEmptyLines) = {''};
+
+            f = fopen(filename, 'r');
+            n = 0;
+            k = maxNumberOfEmptyLines;
+            while ~feof(f)
+                line = fgetl(f);
+                n = n + 1;
+                if ~isempty(line)
+                    k = k + 1;
+                    c{n} = c{k};
+                    if n ~= k
+                        c{k} = '';
+                    endif
+                endif
+            end;
+            fclose(f);
+
+            c = c(1 : n);
+
+        endif
+    endif
 
 endfunction
