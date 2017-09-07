@@ -1,3 +1,34 @@
+v2.0.0
+
+* Toolman now has a "run_all_tests" command (alias "ta") to run all test cases
+  with a single command.
+
+* Toolman commands "add_to_path" and "run_test" now accept cell arrays of
+  strings as arguments, so that multiple toolboxes can be added to path or
+  tested with single command.
+
+* Checkmtree now has a "check_toolman_top" command to check the top
+  directory (or top directories) as defined in Toolman's configuration.
+
+* When performing a dependency check, Checkmtree now computes the number of
+  SLOCs (Software Lines of Code) in the test case toolboxes and returns it in
+  the output structure.
+
+* Checkmtree now performs dependency checks much faster.
+
+* Bug fixes:
+
+  - Application template now works on Matlab R2015b and later.
+
+  - Function text_file_lines (toolbox texandcode) now "sees" the empty lines.
+
+  - Toolman commands "add_to_path", "list_declared_deps" and "run_test" do not
+    fail any more when used without argument.
+
+  - Toolman does not fail any more when a toolbox depends (directly or
+    indirectly) on all the other toolboxes.
+
+==============================================================================
 v1.3.0
 
 * New toolbox "physunits".
