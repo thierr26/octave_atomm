@@ -48,9 +48,10 @@ help command in Octave or Matlab.
                 - - - -
 
 As already mentioned, one the functionalities of Toolman is to to add function
-files to the Octave or Matlab function search path. Example:
+files to the Octave or Matlab function search path. Examples:
 
         toolman('add_to_path', 'a_function');
+        toolman('add_to_path', {'a_function', 'another_function'});
 
 Toolman needs two things to work properly:
 
@@ -73,6 +74,12 @@ one statement like:
 
         toolman('run_test', 'a_toolbox');
 
+        toolman('run_test', {'a_toolbox', 'another_toolbox'});
+
+You can ask Toolman to test all the test cases at once:
+
+        toolman('run_all_tests');
+
 The test cases are the functions having a name starting with "test_" in the
 "test_cases" subdirectories of the toolboxes. There are multiple examples of
 test cases in the Atomm source tree.
@@ -93,13 +100,20 @@ Notes:
 
         toolman('add_to_path', 'checkmtree');
 
-*  Checking dependencies with Checkmtree is slow. The author will do his best
-   to speed up things in a future release.
+*  Checking dependencies with Checkmtree is slow (although performance has
+   improved with atomm release v2.0.0). The author will do his best to speed
+   up things in a future release.
 
 Matlab users may appreciate being able to run the checkcode command all their
 M-files with one statement like:
 
         checkmtree('check_code', 'path/to/your/sources');
+
+Atomm release v2.0.0 has brought a new "check_toolman_top" command for
+Checkmtree, to check the top directory (or top directories) as defined in
+Toolman's configuration. This command does not need an argument.
+
+        checkmtree('check_toolman_top');
 
                 Outman
                 - - - -
