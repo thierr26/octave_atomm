@@ -83,11 +83,13 @@ function ret = list_string(c, varargin)
         s = ol + 1;
         for k = 1 : n
             e = [opening c{k} closing];
-            if k < n
-                e = [e sep];
-            endif
             f = s + length(e) - 1;
-            ret(s : f) = e;
+            if k < n
+                f = f + length(sep);
+                ret(s : f) = [e sep];
+            else
+                ret(s : f) = e;
+            endif
             s = f + 1;
         endfor
     else

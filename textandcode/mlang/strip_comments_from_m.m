@@ -106,7 +106,6 @@ function [c, n, sloc] = strip_comments_from_m(filename, varargin)
                                                   # +1 is for the EOL sequence.
         endif
 
-        isSLOC = false;
         if ~isempty(cc{k})
             if ~isInBlockComment
                 if ~isempty(regexp(...
