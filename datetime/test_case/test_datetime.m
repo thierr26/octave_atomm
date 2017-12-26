@@ -76,7 +76,22 @@ function s = test_datetime
         @timestamp2datenum_col, ...
         @timestamp2datenum_fail_non_vect, ...
         @timestamp2datenum_fail_wrong_format, ...
-        @timestamp2datenum_zero};
+        @timestamp2datenum_zero, ...
+        @weeknum_range_fail_wrong_type, ...
+        @weeknum_range_fail_non_integer_1, ...
+        @weeknum_range_fail_non_integer_2, ...
+        @weeknum_range_fail_too_many_elements, ...
+        @weeknum_range_fail_too_many_arguments, ...
+        @weeknum_range_fail_month_arg_1_too_low, ...
+        @weeknum_range_fail_month_arg_1_too_high, ...
+        @weeknum_range_fail_arg_2_wrong_type, ...
+        @weeknum_range_fail_arg_2_non_integer, ...
+        @weeknum_range_fail_month_arg_2_too_low, ...
+        @weeknum_range_fail_month_arg_2_too_high, ...
+        @weeknum_range_year, ...
+        @weeknum_range_month, ...
+        @is_leap_yr_fail_too_many_arguments, ...
+        @is_leap_yr_matrix};
 
     # Run the test case.
     s = run_test_case(mfilename, testRoutine);
@@ -589,5 +604,235 @@ function ret = timestamp2datenum_zero
 
     ret = isequal(timestamp2datenum(datestr(0, 'yyyy-mm-ddTHH:MM:SS')), ...
         datenum([-1 12 31 0 0 0]));
+
+endfunction
+
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function weeknum_range_fail_wrong_type
+
+    weeknum_range(true);
+
+endfunction
+
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function weeknum_range_fail_non_integer_1
+
+    weeknum_range(2020.2);
+
+endfunction
+
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function weeknum_range_fail_non_integer_2
+
+    weeknum_range([2020 2.3]);
+
+endfunction
+
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function weeknum_range_fail_too_many_elements
+
+    weeknum_range([2020 2 1]);
+
+endfunction
+
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function weeknum_range_fail_too_many_arguments
+
+    weeknum_range([2020 2], 3);
+
+endfunction
+
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function weeknum_range_fail_month_arg_1_too_low
+
+    weeknum_range([2020 0]);
+
+endfunction
+
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function weeknum_range_fail_month_arg_1_too_high
+
+    weeknum_range([2020 13]);
+
+endfunction
+
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function weeknum_range_fail_arg_2_wrong_type
+
+    weeknum_range(2020, true);
+
+endfunction
+
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function weeknum_range_fail_arg_2_non_integer
+
+    weeknum_range(2020, 2.3);
+
+endfunction
+
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function weeknum_range_fail_month_arg_2_too_low
+
+    weeknum_range(2020, 0);
+
+endfunction
+
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function weeknum_range_fail_month_arg_2_too_high
+
+    weeknum_range(2020, 13);
+
+endfunction
+
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = weeknum_range_year
+
+    tested = false(7, 2); % One line for each January 1st week day, column 1
+                          % for common years, column 2 for leap years.
+    y = 1991;
+    failure = false;
+    while ~failure && ~all(tested(:)) && y < 2500 % y should not exceed 2016.
+        y = y + 1;
+        wD = weekday(datenum([y 1 1])) - 1;
+        if wD == 0
+            wD = 7;
+        endif
+        leap = (rem (y, 4) == 0 & rem (y, 100) ~= 0) | (rem (y, 400) == 0);
+        if leap
+            n = 366;
+            tested(wD, 2) = true;
+        else
+            n = 365;
+            tested(wD, 1) = true;
+        endif
+        if wD <= 4
+            wN = 1;
+        else
+            wN = 0;
+        endif
+        for k = 2 : n
+            if wD == 7
+                wD = 1;
+                wN = wN + 1;
+            else
+                wD = wD + 1;
+            endif
+        endfor
+        if wD < 4
+            wN = wN - 1;
+        endif;
+        failure = ~isequal(1 : wN, weeknum_range(y));
+    endwhile
+    ret = ~failure && all(tested(:));
+
+endfunction
+
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = weeknum_range_month
+
+    tested = false(12, 7, 2); % One line for each month, one column for each
+                              % month first week day, layer 1 for common years,
+                              % layer 2 for leap years.
+    mL = [31 28 31 30 31 30 31 31 30 31 30 31];
+    y = 1991;
+    failure = false;
+    while ~failure && ~all(tested(:)) && y < 2500 % y should not exceed 2016.
+        y = y + 1;
+        aY = weeknum_range(y); % Function weeknum_range is assumed validated
+                               % by test routine weeknum_range_year for the one
+                               % argument usage.
+        wD = weekday(datenum([y 1 1])) - 1;
+        if wD == 0
+            wD = 7;
+        endif
+        leap = (rem (y, 4) == 0 & rem (y, 100) ~= 0) | (rem (y, 400) == 0);
+        if leap
+            n = 366;
+        else
+            n = 365;
+        endif
+        if wD <= 4
+            wN = 1;
+        else
+            wN = 0;
+        endif
+        m = 1;
+        mD = 1;
+        endOfMonth = false;
+        k = 1;
+        if leap
+            tested(m, wD, 2) = true;
+        else
+            tested(m, wD, 1) = true;
+        endif
+        a = aY;
+        while ~failure && k < n
+            k = k + 1;
+            if endOfMonth
+                m = m + 1;
+                mD = 1;
+            else
+                mD = mD + 1;
+            endif
+            if leap && m == 2 && mD == 28
+                endOfMonth = false;
+            else
+                endOfMonth = mD == mL(m) || (m == 2 && mD == 29);
+            endif
+            if wD == 7
+                wD = 1;
+                wN = wN + 1;
+            else
+                wD = wD + 1;
+            endif
+            if endOfMonth && m < 12
+                a = a(a <= wN);
+            endif
+            if mD == 1 % Beginning of month.
+                a = aY;
+                if leap
+                    tested(m, wD, 2) = true;
+                else
+                    tested(m, wD, 1) = true;
+                endif
+                a = a(a >= wN);
+            endif
+            if endOfMonth
+                failure = ~isequal(a, weeknum_range(y, m));
+            endif
+        endwhile
+    endwhile
+    ret = ~failure && all(tested(:));
+
+endfunction
+
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function is_leap_yr_fail_too_many_arguments
+
+    is_leap_yr(2000, 2);
+
+endfunction
+
+    % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function ret = is_leap_yr_matrix
+
+    m = [1600 1700 1800 1900; 2000 2100 2016 2017];
+    ret = isequal(is_leap_yr(m), ...
+        [true false false false; true false true false]);
 
 endfunction

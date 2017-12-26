@@ -1,4 +1,5 @@
 atomm/argcheck
+atomm/env
 atomm/isthisa
 atomm/math
 atomm/textandcode
