@@ -11,7 +11,7 @@
 ## @code{@var{ret} = toolman_config ()} returns in @var{ret} Toolman's
 ## configuration (i.e.@ a structure in which the fields are Toolman's
 ## configuration parameters).  Toolman's configuration is obtained via a
-## @code{toolman('get_config')} call (followed by a ## @code{toolman('quit')}
+## @code{toolman('get_config')} call (followed by a @code{toolman('quit')}
 ## statement if toolman was not running).
 ##
 ## @code{@var{ret} = toolman_config (@var{config_param_name})} does the same
