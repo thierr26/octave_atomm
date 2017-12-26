@@ -12,6 +12,12 @@
 ## c}, 'quiet_command')
 ## @deftypefnx {Function File} {@var{ret} =} toolman_command (@var{@
 ## c}, 'auto_verbose_command')
+## @deftypefnx {Function File} {@var{ret} =} toolman_command (@var{@
+## c}, 'add_to_path_command')
+## @deftypefnx {Function File} {@var{ret} =} toolman_command (@var{@
+## c}, 'run_test_command')
+## @deftypefnx {Function File} {@var{ret} =} toolman_command (@var{@
+## c}, 'refresh_cache_command')
 ##
 ## Toolman's commands related information.
 ##
