@@ -213,7 +213,7 @@ function s = run_tests(tb, s1)
     n = numel(tb);
     testCaseCount = 0;
     testCaseErrorCount = 0;
-    s.erroringTestCase = zeros(cell_cum_numel(s.read_dep.mfiles), 3);
+    s.erroring_test_case = zeros(cell_cum_numel(s.read_dep.mfiles), 3);
     oId = outman_connect_and_config_if_master(s.outman_config_stru);
     outman('logtimef', oId, 'Start running the test cases');
     pId = outman('init_progress', oId, 0, n, 'Running the test cases...');
@@ -274,13 +274,13 @@ function s = run_tests(tb, s1)
                 endif
                 if err
                     testCaseErrorCount = testCaseErrorCount + 1;
-                    s.erroringTestCase(testCaseErrorCount, :) = [k idx kk];
+                    s.erroring_test_case(testCaseErrorCount, :) = [k idx kk];
                 endif
             endfor
         endif
         outman('update_progress', oId, pId, k);
     endfor
-    s.erroringTestCase = s.erroringTestCase(1 : testCaseErrorCount, :);
+    s.erroring_test_case = s.erroring_test_case(1 : testCaseErrorCount, :);
     s.test_duration = outman('terminate_progress', oId, pId);
     outman('logtimef', oId, 'Done running the test cases\n');
     outman('disconnect', oId);
@@ -336,16 +336,16 @@ function report(tb, s, cmd, cmd_args, nout, appname)
     outman(outmanCmdOpenClose, oId, closing{:});
     if toolman_command(cmd, 'run_test_command')
         report_test_rslt(s.test_cases_results, ~cmdWinOutput);
-        if ~isempty(s.erroringTestCase)
-            n = size(s.erroringTestCase, 1);
+        if ~isempty(s.erroring_test_case)
+            n = size(s.erroring_test_case, 1);
             fmtStr = ['The following test cases could not be run or their ' ...
                 'result could not be taken into account:' ...
                 repmat('\n  %s', 1, n)];
             argV = cell(1, n);
             for k = 1 : n
-                k2 = s.erroringTestCase(k, 2);
-                k3 = s.erroringTestCase(k, 3);
-                argV{k} = fullfile(tb{s.erroringTestCase(k, 1)}, ...
+                k2 = s.erroring_test_case(k, 2);
+                k3 = s.erroring_test_case(k, 3);
+                argV{k} = fullfile(tb{s.erroring_test_case(k, 1)}, ...
                     s.read_dep.mfiles{k2}{k3});
             endfor
             outman('errorf', oId, fmtStr, argV{:});
