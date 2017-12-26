@@ -40,15 +40,23 @@ function [clear_req, s, varargout] = run_command(c, cargs, cf, o, s1, nout, a)
                     else
                         ar = cargs;
                     endif
-                    varargout{1} = find_deps(s, ar, ...
+                    depList = find_deps(s, ar, ...
                         toolman_command(c, 'run_test_command'));
                     if toolman_command(c, 'add_to_path_command')
-                        addpath(strjoin(varargout{1}, pathsep));
+                        addpath(strjoin(depList, pathsep));
                     endif
                     if toolman_command(c, 'run_test_command')
-                        s = run_tests(varargout{1}, s);
+                        s = run_tests(depList, s);
                     endif
-                    report(varargout{1}, s, c, cargs, nout, a);
+                    testFailure = report(depList, s, c, cargs, nout, a);
+                    if toolman_command(c, 'run_test_command')
+                        varargout{1} = ~testFailure;
+                        if nout == 2
+                            varargout{2} = depList;
+                        endif
+                    else
+                        varargout{1} = depList;
+                    endif
                 endif
 
         endswitch
@@ -289,13 +297,17 @@ endfunction
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# Output a report to the log file and (if required) to the command line.
+# Output a report to the log file and (if required) to the command line. The
+# output argument is always false except if test cases have been run
+# unsuccessfully.
 
-function report(tb, s, cmd, cmd_args, nout, appname)
+function test_failure = report(tb, s, cmd, cmd_args, nout, appname)
 
+    test_failure = false;
     cmdWinOutput = ~toolman_command(cmd, 'refresh_cache_command') ...
         && (toolman_command(cmd, 'verbose_command') ...
-        || (nout == 0 ...
+        || ((nout == 0 ...
+        || (nout == 1 && toolman_command(cmd, 'run_test_command'))) ...
         && toolman_command(cmd, 'auto_verbose_command')));
 
     if numel(cmd_args) == 0
@@ -335,7 +347,8 @@ function report(tb, s, cmd, cmd_args, nout, appname)
     cellfun(@(x) outman(outmanCmdPath, oId, '%s', x), tb);
     outman(outmanCmdOpenClose, oId, closing{:});
     if toolman_command(cmd, 'run_test_command')
-        report_test_rslt(s.test_cases_results, ~cmdWinOutput);
+        passedFailed = report_test_rslt(s.test_cases_results, ~cmdWinOutput);
+        test_failure = passedFailed(2) ~= 0 || ~isempty(s.erroring_test_case);
         if ~isempty(s.erroring_test_case)
             n = size(s.erroring_test_case, 1);
             fmtStr = ['The following test cases could not be run or their ' ...

@@ -289,7 +289,9 @@
 ## has caused Toolman to display the list of the toolboxes that it has added to
 ## the function search path.  If you don't want the list to be displayed, use
 ## an output argument, like in the following example.  In this case, the list
-## is returned as a cell array of strings.
+## is returned as a cell array of strings.  It is still written to the log file
+## if a log file has been specified.  Log file specification is covered later
+## in this documentation.
 ##
 ## @example
 ## @group
@@ -348,7 +350,7 @@
 ## @strong{Run test cases using Toolman's command @qcode{"run_test"}.}
 ##
 ## Another major command provided by Toolman is @qcode{"run_test"}.  It is
-## similar to the @qcode{"add_to_path"} command but with two important
+## similar to the @qcode{"add_to_path"} command but with three important
 ## differences:
 ##
 ## @itemize @bullet
@@ -357,15 +359,33 @@
 ## function search path.
 ##
 ## @item
-## @qcode{"run_test"} runs the test cases of the dependencies and outputs a
-## test report using function @code{report_test_rslt}.
+## @qcode{"run_test"} runs the test cases of the dependencies and displays a
+## test report using function @code{report_test_rslt}.  One exception though:
+## No test report is displayed if two output arguments are required.
+##
+## @item
+## @qcode{"run_test"} returns the list of the toolboxes that it has added to
+## the function search path in the second output argument (if provided).  The
+## first output argument is a test success flag (true if all the test routines
+## in the test cases have run successfully, false otherwise).  Providing the
+## second output argument causes Toolman to not display the test report and the
+## list of the toolboxes that it has added to the function search path.  Both
+## are still written to the log file if a log file has been specified.  Log
+## file specification is covered later in this documentation.
 ## @end itemize
 ##
-## Example:
+## Examples:
 ##
 ## @example
 ## @group
-## @var{added_to_path} = toolman ('run_test', 'home_dir');
+## @var{successful_test} = toolman ('run_test', 'home_dir');
+## @end group
+## @end example
+##
+## @example
+## @group
+## [@var{successful_test}, @var{added_to_path}] ...
+##     = toolman ('run_test', 'home_dir');
 ## @end group
 ## @end example
 ##
@@ -379,7 +399,7 @@
 ##
 ## @example
 ## @group
-## @var{added_to_path} = toolman ('run_all_tests');
+## [@var{test_ok}, @var{added_to_path}] = toolman ('run_all_tests');
 ## @end group
 ## @end example
 ##
