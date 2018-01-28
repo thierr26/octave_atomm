@@ -14,15 +14,35 @@ or comment.
 INSTALLATION
 ------------
 
-Nothing complicated. Just copy Atomm's sources to the directory of your
-choice. Octave users can get the sources from GitHub:
+Just copy Atomm's sources to a directory named "atomm". It is very important
+to name the directory "atomm" and not, say, octave_atomm. Giving the directory
+a name other than "atomm" would break some functionality.
+
+Octave users can get Atomm's sources from GitHub:
 
         https://github.com/thierr26/octave_atomm
 
-Matlab users should get the Matlab compatible version of the sources which is
-available as a ZIP archive from this URL:
+If you want to use the Git clone command, I would recommend to use in one of
+the following ways to make sure you get a directory named "atomm":
 
-        http://thierr26.free.fr/zip/matlab_atomm.zip
+  1) cd wherever/you/want/to/install
+     git clone https://github.com/thierr26/octave_atomm atomm
+
+     (This clones only the master branch, i.e. the latest release.)
+
+  2) cd wherever/you/want/to/install
+     git clone --mirror https://github.com/thierr26/octave_atomm atomm/.git
+     cd atomm
+     git config --bool core.bare false
+     git checkout develop
+
+     (This clones the master and develop branches and checks out the develop
+     branch.)
+
+Matlab users should get the Matlab compatible version of the sources which is
+available as a ZIP archive from this web page:
+
+        http://thierr26.free.fr/atomm.php
 
 One of the application provided in Atomm is called Toolman and one of its
 functionality is to add function files to the Octave or Matlab function search
