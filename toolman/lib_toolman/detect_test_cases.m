@@ -98,7 +98,9 @@ function [idx, parent_tb_idx] = test_cases_indices(...
     endif
 
     directory = parentTb;
-    while isTestCaseTb && directory(end) ~= filesep
+    while isTestCaseTb ...
+            && directory(end) ~= filesep ...
+            && (isunix || directory(end) ~= ':')
         [directory, name] = fileparts(directory);
         isTestCaseTb = ~is_matched_by(name, tctbregexp);
     endwhile
