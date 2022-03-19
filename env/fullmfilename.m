@@ -20,6 +20,16 @@
 function str = fullmfilename
 
     stackStru = dbstack(1, '-completenames');
+
+    if is_octave
+        versionOctave = ver('octave');
+        if strcmp(versionOctave.Version, '6.2.0')
+            # Compensate for bug #60531
+            # (https://savannah.gnu.org/bugs/index.php?60531).
+            stackStru = stackStru(2 : end);
+        endif;
+    endif
+
     if ~isempty(stackStru)
         str = stackStru(1).file;
     else
