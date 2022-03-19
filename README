@@ -124,8 +124,8 @@ Notes:
    improved with atomm release v2.0.0). The author will do his best to speed
    up things in a future release.
 
-Matlab users may appreciate being able to run the checkcode command all their
-M-files with one statement like:
+Matlab users may appreciate being able to run the checkcode command on all
+their M-files with one statement like:
 
         checkmtree('check_code', 'path/to/your/sources');
 
