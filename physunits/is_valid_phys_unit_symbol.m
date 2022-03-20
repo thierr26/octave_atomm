@@ -26,11 +26,34 @@
 
 function ret = is_valid_phys_unit_symbol(unit_symbol)
 
-    ret = ~is_matched_by(unit_symbol, '[0-9 \-/\.]');
+    validated_mandatory_args(...
+        {@(x) is_string(x) || is_cell_array_of_strings(x)}, unit_symbol);
+
     if iscell(unit_symbol)
-        ret = ret & cellfun(@(x) ~isempty(x), unit_symbol);
+        ret = true(size(unit_symbol));
+        for k = 1 : numel(unit_symbol)
+            ret(k) = is_non_empty_string(unit_symbol{k}) ...
+                && contains_no_forbidden_characters(unit_symbol{k});
+        endfor
     else
-        ret = ret && ~isempty(unit_symbol);
+        # Recursive call.
+        ret = is_valid_phys_unit_symbol({unit_symbol});
     endif
+
+endfunction
+
+function ret = contains_no_forbidden_characters(str)
+
+    ret = true;
+    for k = 1 : numel(str)
+        if (str(k) >= '0' && str(k) <= '9') ...
+                || str(k) == '/' ...
+                || str(k) == '-' ...
+                || str(k) == '.' ...
+                || str(k) == ' '
+            ret = false;
+            break;
+        endif
+    endfor
 
 endfunction
