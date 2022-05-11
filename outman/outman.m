@@ -112,11 +112,11 @@
 ## @example
 ## @group
 ## @var{callerID} = outman_connect_and_config_if_master;
-## ... % You're business code here.
+## ... % Your business code here.
 ## outman('printf', @var{callerID}, 'A message.');
-## ... % You're business code here.
+## ... % Your business code here.
 ## outman('printf', @var{callerID}, 'An other message.');
-## ... % You're business code here.
+## ... % Your business code here.
 ## outman('disconnect', @var{callerID});
 ## @end group
 ## @end example
